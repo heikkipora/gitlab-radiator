@@ -1,0 +1,5 @@
+.DS_Store
+*.log
+public/client.css
+node_modules
+

@@ -1,0 +1,49 @@
+{
+  "name": "gitlab-radiator",
+  "version": "0.0.1",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "engines": {
+    "node": "5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heikkipora/radiator-view.git"
+  },
+  "bugs": {
+    "url": "https://github.com/heikkipora/radiator-view/issues"
+  },
+  "homepage": "https://github.com/heikkipora/radiator-view#readme",
+  "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "6.20.2",
+    "babel-preset-es2015": "6.18.0",
+    "babel-preset-react": "6.16.0",
+    "babelify": "7.3.0",
+    "baconjs": "0.7.89",
+    "browserify": "13.1.1",
+    "browserify-middleware": "7.1.0",
+    "compression": "1.6.2",
+    "express": "4.14.0",
+    "less-middleware": "2.2.0",
+    "lodash": "4.17.2",
+    "normalize.css": "^5.0.0",
+    "react": "15.4.1",
+    "react-dom": "15.4.1",
+    "request": "2.79.0",
+    "socket.io": "1.7.2"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
+  }
+}
