@@ -56,6 +56,11 @@ function startFetchingBuildsFromGitlab(socketIo) {
           acc.push(item)
           return acc
         })
+        .map(builds => {
+          return _.sortBy(builds, build => {
+            return build.project.name
+          })
+        })
     })
     .onValue(builds => {
       cachedBuilds = builds

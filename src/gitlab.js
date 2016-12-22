@@ -38,11 +38,6 @@ function fetchBuilds(config) {
                      name: build.name,
                      ref: build.ref,
                      id: build.id,
-                     commit: {
-                       title: build.commit.title,
-                       authorName: build.commit.author_name,
-                       createdAt: build.commit.created_at
-                     },
                      createdAt: build.created_at,
                      startedAt: build.started_at,
                      finishedAt: build.finished_at,
@@ -53,10 +48,19 @@ function fetchBuilds(config) {
                    }
                  })
 
+                 const commit = _(gitlabBuilds).take(1).map(build => {
+                   return {
+                     title: build.commit.title,
+                     authorName: build.commit.author_name,
+                     createdAt: build.commit.created_at
+                   }
+                 }).value()
+
                  const newestPipelineId = _(builds).map(build => build.pipeline.id).max()
 
                  return {
                    project: project,
+                   commit: commit,
                    builds: _(builds).filter(build => build.pipeline.id == newestPipelineId).orderBy('id').value()
                  }
                })

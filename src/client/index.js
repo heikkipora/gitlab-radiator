@@ -21,6 +21,13 @@ const RadiatorApp = React.createClass({
         {build.builds.map(phase => {
           return <span key={phase.id} className={phase.status}>{phase.name}</span>
         })}
+        {build.commit.map((commit, index) => {
+          return <div key={index}>
+            <span className="commit-title">{commit.title}</span>
+            <span className="commit-author">{commit.authorName}</span>
+            <span className="commit-timestamp">{commit.createdAt}</span>
+          </div>
+        })}
       </li>
     })
   },
