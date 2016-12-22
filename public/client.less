@@ -6,3 +6,68 @@ html, body {
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
 }
+
+h2 {
+  font-size: 36px;
+}
+body {
+  font-size: 24px;
+}
+
+li, ol {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+ol.projects {
+  margin: 12px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  li.project {
+    margin: 12px;
+    padding: 24px;
+    border: 1px solid gray;
+    border-radius: 12px;
+  }
+}
+
+ol.phases {
+  display: flex;
+  flex-direction: row;
+  li.phase {
+    padding: 12px;
+    margin-right: 6px;
+  }
+}
+
+ol.phases {
+
+  li.phase {
+    padding: 6px 12px;
+    color: white;
+    &.failed {
+      background-color: red;
+    }
+
+    &.success {
+      background-color: green;
+    }
+  }
+}
+
+.commit {
+  margin-bottom: 24px;
+  .commit-title {
+    margin-right: 24px;
+  }
+
+  .commit-author {
+    margin-right: 24px;
+  }
+
+  .commit-timestamp {
+
+  }
+}

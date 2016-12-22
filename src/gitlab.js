@@ -1,6 +1,7 @@
 const _ = require('lodash')
-const request = require('request')
 const Bacon = require('baconjs')
+const moment = require('moment')
+const request = require('request')
 
 function fetch(options) {
   return Bacon.fromNodeCallback(callback => {
@@ -52,7 +53,7 @@ function fetchBuilds(config) {
                    return {
                      title: build.commit.title,
                      authorName: build.commit.author_name,
-                     createdAt: build.commit.created_at
+                     createdAt: moment(build.commit.created_at).format('HH:mm DD.MM.YYYY')
                    }
                  }).value()
 
