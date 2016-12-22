@@ -6,24 +6,13 @@ const express = require('express')
 const compression = require('compression')
 const browserify = require('browserify-middleware')
 const lessMiddleware = require('less-middleware')
-const loadConfig = require('./config')
+const pollConfig = require('./config')
 const {fetchBuilds, fetchProjects} = require('./gitlab')
-
-const config = loadConfig()
-const projectsProperty = fetchProjects(config.gitlab)
-  .map(projects => {
-    return _.filter(projects, project => _.includes(config.projects, project.name))
-  })
-  .toProperty()
-
-projectsProperty
-  .flatMap(Bacon.fromArray)
-  .flatMap(fetchBuilds(config.gitlab))
-  .log()
 
 const app = express()
 const httpServer = http.Server(app)
 const socketIoServer = socketIo(httpServer)
+startFetchingBuildsFromGitlab(socketIoServer)
 
 app.disable('x-powered-by')
 app.use(compression())
@@ -32,10 +21,44 @@ app.use(express.static(`${__dirname}/../public`))
 
 app.get('/js/client.js', browserify(__dirname + '/client/index.js'))
 
+let cachedBuilds = []
 socketIoServer.on('connection', (socket) => {
+  socket.emit('builds', cachedBuilds)
 })
 
 const port = process.env.PORT || 3000
 httpServer.listen(port, () => {
   console.log(`Listening on port *:${port}`)
 })
+
+function startFetchingBuildsFromGitlab(socketIo) {
+  const projectsProperty = pollConfig().flatMap(config => {
+      const projects = fetchProjects(config.gitlab).map(projects => {
+        return _.filter(projects, project => _.includes(config.projects, project.name))
+      })
+
+      return Bacon.combineTemplate({
+        config: config,
+        projects: projects
+      })
+    })
+    .toProperty()
+
+  const BUILDS_POLL_INTERVAL_SEC = process.env.GITLAB_RADIATOR_BUILDS_POLL_INTERVAL_SEC || 10
+
+  Bacon.interval(BUILDS_POLL_INTERVAL_SEC * 1000, true)
+    .merge(Bacon.later(0, true))
+    .flatMap(projectsProperty)
+    .flatMap(configAndProjects => {
+      return Bacon.fromArray(configAndProjects.projects)
+        .flatMap(fetchBuilds(configAndProjects.config.gitlab))
+        .fold([], (acc, item) => {
+          acc.push(item)
+          return acc
+        })
+    })
+    .onValue(builds => {
+      cachedBuilds = builds
+      socketIo.emit('builds', builds)
+    })
+}
