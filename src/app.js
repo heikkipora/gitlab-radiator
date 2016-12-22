@@ -4,6 +4,10 @@ const express = require('express')
 const compression = require('compression')
 const browserify = require('browserify-middleware')
 const lessMiddleware = require('less-middleware')
+const loadConfig = require('./config')
+
+const configuration = loadConfig()
+console.dir(configuration)
 
 const app = express()
 const httpServer = http.Server(app)
