@@ -48,7 +48,7 @@ function startFetchingBuildsFromGitlab(socketIo) {
 
   Bacon.interval(BUILDS_POLL_INTERVAL_SEC * 1000, true)
     .merge(Bacon.later(0, true))
-    .flatMap(projectsProperty)
+    .map(projectsProperty)
     .flatMap(configAndProjects => {
       return Bacon.fromArray(configAndProjects.projects)
         .flatMap(fetchBuilds(configAndProjects.config.gitlab))
