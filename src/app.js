@@ -32,7 +32,7 @@ httpServer.listen(port, () => {
 })
 
 function startFetchingBuildsFromGitlab(socketIo) {
-  const projectsProperty = pollConfig().flatMap(config => {
+  const projectsStream = pollConfig().flatMap(config => {
       const projects = fetchProjects(config.gitlab).map(projects => {
         if (config.projects) {
           return _.filter(projects, project => _.includes(config.projects, project.name))
@@ -45,7 +45,11 @@ function startFetchingBuildsFromGitlab(socketIo) {
         projects: projects
       })
     })
-    .toProperty()
+
+    projectsStream.onError(error => {
+      console.error(error)
+    })
+    const projectsProperty = projectsStream.toProperty()
 
   const BUILDS_POLL_INTERVAL_SEC = process.env.GITLAB_RADIATOR_BUILDS_POLL_INTERVAL_SEC || 10
 
