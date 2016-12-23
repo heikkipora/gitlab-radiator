@@ -54,7 +54,7 @@ function fetchBuilds(config) {
                    return {
                      title: build.commit.title,
                      authorName: build.commit.author_name,
-                     createdAt: moment(build.commit.created_at).format('HH:mm DD.MM.YYYY')
+                     createdAt: moment(build.commit.created_at).fromNow()
                    }
                  }).value()
 
