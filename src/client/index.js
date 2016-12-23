@@ -40,7 +40,6 @@ const RadiatorApp = React.createClass({
     })
   },
   onBuildsUpdated(builds) {
-    console.log(builds)
     this.setState({builds: builds})
   }
 })
