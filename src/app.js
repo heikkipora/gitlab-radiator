@@ -34,7 +34,10 @@ httpServer.listen(port, () => {
 function startFetchingBuildsFromGitlab(socketIo) {
   const projectsProperty = pollConfig().flatMap(config => {
       const projects = fetchProjects(config.gitlab).map(projects => {
-        return _.filter(projects, project => _.includes(config.projects, project.name))
+        if (config.projects) {
+          return _.filter(projects, project => _.includes(config.projects, project.name))
+        }
+        return projects
       })
 
       return Bacon.combineTemplate({

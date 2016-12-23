@@ -31,6 +31,7 @@ function fetchProjects(config) {
 function fetchBuilds(config) {
   return project => {
     return fetch({url: `${config.url}/api/v3/projects/${project.id}/builds`, headers: {'PRIVATE-TOKEN': config['access-token']}})
+             .filter(gitlabBuilds => gitlabBuilds.length > 0)
              .map(gitlabBuilds => {
                  const builds = gitlabBuilds.map(build => {
                    return {
