@@ -1,7 +1,8 @@
 {
   "name": "gitlab-radiator",
+  "description": "The missing GitLab build radiator view",
   "version": "0.0.1",
-  "main": "src/app.js",
+  "license": "MIT",
   "scripts": {
     "start": "node src/app.js"
   },
