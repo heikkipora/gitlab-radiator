@@ -1,7 +1,7 @@
 {
   "name": "gitlab-radiator",
   "description": "The missing GitLab build radiator view",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "bin": {
     "gitlab-radiator": "bin/gitlab-radiator"
