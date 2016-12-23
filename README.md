@@ -21,3 +21,6 @@ projects:
   - me/my-awesome-project-1
   - me/my-awesome-project-2
 ```
+
+The configuration file is automatically reloaded once every two minutes.
+It can be overridden by defining the ```GITLAB_RADIATOR_CONFIG_POLL_INTERVAL_SEC``` environment variable.
