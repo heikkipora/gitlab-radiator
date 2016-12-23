@@ -96,12 +96,25 @@ ol.phases {
 
     &.skipped {
     }
+
+    &.pending {
+    }
+
+    &.running {
+      background: repeating-linear-gradient(
+        -45deg,
+        #22736e,
+        #22736e 10px,
+        darken(#22736e, 8%) 10px,
+        darken(#22736e, 8%) 20px
+      );
+    }
   }
 }
 
 .commit {
   color: #d7d7d9;
-  margin-top: 36px;
+  margin: 36px 12px 0 12px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
