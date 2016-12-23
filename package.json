@@ -1,5 +1,9 @@
 {
   "name": "gitlab-radiator",
+  "author": {
+    "name": "heikkipora",
+    "email": "heikki.pora@gmail.com"
+  },
   "description": "The missing GitLab build radiator view",
   "version": "1.0.1",
   "license": "MIT",
@@ -20,6 +24,9 @@
     "url": "https://github.com/heikkipora/gitlab-radiator/issues"
   },
   "homepage": "https://github.com/heikkipora/gitlab-radiator#readme",
+  "contributors": [
+    { "name" : "codegeneralist", "email" : "antti.oittinen@gmail.com"}
+  ],
   "dependencies": {
     "babel-plugin-transform-object-rest-spread": "6.20.2",
     "babel-preset-es2015": "6.18.0",
