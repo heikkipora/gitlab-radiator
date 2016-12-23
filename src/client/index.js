@@ -12,6 +12,9 @@ const RadiatorApp = React.createClass({
     io().on('builds', this.onBuildsUpdated)
   },
   render() {
+    if (this.state.builds.length == 0) {
+      return <h2>Loading builds...</h2>
+    }
     return <ol className="projects">{this.renderBuilds(this.state.builds)}</ol>
   },
   renderBuilds(builds) {
