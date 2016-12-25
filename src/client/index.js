@@ -43,7 +43,6 @@ const RadiatorApp = React.createClass({
 
   renderPhases(build) {
     const phasesToRender = this.calculatePhasesToRender(build)
-    const phasesClass = 'phases'
     return <ol className="phases">{phasesToRender.map((phase, index) => {
         const className = `phase ${phase.status}` +
           (phase.hiddenFromStart ? ' hidden-from-start' : '') +
