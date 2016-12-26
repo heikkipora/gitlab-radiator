@@ -54,6 +54,11 @@ ol.projects {
       text-transform: uppercase;
       text-align: center;
       margin: 0 0 36px 0;
+      width: 780px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1.2em;
     }
 
   }
@@ -69,6 +74,15 @@ ol.phases {
     border: 1px solid #22272b;
     border-radius: 12px;
     position: relative;
+    height: 1.5em;
+    text-align: center;
+
+    .phase-name {
+      width: 130px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
 
     &:not(:last-child) {
       margin-right: 24px;
@@ -106,6 +120,47 @@ ol.phases {
         darken(#22736e, 8%) 10px,
         darken(#22736e, 8%) 20px
       );
+    }
+
+    &.hidden-from-start {
+      margin-left: 30px;
+      &:before {
+        content: '';
+        background: repeating-linear-gradient(
+          -45deg,
+          #22272b,
+          #22272b 3px,
+          darken(#22272b, 8%) 3px,
+          darken(#22272b, 8%) 6px
+        );
+        width: 25px;
+        height: 4px;
+        position: absolute;
+        left: -25px;
+        top: 21px;
+      }
+    }
+
+    &.hidden-from-end {
+      margin-right: 30px;
+      .phase-name {
+        width: 100px;
+      }
+      &:after {
+        content: '';
+        background: repeating-linear-gradient(
+          -45deg,
+          #22272b,
+          #22272b 3px,
+          darken(#22272b, 8%) 3px,
+          darken(#22272b, 8%) 6px
+        );
+        width: 25px;
+        height: 4px;
+        position: absolute;
+        right: -25px;
+        top: 21px;
+      }
     }
   }
 }
