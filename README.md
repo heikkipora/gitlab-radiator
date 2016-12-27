@@ -1,6 +1,6 @@
 # The missing GitLab build radiator view
 
-![screenshot](https://raw.github.com/heikkipora/gitlab-radiator/master/screenshot.png)
+<img src="https://raw.github.com/heikkipora/gitlab-radiator/master/screenshot.png" width="50%">
 
 [![npm version](https://badge.fury.io/js/gitlab-radiator.svg)](https://badge.fury.io/js/gitlab-radiator)
 
