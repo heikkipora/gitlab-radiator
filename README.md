@@ -1,7 +1,7 @@
 The missing GitLab build radiator view
 =====
 
-Work-in-progress at the moment, stay tuned.
+![screenshot](https://raw.github.com/heikkipora/gitlab-radiator/master/screenshot.png)
 
 Configuration
 ----
