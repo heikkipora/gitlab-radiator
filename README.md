@@ -9,8 +9,7 @@ Configuration
 gitlab-radiator looks for its mandatory configuration file at ```~/.gitlab-radiator.yml``` by default.
 It can be overridden by defining the ```GITLAB_RADIATOR_CONFIG``` environment variable.
 
-All projects with build pipelines are shown by default. If you want to limit that, specify a list
-of projects under ```projects:``` (as namespace/project-name).
+All projects with build pipelines are shown by default. If you want to limit that, specify either an ```include``` or ```exclude``` regular expression under ```projects``` .
 
 ```
 gitlab:
@@ -18,8 +17,7 @@ gitlab:
   url: https://ci.gitlab.com
 
 projects:
-  - me/my-awesome-project-1
-  - me/my-awesome-project-2
+  include: .*/my-awesome-project-.*
 ```
 
 The configuration file is automatically reloaded once every two minutes.

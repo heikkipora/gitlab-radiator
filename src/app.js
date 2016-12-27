@@ -35,7 +35,7 @@ function startFetchingBuildsFromGitlab(socketIo) {
   const projectsStream = pollConfig().flatMap(config => {
       const projects = fetchProjects(config.gitlab).map(projects => {
         if (config.projects) {
-          return _.filter(projects, project => _.includes(config.projects, project.name))
+          return filterProjects(projects, config.projects)
         }
         return projects
       })
@@ -73,4 +73,15 @@ function startFetchingBuildsFromGitlab(socketIo) {
       cachedBuilds = builds
       socketIo.emit('builds', builds)
     })
+}
+
+function filterProjects(projects, projectsConfig) {
+  if (projectsConfig.include) {
+    const regex = new RegExp(projectsConfig.include, "ig")
+    return _.filter(projects, project => regex.test(project.name))
+  } else if (projectsConfig.exclude) {
+    const regex = new RegExp(projectsConfig.exclude, "ig")
+    return _.filter(projects, project => !regex.test(project.name))
+  }
+  return projects
 }
