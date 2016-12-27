@@ -6,22 +6,35 @@ const RadiatorApp = React.createClass({
 
   getInitialState() {
     return {
-      builds: undefined
+      builds: undefined,
+      error: undefined
     }
   },
 
   componentDidMount() {
-    io().on('builds', this.onBuildsUpdated)
-    io().on('error', window.alert)
+    io().on('state', this.onServerStateUpdated)
   },
 
   render() {
+    return <div>
+      {this.renderErrorMessage()}
+      {this.renderProgressMessage()}
+      <ol className="projects">{this.renderBuilds(this.state.builds || [])}</ol>
+    </div>
+    return
+  },
+
+  renderErrorMessage() {
+    return this.state.error ? <div className="error">{this.state.error}</div> : ''
+  },
+
+  renderProgressMessage() {
     if (!this.state.builds) {
       return <h2 className="loading">Fetching projects and builds from GitLab...</h2>
     } else if (this.state.builds.length == 0) {
       return <h2 className="loading">No projects with builds found.</h2>
     }
-    return <ol className="projects">{this.renderBuilds(this.state.builds)}</ol>
+    return ''
   },
 
   renderBuilds(builds) {
@@ -70,8 +83,8 @@ const RadiatorApp = React.createClass({
     }, [])
   },
 
-  onBuildsUpdated(builds) {
-    this.setState({builds: builds})
+  onServerStateUpdated(state) {
+    this.setState({builds: state.builds, error: state.error})
   }
 })
 

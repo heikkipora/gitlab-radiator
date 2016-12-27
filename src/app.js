@@ -25,17 +25,22 @@ httpServer.listen(config.port, () => {
   console.log(`Listening on port *:${config.port}`)
 })
 
-let cachedBuilds = undefined
+const globalState = {
+  builds: undefined,
+  error: undefined
+}
+
 socketIoServer.on('connection', (socket) => {
-  socket.emit('builds', cachedBuilds)
+  socket.emit('state', globalState)
 })
 
 gitlabBuildsStream.onValue(builds => {
-  cachedBuilds = builds
-  socketIoServer.emit('builds', builds)
+  globalState.builds = builds
+  globalState.error = undefined
+  socketIoServer.emit('state', globalState)
 })
 
-gitlabBuildsStream.onError(err => {
-  socketIoServer.emit('error', 'Unable to fetch builds from GitLab API')
-  console.error(err)
+gitlabBuildsStream.onError(error => {
+  globalState.error = error
+  socketIoServer.emit('state', globalState)
 })

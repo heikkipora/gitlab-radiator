@@ -15,8 +15,9 @@ const buildsStream = repeat(config.interval.builds)
   .map(projectsProperty)
   .flatMap(projects => {
     return Bacon.fromArray(projects)
-      .flatMap(fetchBuildsForProject)
+      .flatMapConcat(fetchBuildsForProject)
       .fold([], accumulateArray)
+      .filter(builds => builds.length > 0)
       .map(builds => _.sortBy(builds, build => build.project.name))
   })
 
