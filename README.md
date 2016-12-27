@@ -6,25 +6,39 @@ Work-in-progress at the moment, stay tuned.
 Configuration
 ----
 
-gitlab-radiator looks for its mandatory configuration file at ```~/.gitlab-radiator.yml``` by default.
+```gitlab-radiator``` looks for its mandatory configuration file at ```~/.gitlab-radiator.yml``` by default.
 It can be overridden by defining the ```GITLAB_RADIATOR_CONFIG``` environment variable.
 
-All projects with build pipelines are shown by default. If you want to limit that, specify either an ```include``` or ```exclude``` regular expression under ```projects``` .
+Mandatory configuration properties:
+
+- ```gitlab / url``` - Root URL of your GitLab installation - or that of GitLab SaaS CI
+- ```gitlab / access-token``` - A GitLab access token for allowing access to the GitLab API. One can be generated with GitLab's UI under Profile Settins / Personal Access Tokens.
+
+Example yaml syntax:
 
 ```
 gitlab:
   access-token: <your access-token>
-  url: https://ci.gitlab.com
+  url: https://gitlab.com
+```
 
+Optional configuration properties:
+
+- ```projects / include``` - Regular expression for inclusion of projects. Default is to include all projects.
+- ```projects / exclude``` - Regular expression for exclusion of projects. Default is to exclude no projects.
+- ```intervals / projects``` - Number of seconds between project list updates. Default value is 120 seconds.
+- ```intervals / builds``` -  Number of seconds between build state updates. Default value is 10 seconds.
+- ```port``` - HTTP port to listen on. Default value is 3000.
+
+Example yaml syntax:
+
+```
 projects:
   include: .*/my-awesome-project-.*
 
 intervals:
-  projects: 120
-  builds: 10
+  projects: 600
+  builds: 30
 
-port: 3000
+port: 8000
 ```
-
-The configuration file is automatically reloaded once every two minutes.
-It can be overridden by defining the ```GITLAB_RADIATOR_CONFIG_POLL_INTERVAL_SEC``` environment variable.
