@@ -15,6 +15,16 @@
 
 ## Usage
 
+Create a configuration file (see [Configuration](#configuration) below) and run:
+
+    gitlab-radiator
+
+And if you have an onsite GitLab with HTTPS and self-signed certificates:
+
+    NODE_TLS_REJECT_UNAUTHORIZED=0 gitlab-radiator
+   
+Then navigate with a browser to http://localhost:3000 - or whatever port you did configure.
+
 ## Configuration
 
 ```gitlab-radiator``` looks for its mandatory configuration file at ```~/.gitlab-radiator.yml``` by default.
