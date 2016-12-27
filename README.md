@@ -1,10 +1,21 @@
-The missing GitLab build radiator view
-=====
+# The missing GitLab build radiator view
 
 ![screenshot](https://raw.github.com/heikkipora/gitlab-radiator/master/screenshot.png)
 
-Configuration
-----
+[![npm version](https://badge.fury.io/js/gitlab-radiator.svg)](https://badge.fury.io/js/gitlab-radiator)
+
+## Pre-requisites
+
+- Node.js v6.0.0 or newer
+- An account in https://gitlab.com or an onsite installation of the GitLab software package.
+
+## Installation
+
+    npm install -g gitlab-radiator
+
+## Usage
+
+## Configuration
 
 ```gitlab-radiator``` looks for its mandatory configuration file at ```~/.gitlab-radiator.yml``` by default.
 It can be overridden by defining the ```GITLAB_RADIATOR_CONFIG``` environment variable.
