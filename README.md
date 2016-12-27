@@ -68,3 +68,6 @@ intervals:
 
 port: 8000
 ```
+
+## Contributors
+ - Antti Oittinen ([codegeneralist](https://github.com/codegeneralist))
