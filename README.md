@@ -18,7 +18,7 @@ Example yaml syntax:
 
 ```
 gitlab:
-  access-token: <your access-token>
+  access-token: 12invalidtoken12
   url: https://gitlab.com
 ```
 
