@@ -18,6 +18,12 @@ gitlab:
 
 projects:
   include: .*/my-awesome-project-.*
+
+intervals:
+  projects: 120
+  builds: 10
+
+port: 3000
 ```
 
 The configuration file is automatically reloaded once every two minutes.

@@ -6,17 +6,20 @@ const RadiatorApp = React.createClass({
 
   getInitialState() {
     return {
-      builds: []
+      builds: undefined
     }
   },
 
   componentDidMount() {
     io().on('builds', this.onBuildsUpdated)
+    io().on('error', window.alert)
   },
 
   render() {
-    if (this.state.builds.length == 0) {
-      return <h2>Loading builds...</h2>
+    if (!this.state.builds) {
+      return <h2 className="loading">Fetching projects and builds from GitLab...</h2>
+    } else if (this.state.builds.length == 0) {
+      return <h2 className="loading">No projects with builds found.</h2>
     }
     return <ol className="projects">{this.renderBuilds(this.state.builds)}</ol>
   },

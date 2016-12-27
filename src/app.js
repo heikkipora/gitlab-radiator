@@ -6,13 +6,13 @@ const express = require('express')
 const compression = require('compression')
 const browserify = require('browserify-middleware')
 const lessMiddleware = require('less-middleware')
-const pollConfig = require('./config')
-const {fetchBuilds, fetchProjects} = require('./gitlab')
+
+const config = require('./config')
+const gitlabBuildsStream = require('./gitlab')
 
 const app = express()
 const httpServer = http.Server(app)
 const socketIoServer = socketIo(httpServer)
-startFetchingBuildsFromGitlab(socketIoServer)
 
 app.disable('x-powered-by')
 app.use(compression())
@@ -21,67 +21,21 @@ app.use(express.static(`${__dirname}/../public`))
 
 app.get('/js/client.js', browserify(__dirname + '/client/index.js'))
 
-let cachedBuilds = []
+httpServer.listen(config.port, () => {
+  console.log(`Listening on port *:${config.port}`)
+})
+
+let cachedBuilds = undefined
 socketIoServer.on('connection', (socket) => {
   socket.emit('builds', cachedBuilds)
 })
 
-const port = process.env.PORT || 3000
-httpServer.listen(port, () => {
-  console.log(`Listening on port *:${port}`)
+gitlabBuildsStream.onValue(builds => {
+  cachedBuilds = builds
+  socketIoServer.emit('builds', builds)
 })
 
-function startFetchingBuildsFromGitlab(socketIo) {
-  const projectsStream = pollConfig().flatMap(config => {
-      const projects = fetchProjects(config.gitlab).map(projects => {
-        if (config.projects) {
-          return filterProjects(projects, config.projects)
-        }
-        return projects
-      })
-
-      return Bacon.combineTemplate({
-        config: config,
-        projects: projects
-      })
-    })
-
-    projectsStream.onError(error => {
-      console.error(error)
-    })
-    const projectsProperty = projectsStream.toProperty()
-
-  const BUILDS_POLL_INTERVAL_SEC = process.env.GITLAB_RADIATOR_BUILDS_POLL_INTERVAL_SEC || 10
-
-  Bacon.interval(BUILDS_POLL_INTERVAL_SEC * 1000, true)
-    .merge(Bacon.later(0, true))
-    .map(projectsProperty)
-    .flatMap(configAndProjects => {
-      return Bacon.fromArray(configAndProjects.projects)
-        .flatMap(fetchBuilds(configAndProjects.config.gitlab))
-        .fold([], (acc, item) => {
-          acc.push(item)
-          return acc
-        })
-        .map(builds => {
-          return _.sortBy(builds, build => {
-            return build.project.name
-          })
-        })
-    })
-    .onValue(builds => {
-      cachedBuilds = builds
-      socketIo.emit('builds', builds)
-    })
-}
-
-function filterProjects(projects, projectsConfig) {
-  if (projectsConfig.include) {
-    const regex = new RegExp(projectsConfig.include, "ig")
-    return _.filter(projects, project => regex.test(project.name))
-  } else if (projectsConfig.exclude) {
-    const regex = new RegExp(projectsConfig.exclude, "ig")
-    return _.filter(projects, project => !regex.test(project.name))
-  }
-  return projects
-}
+gitlabBuildsStream.onError(err => {
+  socketIoServer.emit('error', 'Unable to fetch builds from GitLab API')
+  console.error(err)
+})
