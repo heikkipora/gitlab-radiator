@@ -1,3 +1,4 @@
+const assert = require('assert')
 const Bacon = require('baconjs')
 const fs = require('fs')
 const os = require('os')
@@ -11,6 +12,7 @@ function pollConfig(interval) {
     .merge(Bacon.interval(CONFIG_POLL_INTERVAL_SEC * 1000, true))
     .map(CONFIG_FILE)
     .flatMap(loadConfig)
+    .doAction(validate)
 }
 
 function loadConfig(configFile) {
@@ -21,6 +23,12 @@ function loadConfig(configFile) {
 
 function expandTilde(path) {
   return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)
+}
+
+function validate(config) {
+  assert.ok(config.gitlab, 'Mandatory gitlab properties missing from configuration file')
+  assert.ok(config.gitlab.url, 'Mandatory gitlab url missing from configuration file')
+  assert.ok(config.gitlab['access-token'], 'Mandatory gitlab access token missing from configuration file')
 }
 
 module.exports = pollConfig
