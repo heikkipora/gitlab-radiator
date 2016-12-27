@@ -11,6 +11,7 @@
 ## Pre-requisites
 
 - Node.js v6.0.0 or newer
+- A modern web browser
 - An account in https://gitlab.com or an onsite installation of the GitLab software package.
 
 ## Installation
@@ -26,7 +27,7 @@ Create a configuration file (see [Configuration](#configuration) below) and run:
 And if you have an onsite GitLab with HTTPS and self-signed certificates:
 
     NODE_TLS_REJECT_UNAUTHORIZED=0 gitlab-radiator
-   
+
 Then navigate with a browser to http://localhost:3000 - or whatever port you did configure.
 
 ## Configuration
