@@ -81,10 +81,10 @@ function fetch(path) {
 
 function filterProjects(projects) {
   if (config.projects && config.projects.include) {
-    const includeRegex = new RegExp(config.projects.include, "ig")
+    const includeRegex = new RegExp(config.projects.include, "i")
     return _.filter(projects, project => includeRegex.test(project.name))
   } else if (config.projects && config.projects.exclude) {
-    const excludeRegex = new RegExp(config.projects.exclude, "ig")
+    const excludeRegex = new RegExp(config.projects.exclude, "i")
     return _.filter(projects, project => !excludeRegex.test(project.name))
   }
   return projects
