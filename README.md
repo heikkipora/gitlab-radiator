@@ -55,6 +55,7 @@ Optional configuration properties:
 - ```intervals / projects``` - Number of seconds between project list updates. Default value is 120 seconds.
 - ```intervals / builds``` -  Number of seconds between build state updates. Default value is 10 seconds.
 - ```port``` - HTTP port to listen on. Default value is 3000.
+- ```zoom``` - View zoom factor (to make your projects fit a display nicely). Default value is 1.0
 
 Example yaml syntax:
 

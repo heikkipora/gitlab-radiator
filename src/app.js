@@ -16,7 +16,7 @@ const socketIoServer = socketIo(httpServer)
 
 app.disable('x-powered-by')
 app.use(compression())
-app.use(lessMiddleware(`${__dirname}/../public`))
+app.use(lessMiddleware(`${__dirname}/../public`, { postprocess: { css: generateZoomCss }}))
 app.use(express.static(`${__dirname}/../public`))
 
 app.get('/js/client.js', browserify(__dirname + '/client/index.js'))
@@ -44,3 +44,15 @@ gitlabBuildsStream.onError(error => {
   globalState.error = error
   socketIoServer.emit('state', globalState)
 })
+
+function generateZoomCss(css, req) {
+  const widthPercentage = Math.round(100 / config.zoom)
+  return `
+    ${css}
+
+    ol.projects {
+      transform: scale(${config.zoom});
+      width: ${widthPercentage}%;
+    }
+    `
+}
