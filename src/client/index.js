@@ -3,7 +3,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 const RadiatorApp = React.createClass({
-
   getInitialState() {
     return {
       builds: undefined,
@@ -21,7 +20,6 @@ const RadiatorApp = React.createClass({
       {this.renderProgressMessage()}
       <ol className="projects">{this.renderBuilds(this.state.builds || [])}</ol>
     </div>
-    return
   },
 
   renderErrorMessage() {
