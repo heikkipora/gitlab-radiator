@@ -68,6 +68,7 @@ intervals:
   builds: 30
 
 port: 8000
+zoom: 0.85
 ```
 
 ## Contributors
