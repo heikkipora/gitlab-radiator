@@ -6,6 +6,8 @@ const express = require('express')
 const compression = require('compression')
 const browserify = require('browserify-middleware')
 const lessMiddleware = require('less-middleware')
+const os = require('os')
+const path = require('path')
 
 const config = require('./config')
 const gitlabBuildsStream = require('./gitlab')
@@ -16,7 +18,17 @@ const socketIoServer = socketIo(httpServer)
 
 app.disable('x-powered-by')
 app.use(compression())
-app.use(lessMiddleware(`${__dirname}/../public`, { postprocess: { css: generateZoomCss }}))
+
+const cacheDir = path.join(os.tmpDir(), 'gitlab-radiator-css-cache');
+app.use(lessMiddleware(`${__dirname}/../public`,
+  {
+    postprocess: {
+      css: generateZoomCss
+    },
+    dest: cacheDir
+  }
+))
+app.use(express.static(cacheDir));
 app.use(express.static(`${__dirname}/../public`))
 
 app.get('/js/client.js', browserify(__dirname + '/client/index.js'))
