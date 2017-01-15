@@ -11,7 +11,9 @@ const RadiatorApp = React.createClass({
   },
 
   componentDidMount() {
-    io().on('state', this.onServerStateUpdated)
+    const socket = io()
+    socket.on('state', this.onServerStateUpdated)
+    socket.on('disconnect', this.onDisconnect)
   },
 
   render() {
@@ -83,6 +85,10 @@ const RadiatorApp = React.createClass({
 
   onServerStateUpdated(state) {
     this.setState({builds: state.builds, error: state.error})
+  },
+
+  onDisconnect() {
+    this.setState({error: 'gitlab-radiator server is offline'})
   }
 })
 
