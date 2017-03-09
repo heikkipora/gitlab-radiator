@@ -22,7 +22,7 @@ const buildsStream = repeat(config.interval.builds)
   })
 
 function fetchProjects() {
-  return fetch('/api/v3/projects/')
+  return fetch('/api/v3/projects/?per_page=100')
     .map(projects => projects.map(project => ({id: project.id, name: project.path_with_namespace})))
 }
 
