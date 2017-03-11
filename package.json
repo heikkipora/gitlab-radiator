@@ -11,7 +11,8 @@
     "gitlab-radiator": "bin/gitlab-radiator"
   },
   "scripts": {
-    "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 node src/app.js"
+    "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 node src/app.js",
+    "test": "./node_modules/.bin/eslint src/* bin/*"
   },
   "engines": {
     "node": ">=5.0.0"
@@ -25,7 +26,10 @@
   },
   "homepage": "https://github.com/heikkipora/gitlab-radiator#readme",
   "contributors": [
-    { "name" : "codegeneralist", "email" : "antti.oittinen@gmail.com"}
+    {
+      "name": "codegeneralist",
+      "email": "antti.oittinen@gmail.com"
+    }
   ],
   "dependencies": {
     "babel-plugin-transform-object-rest-spread": "6.23.0",
@@ -45,6 +49,10 @@
     "react-dom": "15.4.2",
     "request": "2.81.0",
     "socket.io": "1.7.3"
+  },
+  "devDependencies": {
+    "eslint": "3.17.1",
+    "eslint-plugin-react": "6.10.0"
   },
   "browserify": {
     "transform": [
