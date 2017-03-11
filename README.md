@@ -72,5 +72,9 @@ port: 8000
 zoom: 0.85
 ```
 
+## Contributing
+
+Pull requests are welcome. Kindly check that your code passes ESLint checks by running ```npm test``` first.
+
 ## Contributors
  - Antti Oittinen ([codegeneralist](https://github.com/codegeneralist))
