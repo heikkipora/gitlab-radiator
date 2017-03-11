@@ -1,5 +1,3 @@
-const _ = require('lodash')
-const Bacon = require('baconjs')
 const http = require('http')
 const socketIo = require('socket.io')
 const express = require('express')
@@ -34,6 +32,7 @@ app.use(express.static(`${__dirname}/../public`))
 app.get('/js/client.js', browserify(__dirname + '/client/index.js'))
 
 httpServer.listen(config.port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Listening on port *:${config.port}`)
 })
 
@@ -57,7 +56,7 @@ gitlabBuildsStream.onError(error => {
   socketIoServer.emit('state', globalState)
 })
 
-function generateZoomCss(css, req) {
+function generateZoomCss(css) {
   const widthPercentage = Math.round(100 / config.zoom)
   return `
     ${css}

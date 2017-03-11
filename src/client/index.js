@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -11,7 +10,7 @@ const RadiatorApp = React.createClass({
   },
 
   componentDidMount() {
-    const socket = io()
+    const socket = window.io()
     socket.on('state', this.onServerStateUpdated)
     socket.on('disconnect', this.onDisconnect)
   },
@@ -20,7 +19,7 @@ const RadiatorApp = React.createClass({
     return <div>
       {this.renderErrorMessage()}
       {this.renderProgressMessage()}
-      <ol className="projects">{this.renderBuilds(this.state.builds || [])}</ol>
+      <ol className="projects">{this.renderBuilds(this.state.builds || [])}</ol>
     </div>
   },
 
@@ -59,7 +58,7 @@ const RadiatorApp = React.createClass({
 
   renderPhases(build) {
     const phasesToRender = this.calculatePhasesToRender(build)
-    return <ol className="phases">{phasesToRender.map((phase, index) => {
+    return <ol className="phases">{phasesToRender.map(phase => {
         const className = `phase ${phase.status}` +
           (phase.hiddenFromStart ? ' hidden-from-start' : '') +
           (phase.hiddenFromEnd ? ' hidden-from-end' : '')
