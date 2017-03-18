@@ -13,7 +13,7 @@
 
 - Node.js v5.0.0 or newer
 - A modern web browser
-- An account in https://gitlab.com or an onsite installation of the GitLab software package.
+- An account in https://gitlab.com or an onsite installation of the [GitLab software package](https://about.gitlab.com/products).
 
 ## Installation
 
