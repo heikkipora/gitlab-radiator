@@ -29,6 +29,8 @@ And if you have an onsite GitLab with HTTPS and self-signed certificates:
 
     NODE_TLS_REJECT_UNAUTHORIZED=0 gitlab-radiator
 
+You might prefer providing the CA file location in configuration instead of totally disabling TLS certificate checking.
+
 Then navigate with a browser to http://localhost:3000 - or whatever port you did configure.
 
 ## Configuration
@@ -57,6 +59,7 @@ Optional configuration properties:
 - ```intervals / builds``` -  Number of seconds between build state updates. Default value is 10 seconds.
 - ```port``` - HTTP port to listen on. Default value is 3000.
 - ```zoom``` - View zoom factor (to make your projects fit a display nicely). Default value is 1.0
+- ```caFile``` - CA file location to be passed to the request library when accessing your gitlab instance
 
 Example yaml syntax:
 

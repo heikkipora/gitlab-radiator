@@ -12,6 +12,7 @@ config.interval.projects = Number(config.interval.projects || 120) * 1000
 config.interval.builds = Number(config.interval.builds || 10) * 1000
 config.port = Number(config.port || 3000)
 config.zoom = Number(config.zoom || 1.0)
+config.ca = config.caFile && fs.existsSync(config.caFile, 'utf-8') ? fs.readFileSync(config.caFile) : undefined
 
 function expandTilde(path) {
   return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)

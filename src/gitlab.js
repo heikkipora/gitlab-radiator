@@ -64,7 +64,8 @@ function fetchBuildsForProject(project) {
 function fetch(path) {
   const options = {
     url: url.resolve(config.gitlab.url, path),
-    headers: {'PRIVATE-TOKEN': config.gitlab['access-token']}
+    headers: {'PRIVATE-TOKEN': config.gitlab['access-token']},
+    ca: config.ca
   }
 
   return Bacon.fromNodeCallback(callback => {
