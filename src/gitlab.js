@@ -52,13 +52,19 @@ function fetchBuildsForProject(project) {
        })).value()
 
        const newestPipelineId = _(gitlabBuilds).map(build => build.pipeline.id).max()
+       const buildsForNewestPipeline = _(builds).filter(build => build.pipeline.id == newestPipelineId).orderBy('id').value()
 
        return {
          project: project,
          commit: commit,
-         builds: _(builds).filter(build => build.pipeline.id == newestPipelineId).orderBy('id').value()
+         builds: mergeDuplicates(buildsForNewestPipeline)
        }
      })
+}
+
+function mergeDuplicates(builds) {
+  // Use the ID of the first build to retain original execution order
+  return _(builds).groupBy('stage').map(builds => _.extend({}, _.last(builds), {id: _.head(builds).id}))
 }
 
 function fetch(path) {
