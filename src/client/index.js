@@ -1,19 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const RadiatorApp = React.createClass({
-  getInitialState() {
-    return {
+class RadiatorApp extends React.Component {
+  constructor() {
+    super()
+    this.state = {
       builds: undefined,
       error: undefined
     }
-  },
+  }
 
   componentDidMount() {
     const socket = window.io()
-    socket.on('state', this.onServerStateUpdated)
-    socket.on('disconnect', this.onDisconnect)
-  },
+    socket.on('state', this.onServerStateUpdated.bind(this))
+    socket.on('disconnect', this.onDisconnect.bind(this))
+  }
 
   render() {
     return <div>
@@ -21,11 +22,11 @@ const RadiatorApp = React.createClass({
       {this.renderProgressMessage()}
       <ol className="projects">{this.renderBuilds(this.state.builds || [])}</ol>
     </div>
-  },
+  }
 
   renderErrorMessage() {
     return this.state.error ? <div className="error">{this.state.error}</div> : ''
-  },
+  }
 
   renderProgressMessage() {
     if (!this.state.builds) {
@@ -34,7 +35,7 @@ const RadiatorApp = React.createClass({
       return <h2 className="loading">No projects with builds found.</h2>
     }
     return ''
-  },
+  }
 
   renderBuilds(builds) {
     return builds.map(build => {
@@ -54,7 +55,7 @@ const RadiatorApp = React.createClass({
         })}
       </li>
     })
-  },
+  }
 
   renderPhases(build) {
     const phasesToRender = this.calculatePhasesToRender(build)
@@ -65,7 +66,7 @@ const RadiatorApp = React.createClass({
         return <li className={className} key={phase.id}><div className="phase-name">{phase.name}</div></li>
       })}
     </ol>
-  },
+  }
 
   calculatePhasesToRender(build) {
     return build.builds.reduce((acc, phase) => {
@@ -80,15 +81,15 @@ const RadiatorApp = React.createClass({
       }
       return acc
     }, [])
-  },
+  }
 
   onServerStateUpdated(state) {
     this.setState({builds: state.builds, error: state.error})
-  },
+  }
 
   onDisconnect() {
     this.setState({error: 'gitlab-radiator server is offline'})
   }
-})
+}
 
 ReactDOM.render(<RadiatorApp />, document.getElementById('app'))
