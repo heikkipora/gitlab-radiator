@@ -68,6 +68,7 @@ class RadiatorApp extends React.Component {
     </ol>
   }
 
+  // eslint-disable-next-line class-methods-use-this
   calculatePhasesToRender(build) {
     return build.builds.reduce((acc, phase) => {
       if (acc.length < 4) {
