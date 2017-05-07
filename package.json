@@ -48,11 +48,11 @@
     "react": "15.5.4",
     "react-dom": "15.5.4",
     "request": "2.81.0",
-    "socket.io": "1.7.3"
+    "socket.io": "1.7.4"
   },
   "devDependencies": {
     "eslint": "3.19.0",
-    "eslint-plugin-react": "6.10.3"
+    "eslint-plugin-react": "7.0.0"
   },
   "browserify": {
     "transform": [
