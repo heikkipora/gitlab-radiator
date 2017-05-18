@@ -40,19 +40,19 @@
     "browserify": "14.3.0",
     "browserify-middleware": "7.1.0",
     "compression": "1.6.2",
-    "express": "4.15.2",
-    "js-yaml": "3.8.3",
+    "express": "4.15.3",
+    "js-yaml": "3.8.4",
     "less-middleware": "2.2.0",
     "lodash": "4.17.4",
     "moment": "2.18.1",
     "react": "15.5.4",
     "react-dom": "15.5.4",
     "request": "2.81.0",
-    "socket.io": "1.7.4"
+    "socket.io": "2.0.1"
   },
   "devDependencies": {
     "eslint": "3.19.0",
-    "eslint-plugin-react": "7.0.0"
+    "eslint-plugin-react": "7.0.1"
   },
   "browserify": {
     "transform": [
