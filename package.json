@@ -51,7 +51,7 @@
     "socket.io": "2.0.3"
   },
   "devDependencies": {
-    "eslint": "4.2.0",
+    "eslint": "4.3.0",
     "eslint-plugin-react": "7.1.0"
   },
   "browserify": {
