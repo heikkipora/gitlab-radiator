@@ -41,7 +41,7 @@
     "browserify-middleware": "7.1.0",
     "compression": "1.7.0",
     "express": "4.15.4",
-    "js-yaml": "3.9.1",
+    "js-yaml": "3.10.0",
     "less-middleware": "2.2.1",
     "lodash": "4.17.4",
     "moment": "2.18.1",
@@ -51,7 +51,7 @@
     "socket.io": "2.0.3"
   },
   "devDependencies": {
-    "eslint": "4.6.1",
+    "eslint": "4.7.0",
     "eslint-plugin-react": "7.3.0"
   },
   "browserify": {
