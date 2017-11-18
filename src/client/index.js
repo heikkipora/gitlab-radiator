@@ -39,7 +39,9 @@ class RadiatorApp extends React.Component {
 
   renderBuilds(builds) {
     return builds.map(build => {
-      return <li className="project" key={build.project.id}>
+      const isFailed = build.builds.some((build) => build.status === 'failed')
+      return <li className={`project ${isFailed && 'failed'}`}
+                 key={build.project.id}>
         <h2>{build.project.name}</h2>
         {this.renderPhases(build)}
         {build.commit.map((commit, index) => {
