@@ -17,7 +17,7 @@ const socketIoServer = socketIo(httpServer)
 app.disable('x-powered-by')
 app.use(compression())
 
-const cacheDir = path.join(os.tmpDir(), 'gitlab-radiator-css-cache');
+const cacheDir = path.join(os.tmpdir(), 'gitlab-radiator-css-cache');
 app.use(lessMiddleware(`${__dirname}/../public`,
   {
     postprocess: {
