@@ -29,7 +29,7 @@ app.use(lessMiddleware(`${__dirname}/../public`,
 app.use(express.static(cacheDir));
 app.use(express.static(`${__dirname}/../public`))
 
-app.get('/js/client.js', browserify(__dirname + '/client/index.js'))
+app.get('/js/client.js', browserify(path.join(__dirname, '/client/index.js')))
 
 httpServer.listen(config.port, () => {
   // eslint-disable-next-line no-console
