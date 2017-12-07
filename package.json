@@ -45,14 +45,14 @@
     "js-yaml": "3.10.0",
     "less-middleware": "2.2.1",
     "lodash": "4.17.4",
-    "moment": "2.19.2",
+    "moment": "2.19.3",
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "request": "2.83.0",
     "socket.io": "2.0.4"
   },
   "devDependencies": {
-    "eslint": "4.12.0",
+    "eslint": "4.12.1",
     "eslint-plugin-react": "7.5.1"
   },
   "browserify": {
