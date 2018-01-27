@@ -10,9 +10,12 @@ module.exports = {
             "experimentalObjectRestSpread": true,
             "jsx": true
         },
+        "ecmaVersion": 2017,
         "sourceType": "module"
     },
+    "parser": "babel-eslint",
     "plugins": [
+        "mocha",
         "react"
     ],
     "rules": {
@@ -113,6 +116,7 @@ module.exports = {
         "max-params": "error",
         "max-statements": "error",
         "max-statements-per-line": "error",
+        "mocha/no-exclusive-tests": "error",
         "multiline-ternary": [
             "error",
             "never"
