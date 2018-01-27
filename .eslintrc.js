@@ -38,7 +38,7 @@ module.exports = {
             "1tbs"
         ],
         "callback-return": "off",
-        "camelcase": "error",
+        "camelcase": "off",
         "capitalized-comments": "error",
         "class-methods-use-this": "error",
         "comma-dangle": "error",
@@ -113,7 +113,7 @@ module.exports = {
         "max-len": "off",
         "max-lines": "error",
         "max-nested-callbacks": "error",
-        "max-params": "error",
+        "max-params": "off",
         "max-statements": "error",
         "max-statements-per-line": "error",
         "mocha/no-exclusive-tests": "error",
