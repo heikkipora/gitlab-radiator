@@ -2,7 +2,7 @@
 
 ## Introduction
 
-```gitlab-radiator``` is a small Node.js application for serving an [Jenkins Radiator View](https://wiki.jenkins-ci.org/display/JENKINS/Radiator+View+Plugin) inspired web view of your team's builds fetched from an GitLab CI installation running locally or remotely.
+```gitlab-radiator``` is a small Node.js application for serving a [Jenkins Radiator View](https://wiki.jenkins-ci.org/display/JENKINS/Radiator+View+Plugin) inspired web view of your team's builds fetched from a GitLab CI installation running locally or remotely.
 
 <img src="https://raw.github.com/heikkipora/gitlab-radiator/master/screenshot.png" width="50%">
 
