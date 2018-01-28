@@ -1,14 +1,13 @@
-const http = require('http')
-const socketIo = require('socket.io')
-const express = require('express')
-const compression = require('compression')
-const browserify = require('browserify-middleware')
-const lessMiddleware = require('less-middleware')
-const os = require('os')
-const path = require('path')
-
-const config = require('./config')
-const gitlabBuildsStream = require('./gitlab')
+import browserify from 'browserify-middleware'
+import compression from 'compression'
+import {config} from './config'
+import express from 'express'
+import {update} from './gitlab'
+import http from 'http'
+import lessMiddleware from 'less-middleware'
+import os from 'os'
+import path from 'path'
+import socketIo from 'socket.io'
 
 const app = express()
 const httpServer = http.Server(app)
@@ -26,7 +25,7 @@ app.use(lessMiddleware(`${__dirname}/../public`,
     dest: cacheDir
   }
 ))
-app.use(express.static(cacheDir));
+app.use(express.static(cacheDir))
 app.use(express.static(`${__dirname}/../public`))
 
 app.get('/js/client.js', browserify(path.join(__dirname, '/client/index.js')))
@@ -45,18 +44,18 @@ socketIoServer.on('connection', (socket) => {
   socket.emit('state', globalState)
 })
 
-gitlabBuildsStream.onValue(builds => {
-  globalState.builds = builds
-  globalState.error = undefined
-  socketIoServer.emit('state', globalState)
-})
-
-gitlabBuildsStream.onError(error => {
-  // eslint-disable-next-line no-console
-  console.error(error)
-  globalState.error = error
-  socketIoServer.emit('state', globalState)
-})
+setInterval(async () => {
+  try {
+    globalState.builds = await update(config)
+    globalState.error = undefined
+    socketIoServer.emit('state', globalState)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error)
+    globalState.error = error
+    socketIoServer.emit('state', globalState)
+  }
+}, config.interval)
 
 function generateZoomCss(css) {
   const widthPercentage = Math.round(100 / config.zoom)

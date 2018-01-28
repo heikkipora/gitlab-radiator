@@ -11,7 +11,7 @@
     "gitlab-radiator": "bin/gitlab-radiator"
   },
   "scripts": {
-    "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 node src/app.js",
+    "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 ./node_modules/.bin/babel-node src/app.js",
     "eslint": "./node_modules/.bin/eslint --fix src/* bin/* test/*",
     "test": "./node_modules/.bin/mocha --require babel-register --require babel-polyfill --timeout 10000 test/*.js"
   },
@@ -33,6 +33,7 @@
     }
   ],
   "dependencies": {
+    "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-env": "1.6.1",
