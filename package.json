@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 node src/app.js",
-    "eslint": "./node_modules/.bin/eslint src/* bin/* test/* --fix",
+    "eslint": "./node_modules/.bin/eslint --fix src/* bin/* test/*",
     "test": "./node_modules/.bin/mocha --require babel-register --require babel-polyfill --timeout 10000 test/*.js"
   },
   "engines": {
