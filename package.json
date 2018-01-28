@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 node src/app.js",
-    "test": "./node_modules/.bin/eslint src/* bin/*"
+    "test": "eslint src/* bin/*"
   },
   "engines": {
     "node": ">=5.0.0"

@@ -31,7 +31,7 @@ class RadiatorApp extends React.Component {
   renderProgressMessage() {
     if (!this.state.builds) {
       return <h2 className="loading">Fetching projects and builds from GitLab...</h2>
-    } else if (this.state.builds.length == 0) {
+    } else if (this.state.builds.length === 0) {
       return <h2 className="loading">No projects with builds found.</h2>
     }
     return ''
@@ -39,8 +39,9 @@ class RadiatorApp extends React.Component {
 
   renderBuilds(builds) {
     return builds.map(build => {
-      const isFailed = build.builds.some((build) => build.status === 'failed')
-      return <li className={`project ${isFailed && 'failed'}`}
+      const isFailed = build.builds.some(b => b.status === 'failed')
+      const isRunning = build.builds.some(b => b.status === 'running')
+      return <li className={`project ${isFailed && 'failed'} ${isRunning && 'running'}`}
                  key={build.project.id}>
         <h2>{build.project.name}</h2>
         {this.renderPhases(build)}
@@ -75,7 +76,7 @@ class RadiatorApp extends React.Component {
     return build.builds.reduce((acc, phase) => {
       if (acc.length < 4) {
         acc.push(phase)
-      } else if (acc[0].status == 'success') {
+      } else if (acc[0].status === 'success') {
         acc = acc.slice(1)
         acc.push(phase)
         acc[0].hiddenFromStart = true

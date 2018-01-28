@@ -52,7 +52,7 @@ function fetchBuildsForProject(project) {
        })).value()
 
        const newestPipelineId = _(gitlabBuilds).map(build => build.pipeline.id).max()
-       const buildsForNewestPipeline = _(builds).filter(build => build.pipeline.id == newestPipelineId).orderBy('id').value()
+       const buildsForNewestPipeline = _(builds).filter(build => build.pipeline.id === newestPipelineId).orderBy('id').value()
 
        return {
          project: project,
@@ -62,9 +62,9 @@ function fetchBuildsForProject(project) {
      })
 }
 
-function mergeDuplicates(builds) {
+function mergeDuplicates(projectBuilds) {
   // Use the ID of the first build to retain original execution order
-  return _(builds).groupBy('stage').map(builds => _.extend({}, _.last(builds), {id: _.head(builds).id}))
+  return _(projectBuilds).groupBy('stage').map(builds => _.extend({}, _.last(builds), {id: _.head(builds).id}))
 }
 
 function fetch(path) {
@@ -76,7 +76,7 @@ function fetch(path) {
 
   return Bacon.fromNodeCallback(callback => {
     request(options, (error, response, body) => {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode === 200) {
         callback(null, JSON.parse(body))
       } else {
         const statusCode = response ? response.statusCode : 'n/a'
