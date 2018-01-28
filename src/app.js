@@ -36,7 +36,7 @@ httpServer.listen(config.port, () => {
 })
 
 const globalState = {
-  builds: undefined,
+  projects: undefined,
   error: undefined
 }
 
@@ -46,7 +46,7 @@ socketIoServer.on('connection', (socket) => {
 
 setInterval(async () => {
   try {
-    globalState.builds = await update(config)
+    globalState.projects = await update(config)
     globalState.error = undefined
     socketIoServer.emit('state', globalState)
   } catch (error) {

@@ -1,3 +1,5 @@
+import _ from 'lodash'
+import {distanceInWords} from 'date-fns'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -5,7 +7,7 @@ class RadiatorApp extends React.Component {
   constructor() {
     super()
     this.state = {
-      builds: undefined,
+      projects: undefined,
       error: undefined
     }
   }
@@ -20,74 +22,94 @@ class RadiatorApp extends React.Component {
     return <div>
       {this.renderErrorMessage()}
       {this.renderProgressMessage()}
-      <ol className="projects">{this.renderBuilds(this.state.builds || [])}</ol>
+      <ol className="projects">{this.renderProjects(this.state.projects || [])}</ol>
     </div>
   }
 
   renderErrorMessage() {
-    return this.state.error ? <div className="error">{this.state.error}</div> : ''
+    return this.state.error && <div className="error">{this.state.error}</div>
   }
 
   renderProgressMessage() {
-    if (!this.state.builds) {
-      return <h2 className="loading">Fetching projects and builds from GitLab...</h2>
-    } else if (this.state.builds.length == 0) {
-      return <h2 className="loading">No projects with builds found.</h2>
+    if (!this.state.projects) {
+      return <h2 className="loading">Fetching projects and CI pipelines from GitLab...</h2>
+    } else if (this.state.projects.length == 0) {
+      return <h2 className="loading">No projects with CI pipelines found.</h2>
     }
-    return ''
+    return null
   }
 
-  renderBuilds(builds) {
-    return builds.map(build => {
-      const isFailed = build.builds.some((build) => build.status === 'failed')
-      return <li className={`project ${isFailed && 'failed'}`}
-                 key={build.project.id}>
-        <h2>{build.project.name}</h2>
-        {this.renderPhases(build)}
-        {build.commit.map((commit, index) => {
-          return <div className="commit" key={index}>
-            <div>
-              <div className="commit-author">{commit.authorName}</div>
-              <div className="commit-timestamp">{commit.createdAt}</div>
-            </div>
-            <div>
-              <div className="commit-title">{commit.title}</div>
-            </div>
+  renderProjects(projects) {
+    return _.sortBy(projects, 'name')
+      .map(project => {
+        const [pipeline] = project.pipelines
+        return <li className={`project ${project.status}`} key={project.id}>
+          <h2>{project.name}</h2>
+          {this.renderStages(pipeline.stages)}
+          <div className="pipeline-info">
+            <span>{this.renderTimestamp(pipeline.stages)}</span>
+            <span>{pipeline.commit.author}: "{pipeline.commit.title}"</span>
           </div>
-        })}
-      </li>
-    })
+        </li>
+      })
   }
 
-  renderPhases(build) {
-    const phasesToRender = this.calculatePhasesToRender(build)
-    return <ol className="phases">{phasesToRender.map(phase => {
-        const className = `phase ${phase.status}` +
-          (phase.hiddenFromStart ? ' hidden-from-start' : '') +
-          (phase.hiddenFromEnd ? ' hidden-from-end' : '')
-        return <li className={className} key={phase.id}><div className="phase-name">{phase.name}</div></li>
-      })}
-    </ol>
+  renderStages(stages) {
+    return <ol className="stages">
+            {stages.map((stage, index) => this.renderStage(stage, index))}
+           </ol>
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  calculatePhasesToRender(build) {
-    return build.builds.reduce((acc, phase) => {
-      if (acc.length < 4) {
-        acc.push(phase)
-      } else if (acc[0].status == 'success') {
-        acc = acc.slice(1)
-        acc.push(phase)
-        acc[0].hiddenFromStart = true
-      } else {
-        acc[acc.length - 1].hiddenFromEnd = true
-      }
-      return acc
-    }, [])
+  renderStage(stage, index) {
+    return <li className="stage" key={index}>
+             <div className="name">{stage.name}</div>
+             <ol className="jobs">
+               {stage.jobs.map(this.renderJob)}
+             </ol>
+           </li>
+  }
+
+  renderJob(job) {
+    return <li key={job.id} className={job.status}>
+             {job.name}
+           </li>
+  }
+
+  renderTimestamp(stages) {
+    const timestamps = _(stages)
+      .map('jobs')
+      .flatten()
+      .map(job => {
+        const startedAt = job.startedAt && new Date(job.startedAt).valueOf()
+        const finishedAt = job.finishedAt && new Date(job.finishedAt).valueOf()
+        return {
+          startedAt,
+          finishedAt
+        }
+      })
+      .filter(timestamp => timestamp.startedAt)
+      .value()
+
+    if (timestamps.length === 0) {
+      return 'Pending...'
+    }
+
+    const inProgress = _.some(timestamps, {finishedAt: undefined})
+    if (inProgress) {
+      const timestamp = _(timestamps).sortBy('startedAt').head()
+      return `Started ${this.formatDate(timestamp.startedAt)} ago`
+    }
+
+    const timestamp = _(timestamps).sortBy('finishedAt').last()
+    return `Finished ${this.formatDate(timestamp.finishedAt)} ago`
+  }
+
+  formatDate(timestamp) {
+    return distanceInWords(timestamp, new Date())
   }
 
   onServerStateUpdated(state) {
-    this.setState({builds: state.builds, error: state.error})
+    this.setState({projects: state.projects, error: state.error})
   }
 
   onDisconnect() {
