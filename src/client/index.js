@@ -48,7 +48,7 @@ class RadiatorApp extends React.Component {
           {this.renderStages(pipeline.stages)}
           <div className="pipeline-info">
             <span>{this.renderTimestamp(pipeline.stages)}</span>
-            <span>{pipeline.commit.author}: "{pipeline.commit.title}"</span>
+            <span>{pipeline.commit.author}: &quot;{pipeline.commit.title}&quot;</span>
           </div>
         </li>
       })
