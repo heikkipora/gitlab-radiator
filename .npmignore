@@ -1,2 +1,5 @@
-*.log
+.eslintrc.js
+.nvmrc
+.travis.yml
+test
 screenshot.png
