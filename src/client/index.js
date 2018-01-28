@@ -22,7 +22,7 @@ class RadiatorApp extends React.Component {
     return <div>
       {this.renderErrorMessage()}
       {this.renderProgressMessage()}
-      <ol className="projects">{this.renderProjects(this.state.projects || [])}</ol>
+      <ol className="projects" style={this.zoomStyle()}>{this.renderProjects(this.state.projects || [])}</ol>
     </div>
   }
 
@@ -108,8 +108,16 @@ class RadiatorApp extends React.Component {
     return distanceInWords(timestamp, new Date())
   }
 
+  zoomStyle() {
+    const widthPercentage = Math.round(100 / this.state.zoom)
+    return {
+      transform: `scale(${this.state.zoom})`,
+      width: `${widthPercentage}%`
+    }
+  }
+
   onServerStateUpdated(state) {
-    this.setState({projects: state.projects, error: state.error})
+    this.setState(state)
   }
 
   onDisconnect() {
