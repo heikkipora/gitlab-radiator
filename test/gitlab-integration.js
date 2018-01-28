@@ -127,7 +127,7 @@ describe('Gitlab client', () => {
         name: 'gitlab-radiator-test/integration-test-project-1',
         pipelines: [
           {
-            id: 16728421,
+            id: 16733911,
             ref: 'master',
             status: 'success',
             commit: {
@@ -139,32 +139,32 @@ describe('Gitlab client', () => {
                 name: 'test',
                 jobs: [
                   {
-                    id: 49858864,
+                    id: 49876213,
                     status: 'success',
                     name: 'eslint',
-                    startedAt: '2018-01-28T10:17:29.185Z',
-                    finishedAt: '2018-01-28T10:18:35.821Z'
+                    startedAt: '2018-01-28T16:06:21.808Z',
+                    finishedAt: '2018-01-28T16:08:32.882Z'
                   },
                   {
-                    id: 49858865,
+                    id: 49876214,
                     status: 'success',
                     name: 'verify',
-                    startedAt: '2018-01-28T10:17:29.260Z',
-                    finishedAt: '2018-01-28T10:19:31.412Z'
+                    startedAt: '2018-01-28T16:08:34.100Z',
+                    finishedAt: '2018-01-28T16:10:35.798Z'
                   },
                   {
-                    id: 49858866,
+                    id: 49876215,
                     status: 'success',
                     name: 'api-test',
-                    startedAt: '2018-01-28T10:17:29.616Z',
-                    finishedAt: '2018-01-28T10:18:36.640Z'
+                    startedAt: '2018-01-28T16:10:38.442Z',
+                    finishedAt: '2018-01-28T16:12:47.393Z'
                   },
                   {
-                    id: 49858867,
+                    id: 49876216,
                     status: 'success',
                     name: 'browser-test',
-                    startedAt: '2018-01-28T10:17:29.739Z',
-                    finishedAt: '2018-01-28T10:19:12.775Z'
+                    startedAt: '2018-01-28T16:12:51.715Z',
+                    finishedAt: '2018-01-28T16:14:53.861Z'
                   }
                 ]
               },
@@ -172,11 +172,11 @@ describe('Gitlab client', () => {
                 name: 'build',
                 jobs: [
                   {
-                    id: 49858868,
+                    id: 49876217,
                     status: 'success',
                     name: 'package-my-stuff',
-                    startedAt: '2018-01-28T10:19:33.097Z',
-                    finishedAt: '2018-01-28T10:21:10.151Z'
+                    startedAt: '2018-01-28T16:14:55.299Z',
+                    finishedAt: '2018-01-28T16:15:51.073Z'
                   }
                 ]
               },
@@ -184,11 +184,11 @@ describe('Gitlab client', () => {
                 name: 'deploy',
                 jobs: [
                   {
-                    id: 49858869,
+                    id: 49876218,
                     status: 'success',
                     name: 'deploy-my-awesome-stuff',
-                    startedAt: '2018-01-28T10:21:10.603Z',
-                    finishedAt: '2018-01-28T10:22:57.477Z'
+                    startedAt: '2018-01-28T16:15:57.358Z',
+                    finishedAt: '2018-01-28T16:17:09.471Z'
                   }
                 ]
               },
@@ -196,12 +196,12 @@ describe('Gitlab client', () => {
                 name: 'finnish',
                 jobs: [
                   {
-                    id: 49858870,
+                    id: 49876219,
                     status: 'manual',
                     name: 'manual_step-1'
                   },
                   {
-                    id: 49858871,
+                    id: 49876220,
                     status: 'manual',
                     name: 'manual_step-2'
                   }
