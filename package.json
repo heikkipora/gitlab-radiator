@@ -43,7 +43,7 @@
     "browserify": "15.2.0",
     "browserify-middleware": "8.0.0",
     "compression": "1.7.1",
-    "date-fns": "^1.29.0",
+    "date-fns": "1.29.0",
     "express": "4.16.2",
     "js-yaml": "3.10.0",
     "less-middleware": "2.2.1",
