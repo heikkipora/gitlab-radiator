@@ -16,9 +16,9 @@ function expandTilde(path) {
   return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)
 }
 
-function validate(config) {
-  assert.ok(config.gitlab, 'Mandatory gitlab properties missing from configuration file')
-  assert.ok(config.gitlab.url, 'Mandatory gitlab url missing from configuration file')
-  assert.ok(config.gitlab['access-token'], 'Mandatory gitlab access token missing from configuration file')
-  return config
+function validate(cfg) {
+  assert.ok(cfg.gitlab, 'Mandatory gitlab properties missing from configuration file')
+  assert.ok(cfg.gitlab.url, 'Mandatory gitlab url missing from configuration file')
+  assert.ok(cfg.gitlab['access-token'], 'Mandatory gitlab access token missing from configuration file')
+  return cfg
 }

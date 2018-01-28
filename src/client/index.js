@@ -33,7 +33,7 @@ class RadiatorApp extends React.Component {
   renderProgressMessage() {
     if (!this.state.projects) {
       return <h2 className="loading">Fetching projects and CI pipelines from GitLab...</h2>
-    } else if (this.state.projects.length == 0) {
+    } else if (this.state.projects.length === 0) {
       return <h2 className="loading">No projects with CI pipelines found.</h2>
     }
     return null
