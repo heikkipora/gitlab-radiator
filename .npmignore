@@ -1,5 +1,8 @@
+*.log
+.DS_Store
 .eslintrc.js
 .nvmrc
 .travis.yml
+public/client.css
 test
 screenshot.png
