@@ -8,7 +8,8 @@ class RadiatorApp extends React.Component {
     super()
     this.state = {
       projects: undefined,
-      error: undefined
+      error: undefined,
+      now: undefined
     }
   }
 
@@ -105,7 +106,7 @@ class RadiatorApp extends React.Component {
   }
 
   formatDate(timestamp) {
-    return distanceInWords(timestamp, new Date())
+    return distanceInWords(timestamp, new Date(this.state.now))
   }
 
   zoomStyle() {

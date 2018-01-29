@@ -31,18 +31,25 @@ const globalState = {
 }
 
 socketIoServer.on('connection', (socket) => {
-  socket.emit('state', globalState)
+  socket.emit('state', withDate(globalState))
 })
 
 setInterval(async () => {
   try {
     globalState.projects = await update(config)
     globalState.error = undefined
-    socketIoServer.emit('state', globalState)
+    socketIoServer.emit('state', withDate(globalState))
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error)
     globalState.error = error
-    socketIoServer.emit('state', globalState)
+    socketIoServer.emit('state', withDate(globalState))
   }
 }, config.interval)
+
+function withDate(state) {
+  return {
+    ...state,
+    now: Date.now()
+  }
+}
