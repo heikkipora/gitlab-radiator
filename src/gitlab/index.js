@@ -4,7 +4,8 @@ import {fetchProjects} from './projects'
 
 export async function update(config) {
   const projects = await fetchProjects(config)
-  return Promise.all(projects.map(project => projectWithPipelines(project, config)))
+  const projectsWithPipelines = await Promise.all(projects.map(project => projectWithPipelines(project, config)))
+  return projectsWithPipelines.filter(project => project.pipelines.length > 0)
 }
 
 async function projectWithPipelines({id, name}, config) {

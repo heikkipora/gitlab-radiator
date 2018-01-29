@@ -9,10 +9,11 @@ const gitlab = {
 }
 
 describe('Gitlab client', () => {
-  it('Should find two projects with paging active and with no filtering ', async () => {
+  it('Should find three projects with paging active and with no filtering ', async () => {
     const config = {gitlab, perPage: 1}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
+      {id: 5304923, name: 'gitlab-radiator-test/empty-test'},
       {id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2'},
       {id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1'}
     ])
@@ -26,10 +27,11 @@ describe('Gitlab client', () => {
     ])
   });
 
-  it('Should find one project with exclusive filtering', async () => {
+  it('Should find two projects with exclusive filtering', async () => {
     const config = {gitlab, projects: {exclude: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
+      {id: 5304923, name: 'gitlab-radiator-test/empty-test'},
       {id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2'}
     ])
   });
@@ -76,7 +78,7 @@ describe('Gitlab client', () => {
     )
   })
 
-  it('Should find two projects with one pipeline each', async() => {
+  it('Should find two projects with one pipeline each (and exclude projects without pipelines)', async() => {
     const config = {gitlab}
     const projects = await update(config)
     expect(projects).to.deep.equal(
