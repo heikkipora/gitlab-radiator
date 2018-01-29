@@ -12,9 +12,9 @@
   },
   "scripts": {
     "build": "./build-npm",
-    "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 ./node_modules/.bin/babel-node src/app.js",
-    "eslint": "./node_modules/.bin/eslint --fix src/* bin/* test/*",
-    "test": "./node_modules/.bin/mocha --require babel-register --require babel-polyfill --timeout 10000 test/*.js"
+    "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 babel-node src/app.js",
+    "eslint": "eslint --fix src/* bin/* test/*",
+    "test": "mocha --require babel-register --require babel-polyfill --timeout 10000 test/*.js"
   },
   "engines": {
     "node": ">=5.0.0"
