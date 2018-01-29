@@ -3,7 +3,9 @@ const url = require('url')
 
 export function gitlabRequest(path, qs, config, resolveWithFullResponse = true) {
   const options = {
-    ca: config.ca,
+    agentOptions: {
+      ca: config.ca
+    },
     headers: {'PRIVATE-TOKEN': config.gitlab['access-token']},
     json: true,
     resolveWithFullResponse,
