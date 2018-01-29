@@ -13,25 +13,23 @@ class RadiatorApp extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const socket = window.io()
     socket.on('state', this.onServerStateUpdated.bind(this))
     socket.on('disconnect', this.onDisconnect.bind(this))
   }
 
-  render() {
-    return <div>
+  render = () =>
+    <div>
       {this.renderErrorMessage()}
       {this.renderProgressMessage()}
       <ol className="projects" style={this.zoomStyle()}>{this.renderProjects(this.state.projects || [])}</ol>
     </div>
-  }
 
-  renderErrorMessage() {
-    return this.state.error && <div className="error">{this.state.error}</div>
-  }
+  renderErrorMessage = () =>
+    this.state.error && <div className="error">{this.state.error}</div>
 
-  renderProgressMessage() {
+  renderProgressMessage = () => {
     if (!this.state.projects) {
       return <h2 className="loading">Fetching projects and CI pipelines from GitLab...</h2>
     } else if (this.state.projects.length === 0) {
@@ -40,8 +38,8 @@ class RadiatorApp extends React.Component {
     return null
   }
 
-  renderProjects(projects) {
-    return _.sortBy(projects, 'name')
+  renderProjects = projects =>
+    _.sortBy(projects, 'name')
       .map(project => {
         const [pipeline] = project.pipelines
         return <li className={`project ${project.status}`} key={project.id}>
@@ -50,43 +48,38 @@ class RadiatorApp extends React.Component {
           {this.renderInfo(pipeline)}
         </li>
       })
-  }
 
-  renderStages(pipeline) {
-    return <ol className="stages">
-            {pipeline.stages.map((stage, index) => this.renderStage(stage, index))}
-           </ol>
-  }
+  renderStages = pipeline =>
+    <ol className="stages">
+      {pipeline.stages.map((stage, index) => this.renderStage(stage, index))}
+    </ol>
 
-  renderStage(stage, index) {
-    return <li className="stage" key={index}>
-             <div className="name">{stage.name}</div>
-             <ol className="jobs">
-               {stage.jobs.map(this.renderJob)}
-             </ol>
-           </li>
-  }
+  renderStage = (stage, index) =>
+     <li className="stage" key={index}>
+       <div className="name">{stage.name}</div>
+       <ol className="jobs">
+         {stage.jobs.map(this.renderJob)}
+       </ol>
+     </li>
 
-  renderJob(job) {
-    return <li key={job.id} className={job.status}>
-             {job.name}
-           </li>
-  }
+  renderJob = job =>
+    <li key={job.id} className={job.status}>
+      {job.name}
+    </li>
 
-  renderInfo(pipeline) {
-    return <div className="pipeline-info">
-             <div>
-               <span>{pipeline.commit.author}</span>
-               <span>{this.renderTimestamp(pipeline.stages)}</span>
-             </div>
-             <div>
-               <span>&quot;{pipeline.commit.title}&quot;</span>
-               <span>on {pipeline.ref}</span>
-             </div>
-           </div>
-  }
+  renderInfo = pipeline =>
+    <div className="pipeline-info">
+      <div>
+        <span>{pipeline.commit.author}</span>
+        <span>{this.renderTimestamp(pipeline.stages)}</span>
+      </div>
+      <div>
+        <span>&quot;{pipeline.commit.title}&quot;</span>
+        <span>on {pipeline.ref}</span>
+      </div>
+    </div>
 
-  renderTimestamp(stages) {
+  renderTimestamp = stages => {
     const timestamps = _(stages)
       .map('jobs')
       .flatten()
@@ -115,11 +108,10 @@ class RadiatorApp extends React.Component {
     return `Finished ${this.formatDate(timestamp.finishedAt)} ago`
   }
 
-  formatDate(timestamp) {
-    return distanceInWords(timestamp, new Date(this.state.now))
-  }
+  formatDate = timestamp =>
+    distanceInWords(timestamp, new Date(this.state.now))
 
-  zoomStyle() {
+  zoomStyle = () => {
     const widthPercentage = Math.round(100 / this.state.zoom)
     return {
       transform: `scale(${this.state.zoom})`,
@@ -127,13 +119,9 @@ class RadiatorApp extends React.Component {
     }
   }
 
-  onServerStateUpdated(state) {
-    this.setState(state)
-  }
+  onServerStateUpdated = state => this.setState(state)
 
-  onDisconnect() {
-    this.setState({error: 'gitlab-radiator server is offline'})
-  }
+  onDisconnect = () => this.setState({error: 'gitlab-radiator server is offline'})
 }
 
 ReactDOM.render(<RadiatorApp />, document.getElementById('app'))
