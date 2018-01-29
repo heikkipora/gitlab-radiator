@@ -46,18 +46,15 @@ class RadiatorApp extends React.Component {
         const [pipeline] = project.pipelines
         return <li className={`project ${project.status}`} key={project.id}>
           <h2>{project.name}</h2>
-          {this.renderStages(pipeline.stages)}
-          <div className="pipeline-info">
-            <span>{this.renderTimestamp(pipeline.stages)}</span>
-            <span>{pipeline.commit.author}: &quot;{pipeline.commit.title}&quot;</span>
-          </div>
+          {this.renderStages(pipeline)}
+          {this.renderInfo(pipeline)}
         </li>
       })
   }
 
-  renderStages(stages) {
+  renderStages(pipeline) {
     return <ol className="stages">
-            {stages.map((stage, index) => this.renderStage(stage, index))}
+            {pipeline.stages.map((stage, index) => this.renderStage(stage, index))}
            </ol>
   }
 
@@ -74,6 +71,19 @@ class RadiatorApp extends React.Component {
     return <li key={job.id} className={job.status}>
              {job.name}
            </li>
+  }
+
+  renderInfo(pipeline) {
+    return <div className="pipeline-info">
+             <div>
+               <span>{pipeline.commit.author}</span>
+               <span>{this.renderTimestamp(pipeline.stages)}</span>
+             </div>
+             <div>
+               <span>&quot;{pipeline.commit.title}&quot;</span>
+               <span>on {pipeline.ref}</span>
+             </div>
+           </div>
   }
 
   renderTimestamp(stages) {

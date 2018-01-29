@@ -169,17 +169,25 @@ ol.jobs {
   flex-direction: row;
   justify-content: space-between;
 
-  span {
-    white-space: nowrap;
-    &:first-child {
-      flex-shrink: 0;
-    }
-    &:last-child {
+  div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    span {
       overflow: hidden;
+      white-space: nowrap;
       text-overflow: ellipsis;
-      margin-left: 36px;
-      text-align: right;
-      flex-shrink: 1;
     }
+  }
+
+  div:last-child {
+    margin-left: 36px;
+    span {
+      text-align: right;
+    }
+  }
+
+  span:last-child {
+    font-size: 80%;
   }
 }
