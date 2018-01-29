@@ -36,28 +36,28 @@ describe('Gitlab client', () => {
     ])
   });
 
-  it('Should find latest pipeline for project with stages and retried jobs merged to one entry', async () => {
+  it('Should find latest pipelines for project (feature branch + master) with stages and retried jobs merged to one entry', async () => {
     const config = {gitlab}
     const pipelines = await fetchLatestPipelines(5290928, config)
     expect(pipelines).to.deep.equal(
       [{
-        id: 16728199,
+        id: 16793189,
         status: 'success',
         commit: {
           title: 'Fail more',
           author: 'Heikki Pora'
         },
-        ref: 'master',
+        ref: 'feature/test-branch',
         stages: [
           {
             name: 'test',
             jobs: [
               {
-                id: 49858895,
+                id: 50073450,
                 status: 'success',
                 name: 'fail_randomly_long_name',
-                startedAt: '2018-01-28T10:18:21.150Z',
-                finishedAt: '2018-01-28T10:20:10.144Z'
+                startedAt: '2018-01-29T20:43:16.150Z',
+                finishedAt: '2018-01-29T20:44:14.087Z'
               }
             ]
           },
@@ -65,20 +65,55 @@ describe('Gitlab client', () => {
             name: 'build',
             jobs: [
               {
-                id: 49858384,
+                id: 50072465,
                 status: 'success',
                 name: 'build_my_stuff',
-                startedAt: '2018-01-28T10:20:10.340Z',
-                finishedAt: '2018-01-28T10:21:40.299Z'
+                startedAt: '2018-01-29T20:33:25.756Z',
+                finishedAt: '2018-01-29T20:34:34.936Z'
               }
             ]
+          }
+        ]
+      },
+      {
+        id: 16728199,
+        status: 'failed',
+        commit: {
+          author: 'Heikki Pora',
+          title: 'Fail more'
+        },
+        ref: 'master',
+        stages: [
+          {
+            jobs: [
+              {
+                finishedAt: '2018-01-29T20:43:22.986Z',
+                id: 50073308,
+                name: 'fail_randomly_long_name',
+                startedAt: '2018-01-29T20:41:45.452Z',
+                status: 'failed'
+              }
+            ],
+            name: 'test'
+          },
+          {
+            jobs: [
+              {
+                finishedAt: '2018-01-28T10:21:40.299Z',
+                id: 49858384,
+                name: 'build_my_stuff',
+                startedAt: '2018-01-28T10:20:10.340Z',
+                status: 'success'
+              }
+            ],
+            name: 'build'
           }
         ]
       }]
     )
   })
 
-  it('Should find two projects with one pipeline each (and exclude projects without pipelines)', async() => {
+  it('Should find two projects with two pipelines for the first and one for the second (and exclude projects without pipelines)', async() => {
     const config = {gitlab}
     const projects = await update(config)
     expect(projects).to.deep.equal(
@@ -87,9 +122,44 @@ describe('Gitlab client', () => {
         name: 'gitlab-radiator-test/integration-test-project-2',
         pipelines: [
           {
+            id: 16793189,
+            status: 'success',
+            commit: {
+              title: 'Fail more',
+              author: 'Heikki Pora'
+            },
+            ref: 'feature/test-branch',
+            stages: [
+              {
+                name: 'test',
+                jobs: [
+                  {
+                    id: 50073450,
+                    status: 'success',
+                    name: 'fail_randomly_long_name',
+                    startedAt: '2018-01-29T20:43:16.150Z',
+                    finishedAt: '2018-01-29T20:44:14.087Z'
+                  }
+                ]
+              },
+              {
+                name: 'build',
+                jobs: [
+                  {
+                    id: 50072465,
+                    status: 'success',
+                    name: 'build_my_stuff',
+                    startedAt: '2018-01-29T20:33:25.756Z',
+                    finishedAt: '2018-01-29T20:34:34.936Z'
+                  }
+                ]
+              }
+            ]
+          },
+          {
             id: 16728199,
             ref: 'master',
-            status: 'success',
+            status: 'failed',
             commit: {
               title: 'Fail more',
               author: 'Heikki Pora'
@@ -99,11 +169,11 @@ describe('Gitlab client', () => {
                 name: 'test',
                 jobs: [
                   {
-                    id: 49858895,
-                    status: 'success',
+                    id: 50073308,
+                    status: 'failed',
                     name: 'fail_randomly_long_name',
-                    startedAt: '2018-01-28T10:18:21.150Z',
-                    finishedAt: '2018-01-28T10:20:10.144Z'
+                    startedAt: '2018-01-29T20:41:45.452Z',
+                    finishedAt: '2018-01-29T20:43:22.986Z'
                   }
                 ]
               },
@@ -122,7 +192,7 @@ describe('Gitlab client', () => {
             ]
           }
         ],
-        status: 'success'
+        status: 'failed'
       },
       {
         id: 5290865,
