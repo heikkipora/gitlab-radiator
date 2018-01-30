@@ -29,6 +29,10 @@ async function fetchLatestAndMasterPipeline(projectId, config) {
 
 async function fetchJobs(projectId, pipelineId, config) {
   const gitlabJobs = await gitlabRequest(`/api/v4/projects/${projectId}/pipelines/${pipelineId}/jobs`, {per_page: 100}, config, false)
+  if (gitlabJobs.length === 0) {
+    return {}
+  }
+
   const {commit} = _.head(gitlabJobs)
   const stages = _(gitlabJobs)
     .map(job => ({

@@ -9,12 +9,12 @@ export async function update(config) {
 }
 
 async function projectWithPipelines({id, name}, config) {
-  const pipelines = await fetchLatestPipelines(id, config)
+  const pipelines = filterOutEmpty(await fetchLatestPipelines(id, config))
   const status = masterBranchStatus(pipelines)
   return {
     id,
     name,
-    pipelines,
+    pipelines: pipelines,
     status
   }
 }
@@ -24,4 +24,8 @@ function masterBranchStatus(pipelines) {
     .filter({ref: 'master'})
     .map('status')
     .head()
+}
+
+function filterOutEmpty(pipelines) {
+  return pipelines.filter(pipeline => pipeline.stages)
 }
