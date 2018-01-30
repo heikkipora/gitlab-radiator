@@ -25,8 +25,8 @@ httpServer.listen(config.port, () => {
 })
 
 const globalState = {
-  projects: undefined,
-  error: undefined,
+  projects: null,
+  error: null,
   zoom: config.zoom
 }
 
@@ -37,7 +37,7 @@ socketIoServer.on('connection', (socket) => {
 setInterval(async () => {
   try {
     globalState.projects = await update(config)
-    globalState.error = undefined
+    globalState.error = null
     socketIoServer.emit('state', withDate(globalState))
   } catch (error) {
     // eslint-disable-next-line no-console
