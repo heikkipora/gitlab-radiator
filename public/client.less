@@ -5,6 +5,7 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  box-sizing: border-box;
 }
 
 html, body {
@@ -52,67 +53,91 @@ li, ol {
 }
 
 ol.projects {
-  margin: 12px;
   list-style: none;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   transform-origin: top left;
   li.project {
+    width: 900px;
     margin: 12px;
     padding: 24px;
-    border-radius: 12px;
+    border-radius: 6px;
     background-color: #353a3e;
+    display: flex;
+    flex-direction: column;
 
     &.failed {
       background: rgba(190, 170, 10, 0.5);
     }
 
+    &.running {
+      background: repeating-linear-gradient(
+        -45deg,
+        #353a3e,
+        #353a3e 20px,
+        darken(#353a3e, 2%) 20px,
+        darken(#353a3e, 2%) 40px
+      );
+    }
+
     h2 {
       text-transform: uppercase;
       text-align: center;
-      margin: 0 0 36px 0;
-      width: 780px;
+      margin: 0 0 12px 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       line-height: 1.2em;
     }
-
   }
 }
 
-ol.phases {
+ol.stages {
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
 
-  li.phase {
-    padding: 6px 18px;
-    color: #d7d7d9;
-    border: 1px solid #22272b;
-    border-radius: 12px;
-    position: relative;
-    height: 1.5em;
-    text-align: center;
-
-    .phase-name {
-      width: 130px;
+  .stage {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+    .name {
+      font-size: 80%;
+      color:  #d7d7d9;
+      text-align: center;
+      margin-bottom: 6px;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
     }
+  }
+}
+
+ol.jobs {
+  display: flex;
+  flex-direction: column;
+
+  li {
+    padding: 6px;
+    color: #d7d7d9;
+    border: 1px solid #22272b;
+    border-radius: 6px;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 
     &:not(:last-child) {
-      margin-right: 24px;
-      &:after {
-        content: '';
-        width: 25px;
-        height: 3px;
-        background-color: #22272b;
-        position: absolute;
-        right: -25px;
-        top: 21px;
-      }
+      margin-bottom: 5px;
+    }
+
+    &.created, &.pending, &.skipped {
+      background-color: #353a3e;
     }
 
     &.failed {
@@ -124,12 +149,6 @@ ol.phases {
       background-color: #22736e;
     }
 
-    &.skipped {
-    }
-
-    &.pending {
-    }
-
     &.running {
       background: repeating-linear-gradient(
         -45deg,
@@ -139,74 +158,35 @@ ol.phases {
         darken(#22736e, 8%) 20px
       );
     }
-
-    &.hidden-from-start {
-      margin-left: 30px;
-      &:before {
-        content: '';
-        background: repeating-linear-gradient(
-          -45deg,
-          #22272b,
-          #22272b 3px,
-          darken(#22272b, 8%) 3px,
-          darken(#22272b, 8%) 6px
-        );
-        width: 25px;
-        height: 4px;
-        position: absolute;
-        left: -25px;
-        top: 21px;
-      }
-    }
-
-    &.hidden-from-end {
-      margin-right: 30px;
-      .phase-name {
-        width: 100px;
-      }
-      &:after {
-        content: '';
-        background: repeating-linear-gradient(
-          -45deg,
-          #22272b,
-          #22272b 3px,
-          darken(#22272b, 8%) 3px,
-          darken(#22272b, 8%) 6px
-        );
-        width: 25px;
-        height: 4px;
-        position: absolute;
-        right: -25px;
-        top: 21px;
-      }
-    }
   }
 }
 
-.commit {
+.pipeline-info {
   color: #d7d7d9;
-  margin: 36px 12px 0 12px;
+  margin-top: 24px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
-  .div:first-child {
+  div {
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 
-  .commit-title {
-    margin-left: 48px;
-    max-width: 400px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  div:last-child {
+    margin-left: 36px;
+    span {
+      text-align: right;
+    }
   }
 
-  .commit-author {
-  }
-
-  .commit-timestamp {
-    font-size: 16px;
+  span:last-child {
+    font-size: 80%;
   }
 }

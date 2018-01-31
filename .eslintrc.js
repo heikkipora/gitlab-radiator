@@ -2,6 +2,7 @@ module.exports = {
     "env": {
         "browser": true,
         "es6": true,
+        "mocha": true,
         "node": true
     },
     "extends": ["eslint:recommended", "plugin:react/recommended"],
@@ -10,9 +11,12 @@ module.exports = {
             "experimentalObjectRestSpread": true,
             "jsx": true
         },
+        "ecmaVersion": 2017,
         "sourceType": "module"
     },
+    "parser": "babel-eslint",
     "plugins": [
+        "mocha",
         "react"
     ],
     "rules": {
@@ -35,9 +39,9 @@ module.exports = {
             "1tbs"
         ],
         "callback-return": "off",
-        "camelcase": "error",
+        "camelcase": "off",
         "capitalized-comments": "error",
-        "class-methods-use-this": "error",
+        "class-methods-use-this": "off",
         "comma-dangle": "error",
         "comma-spacing": [
             "error",
@@ -70,7 +74,7 @@ module.exports = {
             }
         ],
         "eol-last": "error",
-        "eqeqeq": "off",
+        "eqeqeq": "error",
         "func-call-spacing": "error",
         "func-name-matching": "error",
         "func-names": "error",
@@ -110,9 +114,10 @@ module.exports = {
         "max-len": "off",
         "max-lines": "error",
         "max-nested-callbacks": "error",
-        "max-params": "error",
+        "max-params": "off",
         "max-statements": "error",
         "max-statements-per-line": "error",
+        "mocha/no-exclusive-tests": "error",
         "multiline-ternary": [
             "error",
             "never"
@@ -145,7 +150,7 @@ module.exports = {
         "no-implicit-globals": "error",
         "no-implied-eval": "error",
         "no-inline-comments": "error",
-        "no-invalid-this": "error",
+        "no-invalid-this": "off",
         "no-iterator": "error",
         "no-label-var": "error",
         "no-labels": "error",
@@ -170,7 +175,7 @@ module.exports = {
         "no-new-wrappers": "error",
         "no-octal-escape": "error",
         "no-param-reassign": "off",
-        "no-path-concat": "off",
+        "no-path-concat": "error",
         "no-plusplus": "error",
         "no-process-env": "off",
         "no-process-exit": "error",
@@ -186,7 +191,7 @@ module.exports = {
         "no-script-url": "error",
         "no-self-compare": "error",
         "no-sequences": "error",
-        "no-shadow": "off",
+        "no-shadow": "error",
         "no-shadow-restricted-names": "error",
         "no-spaced-func": "error",
         "no-sync": "off",

@@ -1,35 +1,23 @@
-const http = require('http')
-const socketIo = require('socket.io')
-const express = require('express')
-const compression = require('compression')
-const browserify = require('browserify-middleware')
-const lessMiddleware = require('less-middleware')
-const os = require('os')
-const path = require('path')
-
-const config = require('./config')
-const gitlabBuildsStream = require('./gitlab')
+import compression from 'compression'
+import {config} from './config'
+import express from 'express'
+import {update} from './gitlab'
+import http from 'http'
+import socketIo from 'socket.io'
 
 const app = express()
 const httpServer = http.Server(app)
 const socketIoServer = socketIo(httpServer)
 
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line global-require
+  const {bindDevAssets} = require('./dev-assets')
+  bindDevAssets(app)
+}
+
 app.disable('x-powered-by')
 app.use(compression())
-
-const cacheDir = path.join(os.tmpdir(), 'gitlab-radiator-css-cache');
-app.use(lessMiddleware(`${__dirname}/../public`,
-  {
-    postprocess: {
-      css: generateZoomCss
-    },
-    dest: cacheDir
-  }
-))
-app.use(express.static(cacheDir));
 app.use(express.static(`${__dirname}/../public`))
-
-app.get('/js/client.js', browserify(path.join(__dirname, '/client/index.js')))
 
 httpServer.listen(config.port, () => {
   // eslint-disable-next-line no-console
@@ -37,35 +25,31 @@ httpServer.listen(config.port, () => {
 })
 
 const globalState = {
-  builds: undefined,
-  error: undefined
+  projects: null,
+  error: null,
+  zoom: config.zoom
 }
 
 socketIoServer.on('connection', (socket) => {
-  socket.emit('state', globalState)
+  socket.emit('state', withDate(globalState))
 })
 
-gitlabBuildsStream.onValue(builds => {
-  globalState.builds = builds
-  globalState.error = undefined
-  socketIoServer.emit('state', globalState)
-})
+setInterval(async () => {
+  try {
+    globalState.projects = await update(config)
+    globalState.error = null
+    socketIoServer.emit('state', withDate(globalState))
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error)
+    globalState.error = error
+    socketIoServer.emit('state', withDate(globalState))
+  }
+}, config.interval)
 
-gitlabBuildsStream.onError(error => {
-  // eslint-disable-next-line no-console
-  console.error(error)
-  globalState.error = error
-  socketIoServer.emit('state', globalState)
-})
-
-function generateZoomCss(css) {
-  const widthPercentage = Math.round(100 / config.zoom)
-  return `
-    ${css}
-
-    ol.projects {
-      transform: scale(${config.zoom});
-      width: ${widthPercentage}%;
-    }
-    `
+function withDate(state) {
+  return {
+    ...state,
+    now: Date.now()
+  }
 }

@@ -55,8 +55,7 @@ Optional configuration properties:
 
 - ```projects / include``` - Regular expression for inclusion of projects. Default is to include all projects.
 - ```projects / exclude``` - Regular expression for exclusion of projects. Default is to exclude no projects.
-- ```intervals / projects``` - Number of seconds between project list updates. Default value is 120 seconds.
-- ```intervals / builds``` -  Number of seconds between build state updates. Default value is 10 seconds.
+- ```interval``` - Number of seconds between updateing projects and pipelines from GitLab. Default value is 10 seconds.
 - ```port``` - HTTP port to listen on. Default value is 3000.
 - ```zoom``` - View zoom factor (to make your projects fit a display nicely). Default value is 1.0
 - ```caFile``` - CA file location to be passed to the request library when accessing your gitlab instance
@@ -66,14 +65,14 @@ Example yaml syntax:
 ```
 projects:
   include: .*/my-awesome-project-.*
-
-intervals:
-  projects: 600
-  builds: 30
-
+interval: 30
 port: 8000
 zoom: 0.85
 ```
+
+## Breaking changes from 1.x to 2.0
+
+- Configuration file syntax has changed so that there's only a single ```interval``` property instead of two nested ones.
 
 ## Contributing
 
