@@ -2,7 +2,7 @@
 
 ## Introduction
 
-```gitlab-radiator``` is a small Node.js application for serving a [Jenkins Radiator View](https://wiki.jenkins-ci.org/display/JENKINS/Radiator+View+Plugin) inspired web view of your team's builds fetched from a GitLab CI installation running locally or remotely.
+```gitlab-radiator``` is a small Node.js application for serving a [Jenkins Radiator View](https://wiki.jenkins-ci.org/display/JENKINS/Radiator+View+Plugin) inspired web view of your team's CI pipelines fetched from a GitLab CI installation running locally or remotely.
 
 <img src="https://raw.github.com/heikkipora/gitlab-radiator/master/screenshot.png" width="50%">
 
@@ -76,7 +76,8 @@ zoom: 0.85
 
 ## Contributing
 
-Pull requests are welcome. Kindly check that your code passes ESLint checks by running ```npm test``` first.
+Pull requests are welcome. Kindly check that your code passes ESLint checks by running ```npm run eslint``` first.
+Integration tests are run automatically on Travis for all branches and PRs.
 
 ## Contributors
  - Antti Oittinen ([codegeneralist](https://github.com/codegeneralist))
