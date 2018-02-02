@@ -57,7 +57,7 @@ async function fetchJobs(projectId, pipelineId, config) {
 }
 
 function findCommit(jobs) {
-  const job = _(jobs).filter(job => job.commit).head()
+  const job = _(jobs).filter(j => j.commit).head()
   if (job && job.commit) {
     return {
       title: job.commit.title,
