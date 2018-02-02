@@ -59,6 +59,8 @@ Optional configuration properties:
 - ```port``` - HTTP port to listen on. Default value is 3000.
 - ```zoom``` - View zoom factor (to make your projects fit a display nicely). Default value is 1.0
 - ```caFile``` - CA file location to be passed to the request library when accessing your gitlab instance
+- ```authentication / username``` - Enables HTTP basic authentication with the defined username and password
+- ```authentication / password``` - Enables HTTP basic authentication with the defined username and password
 
 Example yaml syntax:
 
