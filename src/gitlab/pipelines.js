@@ -33,7 +33,7 @@ async function fetchJobs(projectId, pipelineId, config) {
     return {}
   }
 
-  const {commit} = _.head(gitlabJobs)
+  const commit = findCommit(gitlabJobs)
   const stages = _(gitlabJobs)
     .map(job => ({
       id: job.id,
@@ -51,12 +51,20 @@ async function fetchJobs(projectId, pipelineId, config) {
     .value()
 
   return {
-    commit: {
-      title: commit.title,
-      author: commit.author_name
-    },
+    commit,
     stages
   }
+}
+
+function findCommit(jobs) {
+  const job = _(jobs).filter(job => job.commit).head()
+  if (job && job.commit) {
+    return {
+      title: job.commit.title,
+      author: job.commit.author_name
+    }
+  }
+  return null
 }
 
 function mergeRetriedJobs(jobs) {

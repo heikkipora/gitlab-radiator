@@ -70,11 +70,11 @@ class RadiatorApp extends React.Component {
   renderInfo = pipeline =>
     <div className="pipeline-info">
       <div>
-        <span>{pipeline.commit.author}</span>
+        <span>{pipeline.commit ? pipeline.commit.author : 'Unknown author'}</span>
         <span>{this.renderTimestamp(pipeline.stages)}</span>
       </div>
       <div>
-        <span>&quot;{pipeline.commit.title}&quot;</span>
+        <span>{pipeline.commit ? `"${pipeline.commit.title}"` : 'Unknown commit'}</span>
         <span>on {pipeline.ref}</span>
       </div>
     </div>
