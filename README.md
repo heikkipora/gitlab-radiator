@@ -67,6 +67,9 @@ Example yaml syntax:
 ```
 projects:
   include: .*/my-awesome-project-.*
+auth:
+  username: 'radiator'
+  password: 'p455w0rd'
 interval: 30
 port: 8000
 zoom: 0.85
