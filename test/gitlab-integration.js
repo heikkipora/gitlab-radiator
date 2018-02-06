@@ -9,15 +9,16 @@ const gitlab = {
 }
 
 describe('Gitlab client', () => {
-  it('Should find three projects with paging active and with no filtering ', async () => {
+  it('Should find four projects with paging active and with no filtering ', async () => {
     const config = {gitlab, perPage: 1}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
+      {id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project'},
       {id: 5304923, name: 'gitlab-radiator-test/empty-test'},
       {id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2'},
       {id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1'}
     ])
-  });
+  })
 
   it('Should find one project with inclusive filtering', async () => {
     const config = {gitlab, projects: {include: '.*project-1'}}
@@ -25,16 +26,43 @@ describe('Gitlab client', () => {
     expect(projects).to.deep.equal([
       {id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1'}
     ])
-  });
+  })
 
-  it('Should find two projects with exclusive filtering', async () => {
+  it('Should find three projects with exclusive filtering', async () => {
     const config = {gitlab, projects: {exclude: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
+      {id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project'},
       {id: 5304923, name: 'gitlab-radiator-test/empty-test'},
       {id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2'}
     ])
-  });
+  })
+
+  it('Should find latest non-skipped pipeline for project', async () => {
+    const config = {gitlab}
+    const pipelines = await fetchLatestPipelines(5385889, config)
+    expect(pipelines).to.deep.equal(
+      [{
+        commit: {
+          author: 'Heikki Pora',
+          title: 'Initial commit'
+        },
+        id: 17172603,
+        ref: 'master',
+        stages: [{
+          jobs: [{
+            finishedAt: '2018-02-06T19:09:04.470Z',
+            id: 51360738,
+            name: 'test',
+            startedAt: '2018-02-06T19:08:18.204Z',
+            status: 'success'
+          }],
+          name: 'test'
+        }],
+        status: 'success'
+      }]
+    )
+  })
 
   it('Should find latest pipelines for project (feature branch + master) with stages and retried jobs merged to one entry', async () => {
     const config = {gitlab}
@@ -117,7 +145,34 @@ describe('Gitlab client', () => {
     const config = {gitlab}
     const projects = await update(config)
     expect(projects).to.deep.equal(
-      [{
+      [
+        {
+          id: 5385889,
+          name: 'gitlab-radiator-test/ci-skip-test-project',
+          pipelines: [
+            {
+              id: 17172603,
+              status: 'success',
+              commit: {
+                author: 'Heikki Pora',
+                title: 'Initial commit'
+              },
+              ref: 'master',
+              stages: [{
+                jobs: [{
+                  finishedAt: '2018-02-06T19:09:04.470Z',
+                  id: 51360738,
+                  name: 'test',
+                  startedAt: '2018-02-06T19:08:18.204Z',
+                  status: 'success'
+                }],
+                name: 'test'
+              }]
+            }
+          ],
+          status: 'success'
+        },
+        {
         id: 5290928,
         name: 'gitlab-radiator-test/integration-test-project-2',
         pipelines: [
@@ -286,4 +341,4 @@ describe('Gitlab client', () => {
       }]
     )
   })
-});
+})

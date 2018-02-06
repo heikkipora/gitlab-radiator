@@ -15,16 +15,27 @@ export async function fetchLatestPipelines(projectId, config) {
   }))
 }
 
+// eslint-disable-next-line max-statements
 async function fetchLatestAndMasterPipeline(projectId, config) {
-  const latestPipeline = await gitlabRequest(`/api/v4/projects/${projectId}/pipelines`, {per_page: 1}, config, false)
-  if (latestPipeline.length === 0) {
+  const pipelines = await fetchPipelines(projectId, config, {per_page: 100})
+  if (pipelines.length === 0) {
     return []
   }
+  const latestPipeline = _.take(pipelines, 1)
   if (latestPipeline[0].ref === 'master') {
     return latestPipeline
   }
-  const masterPipeline = await gitlabRequest(`/api/v4/projects/${projectId}/pipelines`, {per_page: 1, ref: 'master'}, config, false)
-  return latestPipeline.concat(masterPipeline)
+  const latestMasterPipeline = _(pipelines).filter({ref: 'master'}).take(1).value()
+  if (latestMasterPipeline.length > 0) {
+    return latestPipeline.concat(latestMasterPipeline)
+  }
+  const masterPipelines = await fetchPipelines(projectId, config, {per_page: 50, ref: 'master'})
+  return latestPipeline.concat(_.take(masterPipelines, 1))
+}
+
+async function fetchPipelines(projectId, config, options) {
+  const pipelines = await gitlabRequest(`/api/v4/projects/${projectId}/pipelines`, options, config, false)
+  return pipelines.filter(pipeline => pipeline.status !== 'skipped')
 }
 
 async function fetchJobs(projectId, pipelineId, config) {
