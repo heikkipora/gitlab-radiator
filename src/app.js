@@ -43,8 +43,8 @@ setInterval(async () => {
     socketIoServer.emit('state', withDate(globalState))
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(error)
-    globalState.error = error
+    console.error(error.message)
+    globalState.error = `Failed to communicate with GitLab API: ${error.message}`
     socketIoServer.emit('state', withDate(globalState))
   }
 }, config.interval)
