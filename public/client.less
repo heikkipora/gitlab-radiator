@@ -168,12 +168,11 @@ ol.jobs {
   color: #d7d7d9;
   margin-top: 24px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
 
   div {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     min-width: 0;
     span {
       overflow: hidden;
@@ -182,14 +181,12 @@ ol.jobs {
     }
   }
 
-  div:last-child {
+  span:last-child {
     margin-left: 36px;
-    span {
-      text-align: right;
-    }
+    text-align: right;
   }
 
-  span:last-child {
+  div:last-child {
     font-size: 80%;
   }
 }
