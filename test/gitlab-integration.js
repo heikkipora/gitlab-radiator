@@ -266,20 +266,6 @@ describe('Gitlab client', () => {
                 name: 'test',
                 jobs: [
                   {
-                    id: 49876213,
-                    status: 'success',
-                    name: 'eslint',
-                    startedAt: '2018-01-28T16:06:21.808Z',
-                    finishedAt: '2018-01-28T16:08:32.882Z'
-                  },
-                  {
-                    id: 49876214,
-                    status: 'success',
-                    name: 'verify',
-                    startedAt: '2018-01-28T16:08:34.100Z',
-                    finishedAt: '2018-01-28T16:10:35.798Z'
-                  },
-                  {
                     id: 49876215,
                     status: 'success',
                     name: 'api-test',
@@ -292,6 +278,20 @@ describe('Gitlab client', () => {
                     name: 'browser-test',
                     startedAt: '2018-01-28T16:12:51.715Z',
                     finishedAt: '2018-01-28T16:14:53.861Z'
+                  },
+                  {
+                    id: 49876213,
+                    status: 'success',
+                    name: 'eslint',
+                    startedAt: '2018-01-28T16:06:21.808Z',
+                    finishedAt: '2018-01-28T16:08:32.882Z'
+                  },
+                  {
+                    id: 49876214,
+                    status: 'success',
+                    name: 'verify',
+                    startedAt: '2018-01-28T16:08:34.100Z',
+                    finishedAt: '2018-01-28T16:10:35.798Z'
                   }
                 ]
               },

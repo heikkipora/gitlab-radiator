@@ -58,7 +58,7 @@ async function fetchJobs(projectId, pipelineId, config) {
     .mapValues(mergeRetriedJobs)
     .mapValues(cleanup)
     .toPairs()
-    .map(([name, jobs]) => ({name, jobs}))
+    .map(([name, jobs]) => ({name, jobs: _.sortBy(jobs, 'name')}))
     .value()
 
   return {
