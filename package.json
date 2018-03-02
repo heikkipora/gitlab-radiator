@@ -50,7 +50,7 @@
   "devDependencies": {
     "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
-    "babel-eslint": "8.2.1",
+    "babel-eslint": "8.2.2",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-plugin-transform-runtime": "6.23.0",
@@ -62,12 +62,12 @@
     "browserify": "16.1.0",
     "browserify-middleware": "8.0.0",
     "chai": "4.1.2",
-    "eslint": "4.18.0",
+    "eslint": "4.18.1",
     "eslint-plugin-mocha": "4.11.0",
     "eslint-plugin-react": "7.7.0",
     "less-middleware": "2.2.1",
     "mocha": "5.0.1",
-    "uglify-js": "3.3.11"
+    "uglify-js": "3.3.12"
   },
   "browserify": {
     "transform": [
