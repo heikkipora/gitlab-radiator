@@ -2,7 +2,7 @@ import axios from 'axios'
 import https from 'https'
 import url from 'url'
 
-export function gitlabRequest(path, params, config) { 
+export function gitlabRequest(path, params, config) {
   return lazyClient(config).get(path, {params})
 }
 
