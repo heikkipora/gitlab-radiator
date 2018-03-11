@@ -34,12 +34,12 @@ async function fetchLatestAndMasterPipeline(projectId, config) {
 }
 
 async function fetchPipelines(projectId, config, options) {
-  const pipelines = await gitlabRequest(`/api/v4/projects/${projectId}/pipelines`, options, config, false)
+  const {data: pipelines} = await gitlabRequest(`/projects/${projectId}/pipelines`, options, config)
   return pipelines.filter(pipeline => pipeline.status !== 'skipped')
 }
 
 async function fetchJobs(projectId, pipelineId, config) {
-  const gitlabJobs = await gitlabRequest(`/api/v4/projects/${projectId}/pipelines/${pipelineId}/jobs`, {per_page: 100}, config, false)
+  const {data: gitlabJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/jobs`, {per_page: 100}, config)
   if (gitlabJobs.length === 0) {
     return {}
   }

@@ -1,16 +1,21 @@
-const request = require('request-promise')
-const url = require('url')
+import axios from 'axios'
+import https from 'https'
+import url from 'url'
 
-export function gitlabRequest(path, qs, config, resolveWithFullResponse = true) {
-  const options = {
-    agentOptions: {
-      ca: config.ca
-    },
-    headers: {'PRIVATE-TOKEN': config.gitlab['access-token']},
-    json: true,
-    resolveWithFullResponse,
-    qs,
-    url: url.resolve(config.gitlab.url, path)
+export function gitlabRequest(path, params, config) { 
+  return lazyClient(config).get(path, {params})
+}
+
+let client = null
+
+function lazyClient(config) {
+  if (!client) {
+    client = axios.create({
+      baseURL: url.resolve(config.gitlab.url, '/api/v4/'),
+      headers: {'PRIVATE-TOKEN': config.gitlab['access-token']},
+      httpsAgent: new https.Agent({keepAlive: true, ca: config.ca}),
+      timeout: 30 * 1000
+    })
   }
-  return request(options)
+  return client
 }

@@ -11,8 +11,8 @@ export async function fetchProjects(config) {
 }
 
 async function fetchProjectsPaged(config, page = 1, projectFragments = []) {
-  const {body, headers} = await gitlabRequest('/api/v4/projects', {page, per_page: config.perPage || 100, membership: true}, config)
-  projectFragments.push(body)
+  const {data, headers} = await gitlabRequest('/projects', {page, per_page: config.perPage || 100, membership: true}, config)
+  projectFragments.push(data)
   const nextPage = headers['x-next-page']
   if (nextPage) {
     return fetchProjectsPaged(config, Number(nextPage), projectFragments)
