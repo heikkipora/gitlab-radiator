@@ -8,6 +8,7 @@
 
 [![npm version](https://badge.fury.io/js/gitlab-radiator.svg)](https://badge.fury.io/js/gitlab-radiator)
 [![build status](https://travis-ci.org/heikkipora/gitlab-radiator.svg?branch=master)](https://travis-ci.org/heikkipora/gitlab-radiator)
+[![Known Vulnerabilities](https://snyk.io/test/github/heikkipora/gitlab-radiator/badge.svg)](https://snyk.io/test/github/heikkipora/gitlab-radiator)
 
 ## Pre-requisites
 
