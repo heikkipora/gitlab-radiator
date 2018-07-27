@@ -5,7 +5,7 @@ mkdir -p build/src
 
 # Copy static resources
 cp -r public build
-rm build/public/*.less
+rm build/public/*.less build/public/*.css
 
 # Copy LICENSE, README and package.json
 cp LICENSE package.json README.md build
