@@ -30,7 +30,8 @@ const globalState = {
   projects: null,
   error: null,
   zoom: config.zoom,
-  projectsOrder: config.projectsOrder
+  projectsOrder: config.projectsOrder,
+  columns: config.columns
 }
 
 socketIoServer.on('connection', (socket) => {

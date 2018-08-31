@@ -22,7 +22,8 @@ class RadiatorApp extends React.Component {
     <div>
       {this.renderErrorMessage()}
       {this.renderProgressMessage()}
-      <Projects now={this.state.now} zoomStyle={this.zoomStyle()} projects={this.state.projects || []} projectsOrder={this.state.projectsOrder}/>
+      <Projects now={this.state.now} zoom={this.state.zoom} columns={this.state.columns}
+                projects={this.state.projects || []} projectsOrder={this.state.projectsOrder}/>
     </div>
 
   renderErrorMessage = () =>
@@ -35,14 +36,6 @@ class RadiatorApp extends React.Component {
       return <h2 className="loading">No projects with CI pipelines found.</h2>
     }
     return null
-  }
-
-  zoomStyle = () => {
-    const widthPercentage = Math.round(100 / this.state.zoom)
-    return {
-      transform: `scale(${this.state.zoom})`,
-      width: `${widthPercentage}%`
-    }
   }
 
   onServerStateUpdated = state => this.setState(state)

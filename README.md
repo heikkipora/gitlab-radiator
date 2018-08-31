@@ -59,6 +59,7 @@ Optional configuration properties:
 - ```interval``` - Number of seconds between updateing projects and pipelines from GitLab. Default value is 10 seconds.
 - ```port``` - HTTP port to listen on. Default value is 3000.
 - ```zoom``` - View zoom factor (to make your projects fit a display nicely). Default value is 1.0
+- ```columns``` - Number of columns to display (to fit more projects on screen). Default value is 1
 - ```caFile``` - CA file location to be passed to the request library when accessing your gitlab instance.
 - ```auth / username``` - Enables HTTP basic authentication with the defined username and password.
 - ```auth / password``` - Enables HTTP basic authentication with the defined username and password.
@@ -75,6 +76,7 @@ auth:
 interval: 30
 port: 8000
 zoom: 0.85
+columns: 4
 ```
 
 ## Breaking changes from 1.x to 2.0
