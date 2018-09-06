@@ -1,11 +1,11 @@
-import React from "react";
-import _ from "lodash";
-import {distanceInWords} from "date-fns";
-import PropTypes from 'prop-types';
+import _ from 'lodash'
+import {distanceInWords} from 'date-fns'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 export class Info extends React.PureComponent {
   render() {
-    const {pipeline} = this.props;
+    const {pipeline} = this.props
 
     return <div className="pipeline-info">
       <div>
@@ -21,18 +21,18 @@ export class Info extends React.PureComponent {
 
   renderTimestamp = stages => {
     const timestamps = _(stages)
-        .map('jobs')
-        .flatten()
-        .map(job => {
-          const startedAt = job.startedAt && new Date(job.startedAt).valueOf()
-          const finishedAt = job.finishedAt && new Date(job.finishedAt).valueOf()
-          return {
-            startedAt,
-            finishedAt
-          }
-        })
-        .filter(timestamp => timestamp.startedAt)
-        .value()
+      .map('jobs')
+      .flatten()
+      .map(job => {
+        const startedAt = job.startedAt && new Date(job.startedAt).valueOf()
+        const finishedAt = job.finishedAt && new Date(job.finishedAt).valueOf()
+        return {
+          startedAt,
+          finishedAt
+        }
+      })
+      .filter(timestamp => timestamp.startedAt)
+      .value()
 
     if (timestamps.length === 0) {
       return 'Pending...'
@@ -49,10 +49,10 @@ export class Info extends React.PureComponent {
   }
 
   formatDate = timestamp =>
-      distanceInWords(timestamp, new Date(this.props.now))
+    distanceInWords(timestamp, new Date(this.props.now))
 }
 
 Info.propTypes = {
   pipeline: PropTypes.object,
   now: PropTypes.dateTime
-};
+}

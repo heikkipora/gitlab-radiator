@@ -1,10 +1,10 @@
-import React from "react";
-import {Job} from "./job";
-import PropTypes from 'prop-types';
+import {Job} from './job'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 export class Jobs extends React.PureComponent {
   render() {
-    const {jobs} = this.props;
+    const {jobs} = this.props
 
     return <ol className="jobs">
       {jobs.map((job, index) => {

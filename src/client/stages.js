@@ -1,10 +1,10 @@
-import React from "react";
-import {Stage} from "./stage";
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import React from 'react'
+import {Stage} from './stage'
 
 export class Stages extends React.PureComponent {
   render() {
-    const {stages} = this.props;
+    const {stages} = this.props
 
     return <ol className="stages">
       {stages.map((stage, index) => {
@@ -16,4 +16,4 @@ export class Stages extends React.PureComponent {
 
 Stages.propTypes = {
   stages: PropTypes.array
-};
+}

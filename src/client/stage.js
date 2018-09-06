@@ -1,11 +1,10 @@
-import React from "react";
-import {Jobs} from "./jobs";
-import PropTypes from 'prop-types';
+import {Jobs} from './jobs'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 export class Stage extends React.PureComponent {
   render() {
-
-    const {stage} = this.props;
+    const {stage} = this.props
 
     return <li className="stage">
       <div className="name">{stage.name}</div>
@@ -16,4 +15,4 @@ export class Stage extends React.PureComponent {
 
 Stage.propTypes = {
   stage: PropTypes.object
-};
+}

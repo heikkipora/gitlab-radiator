@@ -1,6 +1,6 @@
+import {Projects} from './projects'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Projects} from "./projects";
 
 class RadiatorApp extends React.Component {
   constructor() {
@@ -19,14 +19,14 @@ class RadiatorApp extends React.Component {
   }
 
   render = () =>
-      <div>
-        {this.renderErrorMessage()}
-        {this.renderProgressMessage()}
-        <Projects now={this.state.now} zoomStyle={this.zoomStyle()} projects={this.state.projects || []}/>
-      </div>
+    <div>
+      {this.renderErrorMessage()}
+      {this.renderProgressMessage()}
+      <Projects now={this.state.now} zoomStyle={this.zoomStyle()} projects={this.state.projects || []}/>
+    </div>
 
   renderErrorMessage = () =>
-      this.state.error && <div className="error">{this.state.error}</div>
+    this.state.error && <div className="error">{this.state.error}</div>
 
   renderProgressMessage = () => {
     if (!this.state.projects) {

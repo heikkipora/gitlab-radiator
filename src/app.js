@@ -2,9 +2,9 @@ import {basicAuth} from './auth'
 import compression from 'compression'
 import {config} from './config'
 import express from 'express'
-import {update} from './gitlab'
 import http from 'http'
 import socketIo from 'socket.io'
+import {update} from './gitlab'
 
 const app = express()
 const httpServer = http.Server(app)
