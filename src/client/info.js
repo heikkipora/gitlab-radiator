@@ -54,5 +54,5 @@ export class Info extends React.PureComponent {
 
 Info.propTypes = {
   pipeline: PropTypes.object,
-  now: PropTypes.dateTime
+  now: PropTypes.number
 }

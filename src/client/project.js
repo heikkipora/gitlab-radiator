@@ -18,5 +18,5 @@ export class Project extends React.PureComponent {
 
 Project.propTypes = {
   project: PropTypes.object,
-  now: PropTypes.dateTime
+  now: PropTypes.number
 }
