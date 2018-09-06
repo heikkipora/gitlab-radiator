@@ -252,8 +252,17 @@ module.exports = {
         "require-await": "error",
         "require-jsdoc": "off",
         "rest-spread-spacing": "error",
-        "semi": "off",
+        "semi": [
+            "error",
+            "never"
+        ],
         "semi-spacing": "error",
+        "sort-imports": [
+            "error",
+            {
+                "ignoreCase": true
+            }
+        ],
         "sort-keys": "off",
         "sort-vars": "error",
         "space-before-blocks": "error",
