@@ -84,7 +84,7 @@ projectsOrder: ['status', 'name']
 ## Contributing
 
 Pull requests are welcome. Kindly check that your code passes ESLint checks by running ```npm run eslint``` first.
-Integration tests are run automatically on Travis for all branches and PRs.
+Integration tests are (for now) skipped for pull request builds on Travis as they depend on a secret API token.
 
 ## Contributors
  - Antti Oittinen ([codegeneralist](https://github.com/codegeneralist))
