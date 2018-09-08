@@ -22,7 +22,7 @@ class RadiatorApp extends React.Component {
     <div>
       {this.renderErrorMessage()}
       {this.renderProgressMessage()}
-      <Projects now={this.state.now} zoomStyle={this.zoomStyle()} projects={this.state.projects || []}/>
+      <Projects now={this.state.now} zoomStyle={this.zoomStyle()} projects={this.state.projects || []} projectsOrder={this.state.projectsOrder}/>
     </div>
 
   renderErrorMessage = () =>

@@ -61,6 +61,7 @@ Optional configuration properties:
 - ```caFile``` - CA file location to be passed to the request library when accessing your gitlab instance
 - ```auth / username``` - Enables HTTP basic authentication with the defined username and password
 - ```auth / password``` - Enables HTTP basic authentication with the defined username and password
+- ```projectsOrder``` - Array of projects attributes to use for sorting projects. Default value is ['name']
 
 Example yaml syntax:
 
@@ -73,6 +74,7 @@ auth:
 interval: 30
 port: 8000
 zoom: 0.85
+projectsOrder: ['status', 'name']
 ```
 
 ## Breaking changes from 1.x to 2.0

@@ -29,7 +29,8 @@ httpServer.listen(config.port, () => {
 const globalState = {
   projects: null,
   error: null,
-  zoom: config.zoom
+  zoom: config.zoom,
+  projectsOrder: config.projectsOrder
 }
 
 socketIoServer.on('connection', (socket) => {
