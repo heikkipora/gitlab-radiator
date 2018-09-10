@@ -10,7 +10,7 @@ export const config = validate(yaml.safeLoad(yamlContent))
 config.interval = Number(config.interval || 10) * 1000
 config.port = Number(config.port || 3000)
 config.zoom = Number(config.zoom || 1.0)
-config.projectsOrder = config.projectsOrder || ['name']
+config.projectsOrder = (config.projects || {}).order || ['name']
 config.ca = config.caFile && fs.existsSync(config.caFile, 'utf-8') ? fs.readFileSync(config.caFile) : undefined
 
 function expandTilde(path) {
