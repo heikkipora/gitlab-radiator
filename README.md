@@ -59,16 +59,15 @@ Optional configuration properties:
 - ```interval``` - Number of seconds between updateing projects and pipelines from GitLab. Default value is 10 seconds.
 - ```port``` - HTTP port to listen on. Default value is 3000.
 - ```zoom``` - View zoom factor (to make your projects fit a display nicely). Default value is 1.0
-- ```caFile``` - CA file location to be passed to the request library when accessing your gitlab instance
-- ```auth / username``` - Enables HTTP basic authentication with the defined username and password
-- ```auth / password``` - Enables HTTP basic authentication with the defined username and password
-- ```projectsOrder``` - Array of projects attributes to use for sorting projects. Default value is ['name']
+- ```caFile``` - CA file location to be passed to the request library when accessing your gitlab instance.
+- ```auth / username``` - Enables HTTP basic authentication with the defined username and password.
+- ```auth / password``` - Enables HTTP basic authentication with the defined username and password.
 
 Example yaml syntax:
 
 ```
 projects:
-  include: .*/my-awesome-project-.*
+  exclude: .*/.*-inactive-project
   order: ['status', 'name']
 auth:
   username: 'radiator'
