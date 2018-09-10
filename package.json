@@ -14,7 +14,7 @@
     "build": "./build-npm",
     "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 babel-node src/app.js",
     "eslint": "eslint --fix src/* bin/* test/*",
-    "test": "mocha --require babel-register --require babel-polyfill --timeout 20000 test/*.js"
+    "test": "mocha --require @babel/register --require @babel/polyfill --timeout 20000 test/*.js"
   },
   "engines": {
     "node": ">=5.0.0"
@@ -35,7 +35,7 @@
   ],
   "dependencies": {
     "axios": "0.18.0",
-    "babel-runtime": "6.26.0",
+    "@babel/runtime": "7.0.0",
     "basic-auth": "2.0.0",
     "compression": "1.7.3",
     "date-fns": "1.29.0",
@@ -47,17 +47,17 @@
     "socket.io": "2.1.1"
   },
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-core": "6.26.3",
+    "@babel/core": "7.0.0",
+    "@babel/node": "7.0.0",
+    "@babel/plugin-proposal-class-properties": "7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "7.0.0",
+    "@babel/plugin-transform-runtime": "7.0.0",
+    "@babel/polyfill": "7.0.0",
+    "@babel/preset-env": "7.0.0",
+    "@babel/preset-react": "7.0.0",
+    "@babel/register": "7.0.0",
     "babel-eslint": "9.0.0",
-    "babel-plugin-transform-class-properties": "6.24.1",
-    "babel-plugin-transform-object-rest-spread": "6.26.0",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "babel-polyfill": "6.26.0",
-    "babel-preset-env": "1.7.0",
-    "babel-preset-react": "6.24.1",
-    "babel-register": "6.26.0",
-    "babelify": "8.0.0",
+    "babelify": "10.0.0",
     "browserify": "16.2.2",
     "browserify-middleware": "8.1.1",
     "chai": "4.1.2",
@@ -74,11 +74,11 @@
         "babelify",
         {
           "presets": [
-            "env",
-            "react"
+            "@babel/env",
+            "@babel/react"
           ],
           "plugins": [
-            "transform-class-properties"
+            "@babel/plugin-proposal-class-properties"
           ]
         }
       ]
