@@ -12,7 +12,7 @@ function lazyClient(config) {
   if (!client) {
     client = axios.create({
       baseURL: url.resolve(config.gitlab.url, '/api/v4/'),
-      headers: {'PRIVATE-TOKEN': config.gitlab['access-token']},
+      headers: {'PRIVATE-TOKEN': config.gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN},
       httpsAgent: new https.Agent({keepAlive: true, ca: config.ca}),
       timeout: 30 * 1000
     })
