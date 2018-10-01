@@ -14,6 +14,20 @@ config.projectsOrder = (config.projects || {}).order || ['name']
 config.columns = Number(config.columns || 1)
 config.ca = config.caFile && fs.existsSync(config.caFile, 'utf-8') ? fs.readFileSync(config.caFile) : undefined
 
+addOptionalResource(config.customCss, './public/custom.css')
+addOptionalResource(config.customJs, './public/custom.js')
+
+function addOptionalResource(srcPath, destPath) {
+  if (!!srcPath) {
+    const src = srcPath;
+    fs.copyFile(src, destPath, (err) => {
+      if (err) throw err;
+    })
+  } else {
+    fs.closeSync(fs.openSync(destPath, 'w'));
+  }
+}
+
 function expandTilde(path) {
   return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)
 }
