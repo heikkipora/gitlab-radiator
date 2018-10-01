@@ -33,6 +33,21 @@ You might prefer providing the CA file location in configuration instead of tota
 
 Then navigate with a browser to http://localhost:3000 - or whatever port you did configure.
 
+## Usage with Docker
+
+### Build with Docker
+
+    docker build --tag gitlab-radiator .
+
+### Run with Docker
+
+    docker run \
+        --publish <a_port>:3000 \
+        --volume <path_to_.gitlab-radiator.yml>:/home/node/.gitlab-radiator.yml \
+        --volume <optional_path_to_custom.css>:/home/node/custom.css \
+        --volume <optional_path_to_custom.js>:/home/node/custom.js \
+        gitlab-radiator
+
 ## Configuration
 
 ```gitlab-radiator``` looks for its mandatory configuration file at ```~/.gitlab-radiator.yml``` by default.
