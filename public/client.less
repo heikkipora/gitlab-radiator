@@ -1,6 +1,8 @@
 @import (inline) "normalize.css";
 @import (inline) "opensans.css";
 
+@import (reference) "variables.less";
+
 * {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -23,7 +25,7 @@ body {
 h2 {
   font-size: 32px;
   font-weight: 600;
-  color: #d7d7d9;
+  color: @light-text-color;
 }
 
 #app {
@@ -77,7 +79,7 @@ ol.projects {
     flex-direction: column;
 
     &.failed {
-      background: rgba(190, 170, 10, 0.5);
+      background: fade(@failed-color, 50%);
     }
 
     &.running {
@@ -117,7 +119,7 @@ ol.stages {
     }
     .name {
       font-size: 80%;
-      color:  #d7d7d9;
+      color:  @light-text-color;
       text-align: center;
       margin-bottom: 6px;
       text-overflow: ellipsis;
@@ -133,7 +135,7 @@ ol.jobs {
 
   li {
     padding: 6px;
-    color: #d7d7d9;
+    color: @light-text-color;
     border: 1px solid #22272b;
     border-radius: 6px;
     text-align: center;
@@ -151,27 +153,27 @@ ol.jobs {
 
     &.failed {
       color: #22272b;
-      background-color: #ccd000;
+      background-color: @failed-color;
     }
 
     &.success {
-      background-color: #22736e;
+      background-color: @success-color;
     }
 
     &.running {
       background: repeating-linear-gradient(
         -45deg,
-        #22736e,
-        #22736e 10px,
-        darken(#22736e, 8%) 10px,
-        darken(#22736e, 8%) 20px
+        @running-color,
+        @running-color 10px,
+        darken(@running-color, 8%) 10px,
+        darken(@running-color, 8%) 20px
       );
     }
   }
 }
 
 .pipeline-info {
-  color: #d7d7d9;
+  color: @light-text-color;
   margin-top: 24px;
   display: flex;
   flex-direction: column;
