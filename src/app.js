@@ -35,7 +35,7 @@ const globalState = {
 }
 
 socketIoServer.on('connection', (socket) => {
-  socket.emit('state', withDate(globalState))
+  socket.emit('state', withOptionalHeader(withDate(globalState)))
 })
 
 setInterval(async () => {
@@ -55,5 +55,16 @@ function withDate(state) {
   return {
     ...state,
     now: Date.now()
+  }
+}
+
+function withOptionalHeader(state) {
+  if (!!config.header) {
+    return {
+      header: config.header,
+      ...state
+    }
+  } else {
+    return state
   }
 }
