@@ -5,8 +5,9 @@ export async function fetchProjects(config) {
   const projects = await fetchProjectsPaged(config)
   return _(projects)
     .flatten()
-    .map(takeProjectIdAndName)
+    .map(takeProjectIdAndNameAndArchived)
     .filter(regexFilter(config))
+    .filter(archivedFilter(config))
     .value()
 }
 
@@ -20,10 +21,11 @@ async function fetchProjectsPaged(config, page = 1, projectFragments = []) {
   return projectFragments
 }
 
-function takeProjectIdAndName(project) {
+function takeProjectIdAndNameAndArchived(project) {
   return {
     id: project.id,
-    name: project.path_with_namespace
+    name: project.path_with_namespace,
+    archived: project.archived
   }
 }
 
@@ -35,6 +37,15 @@ function regexFilter(config) {
     } else if (config.projects && config.projects.exclude) {
       const excludeRegex = new RegExp(config.projects.exclude, "i")
       return !excludeRegex.test(project.name)
+    }
+    return true
+  }
+}
+
+function archivedFilter(config) {
+  return project => {
+    if (config.ignoreArchived) {
+      return !project.archived
     }
     return true
   }
