@@ -13,10 +13,10 @@ describe('Gitlab client', () => {
     const config = {gitlab, perPage: 1}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project'},
-      {id: 5304923, name: 'gitlab-radiator-test/empty-test'},
-      {id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2'},
-      {id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1'}
+      {archived: false, id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project'},
+      {archived: false, id: 5304923, name: 'gitlab-radiator-test/empty-test'},
+      {archived: false, id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2'},
+      {archived: false, id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1'}
     ])
   })
 
@@ -24,7 +24,7 @@ describe('Gitlab client', () => {
     const config = {gitlab, projects: {include: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1'}
+      {archived: false, id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1'}
     ])
   })
 
@@ -32,9 +32,9 @@ describe('Gitlab client', () => {
     const config = {gitlab, projects: {exclude: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project'},
-      {id: 5304923, name: 'gitlab-radiator-test/empty-test'},
-      {id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2'}
+      {archived: false, id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project'},
+      {archived: false, id: 5304923, name: 'gitlab-radiator-test/empty-test'},
+      {archived: false, id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2'}
     ])
   })
 
