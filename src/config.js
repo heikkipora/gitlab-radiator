@@ -13,6 +13,7 @@ config.zoom = Number(config.zoom || 1.0)
 config.projectsOrder = (config.projects || {}).order || ['name']
 config.columns = Number(config.columns || 1)
 config.ca = config.caFile && fs.existsSync(config.caFile, 'utf-8') ? fs.readFileSync(config.caFile) : undefined
+config.ignoreArchived = config.ignoreArchived === undefined ? true : config.ignoreArchived
 
 function expandTilde(path) {
   return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)

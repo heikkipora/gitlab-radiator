@@ -63,7 +63,7 @@ Optional configuration properties:
 - ```caFile``` - CA file location to be passed to the request library when accessing your gitlab instance.
 - ```auth / username``` - Enables HTTP basic authentication with the defined username and password.
 - ```auth / password``` - Enables HTTP basic authentication with the defined username and password.
-- ```ignoreArchived``` - Ignore archived projects. Default value is `false`
+- ```ignoreArchived``` - Ignore archived projects. Default value is `true`
 
 Example yaml syntax:
 
