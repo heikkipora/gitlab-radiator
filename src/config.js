@@ -14,6 +14,7 @@ config.projectsOrder = (config.projects || {}).order || ['name']
 config.columns = Number(config.columns || 1)
 config.ca = config.caFile && fs.existsSync(config.caFile, 'utf-8') ? fs.readFileSync(config.caFile) : undefined
 config.ignoreArchived = config.ignoreArchived === undefined ? true : config.ignoreArchived
+config.gitlab['access-token'] = config.gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN
 
 function expandTilde(path) {
   return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)
@@ -22,6 +23,6 @@ function expandTilde(path) {
 function validate(cfg) {
   assert.ok(cfg.gitlab, 'Mandatory gitlab properties missing from configuration file')
   assert.ok(cfg.gitlab.url, 'Mandatory gitlab url missing from configuration file')
-  assert.ok(cfg.gitlab['access-token'], 'Mandatory gitlab access token missing from configuration file')
+  assert.ok(cfg.gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN, 'Mandatory gitlab access token missing from configuration (and none present at GITLAB_ACCESS_TOKEN env variable)')
   return cfg
 }

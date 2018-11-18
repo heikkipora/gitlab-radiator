@@ -41,7 +41,7 @@ It can be overridden by defining the ```GITLAB_RADIATOR_CONFIG``` environment va
 Mandatory configuration properties:
 
 - ```gitlab / url``` - Root URL of your GitLab installation - or that of GitLab SaaS CI
-- ```gitlab / access-token``` - A GitLab access token for allowing access to the GitLab API. One can be generated with GitLab's UI under Profile Settins / Personal Access Tokens.
+- ```gitlab / access-token``` - A GitLab access token for allowing access to the GitLab API. One can be generated with GitLab's UI under Profile Settins / Personal Access Tokens. The value can alternatively be defined as `GITLAB_ACCESS_TOKEN` environment variable.
 
 Example yaml syntax:
 
