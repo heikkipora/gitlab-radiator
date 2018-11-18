@@ -1,5 +1,6 @@
 @import (inline) "normalize.css";
 @import (inline) "opensans.css";
+@import "colors.less";
 
 * {
   -webkit-user-select: none;
@@ -23,7 +24,7 @@ body {
 h2 {
   font-size: 32px;
   font-weight: 600;
-  color: #d7d7d9;
+  color: @light-text-color;
 }
 
 #app {
@@ -31,7 +32,7 @@ h2 {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #22272b;
+  background-color: @background-color;
 
   h2.loading {
     margin-left: 24px;
@@ -42,10 +43,10 @@ h2 {
     bottom: 0;
     left: 0;
     right: 0;
-    color: red;
-    background-color: darkred;
-    border-top: 2px solid #22272b;
-    border-bottom: 2px solid #22272b;
+    color: @error-message-text-color;
+    background-color: @error-message-background-color;
+    border-top: 2px solid @background-color;
+    border-bottom: 2px solid @background-color;
     text-align: center;
     padding: 0.25em;
     z-index: 1;
@@ -72,21 +73,21 @@ ol.projects {
     margin: 12px;
     padding: 24px;
     border-radius: 6px;
-    background-color: #353a3e;
+    background-color: @project-background-color;
     display: flex;
     flex-direction: column;
 
     &.failed {
-      background: rgba(190, 170, 10, 0.5);
+      background: fade(@failed-color, 50%);
     }
 
     &.running {
       background: repeating-linear-gradient(
         -45deg,
-        #353a3e,
-        #353a3e 20px,
-        darken(#353a3e, 2%) 20px,
-        darken(#353a3e, 2%) 40px
+        @project-background-color,
+        @project-background-color 20px,
+        darken(@project-background-color, 2%) 20px,
+        darken(@project-background-color, 2%) 40px
       );
     }
 
@@ -117,7 +118,7 @@ ol.stages {
     }
     .name {
       font-size: 80%;
-      color:  #d7d7d9;
+      color:  @light-text-color;
       text-align: center;
       margin-bottom: 6px;
       text-overflow: ellipsis;
@@ -133,8 +134,8 @@ ol.jobs {
 
   li {
     padding: 6px;
-    color: #d7d7d9;
-    border: 1px solid #22272b;
+    color: @light-text-color;
+    border: 1px solid @background-color;
     border-radius: 6px;
     text-align: center;
     text-overflow: ellipsis;
@@ -146,32 +147,32 @@ ol.jobs {
     }
 
     &.created, &.pending, &.skipped {
-      background-color: #353a3e;
+      background-color: @project-background-color;
     }
 
     &.failed {
-      color: #22272b;
-      background-color: #ccd000;
+      color: @background-color;
+      background-color: @failed-color;
     }
 
     &.success {
-      background-color: #22736e;
+      background-color: @success-color;
     }
 
     &.running {
       background: repeating-linear-gradient(
         -45deg,
-        #22736e,
-        #22736e 10px,
-        darken(#22736e, 8%) 10px,
-        darken(#22736e, 8%) 20px
+        @running-color,
+        @running-color 10px,
+        darken(@running-color, 8%) 10px,
+        darken(@running-color, 8%) 20px
       );
     }
   }
 }
 
 .pipeline-info {
-  color: #d7d7d9;
+  color: @light-text-color;
   margin-top: 24px;
   display: flex;
   flex-direction: column;
