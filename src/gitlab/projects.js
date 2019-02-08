@@ -5,7 +5,7 @@ export async function fetchProjects(config) {
   const projects = await fetchProjectsPaged(config)
   return _(projects)
     .flatten()
-    .map(takeProjectIdAndNameAndArchived)
+    .map(projectMapper)
     .filter(regexFilter(config))
     .filter(archivedFilter(config))
     .value()
@@ -21,12 +21,19 @@ async function fetchProjectsPaged(config, page = 1, projectFragments = []) {
   return projectFragments
 }
 
-function takeProjectIdAndNameAndArchived(project) {
+function projectMapper(project) {
   return {
     id: project.id,
     name: project.path_with_namespace,
+    nameWithoutNamespace: project.path,
+    group: getGroupName(project),
     archived: project.archived
   }
+}
+
+function getGroupName(project) {
+  const pathWithNameSpace = project.path_with_namespace
+  return pathWithNameSpace.split('/')[0]
 }
 
 function regexFilter(config) {
