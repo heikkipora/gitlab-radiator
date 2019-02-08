@@ -1,22 +1,23 @@
 import _ from 'lodash'
 import {gitlabRequest} from './client'
 
-export async function fetchProjects(config) {
-  const projects = await fetchProjectsPaged(config)
+export async function fetchProjects(gitlab) {
+  const projects = await fetchProjectsPaged(gitlab)
   return _(projects)
     .flatten()
     .map(projectMapper)
-    .filter(regexFilter(config))
-    .filter(archivedFilter(config))
+    .filter(regexFilter(gitlab))
+    .filter(archivedFilter(gitlab))
     .value()
 }
 
-async function fetchProjectsPaged(config, page = 1, projectFragments = []) {
-  const {data, headers} = await gitlabRequest('/projects', {page, per_page: config.perPage || 100, membership: true}, config)
+async function fetchProjectsPaged(gitlab, page = 1, projectFragments = []) {
+  const {data, headers} = await gitlabRequest('/projects', {page, per_page: gitlab.perPage || 100, membership: true}, gitlab)
+
   projectFragments.push(data)
   const nextPage = headers['x-next-page']
   if (nextPage) {
-    return fetchProjectsPaged(config, Number(nextPage), projectFragments)
+    return fetchProjectsPaged(gitlab, Number(nextPage), projectFragments)
   }
   return projectFragments
 }

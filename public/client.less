@@ -27,6 +27,17 @@ h2 {
   color: @light-text-color;
 }
 
+h4 {
+  font-size: 24px;
+  font-weight: 400;
+  color: @light-text-color;
+}
+
+h6 {
+  font-size: 16px;
+  color: @light-text-color;
+}
+
 #app {
   position: fixed;
   width: 100%;
@@ -95,6 +106,17 @@ ol.projects {
       text-transform: uppercase;
       text-align: center;
       margin: 0 0 12px 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1.2em;
+    }
+
+    h4, h6 {
+      text-transform: lowercase;
+      text-align: center;
+      margin: 0;
+      padding: 0 0px 6px 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

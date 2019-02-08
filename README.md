@@ -40,48 +40,61 @@ It can be overridden by defining the ```GITLAB_RADIATOR_CONFIG``` environment va
 
 Mandatory configuration properties:
 
-- ```gitlab / url``` - Root URL of your GitLab installation - or that of GitLab SaaS CI
-- ```gitlab / access-token``` - A GitLab access token for allowing access to the GitLab API. One can be generated with GitLab's UI under Profile Settins / Personal Access Tokens. The value can alternatively be defined as `GITLAB_ACCESS_TOKEN` environment variable.
+- ```gitlabs / url``` - Root URL of your GitLab installation - or that of GitLab SaaS CI
+- ```gitlabs / access-token``` - A GitLab access token for allowing access to the GitLab API. One can be generated with GitLab's UI under Profile Settins / Personal Access Tokens. The value can alternatively be defined as `GITLAB_ACCESS_TOKEN` environment variable.
 
 Example yaml syntax:
 
 ```
-gitlab:
-  access-token: 12invalidtoken12
-  url: https://gitlab.com
+gitlabs:
+  -
+    access-token: 12invalidtoken12
+    url: https://gitlab.com
 ```
 
 Optional configuration properties:
 
-- ```projects / include``` - Regular expression for inclusion of projects. Default is to include all projects.
-- ```projects / exclude``` - Regular expression for exclusion of projects. Default is to exclude no projects.
-- ```projects / order``` - Array of projects attributes to use for sorting projects. Default value is ```['name']``` (available attributes are ```status, name, id, nameWithoutNamespace, group```).
-- ```projects / excludePipelineStatus``` - Array of pipeline statuses, that should be excluded (i.e. hidden) (available statuses are ```running, pending, success, failed, canceled, skipped```).
-- ```interval``` - Number of seconds between updateing projects and pipelines from GitLab. Default value is 10 seconds.
+- ```gitlabs / projects / include``` - Regular expression for inclusion of projects. Default is to include all projects.
+- ```gitlabs / projects / exclude``` - Regular expression for exclusion of projects. Default is to exclude no projects.
+- ```gitlabs / projects / excludePipelineStatus``` - Array of pipeline statuses, that should be excluded (i.e. hidden) (available statuses are ```running, pending, success, failed, canceled, skipped```).
+- ```gitlabs / projects / maxNonFailedJobsVisible``` - Number of non-failed jobs visible for a stage at maximum. Helps with highly concurrent project pipelines becoming uncomfortably high. Default values is unlimited.
+- ```gitlabs / auth / username``` - Enables HTTP basic authentication with the defined username and password.
+- ```gitlabs / auth / password``` - Enables HTTP basic authentication with the defined username and password.
+- ```gitlabs / caFile``` - CA file location to be passed to the request library when accessing the gitlab instance.
+- ```gitlabs / ignoreArchived``` - Ignore archived projects. Default value is `true`
+- ```projectsOrder``` - Array of project attributes to use for sorting projects. Default value is ```['name']``` (available attributes are ```status, name, id, nameWithoutNamespace, group```).
+- ```interval``` - Number of seconds between updateing projects and pipelines from GitLabs. Default value is 10 seconds.
 - ```port``` - HTTP port to listen on. Default value is 3000.
 - ```zoom``` - View zoom factor (to make your projects fit a display nicely). Default value is 1.0
 - ```columns``` - Number of columns to display (to fit more projects on screen). Default value is 1
-- ```caFile``` - CA file location to be passed to the request library when accessing your gitlab instance.
-- ```auth / username``` - Enables HTTP basic authentication with the defined username and password.
-- ```auth / password``` - Enables HTTP basic authentication with the defined username and password.
-- ```ignoreArchived``` - Ignore archived projects. Default value is `true`
-- ```maxNonFailedJobsVisible``` - Number of non-failed jobs visible for a stage at maximum. Helps with highly concurrent project pipelines becoming uncomfortably high. Default values is unlimited.
 
 Example yaml syntax:
 
 ```
-projects:
-  exclude: .*/.*-inactive-project
-  order: ['status', 'name']
-  excludePipelineStatus: ['canceled', 'pending']
-auth:
-  username: 'radiator'
-  password: 'p455w0rd'
+gitlabs:
+  -
+    access-token: 12invalidtoken12
+    url: https://gitlab.com
+    projects:
+      exclude: .*/.*-inactive-project
+      excludePipelineStatus: ['canceled', 'pending']
+      maxNonFailedJobsVisible: 3
+    auth:
+          username: 'radiator'
+      password: 'p455w0rd'
+projectsOrder: ['status', 'name']
 interval: 30
 port: 8000
 zoom: 0.85
 columns: 4
 ```
+
+## Breaking changes from 2.x to xx
+
+- Configuration file syntax has changed so that you now can define multiple gitlab instances to poll from. 
+E.g. polling from https://gitlab.com and from your own hosted https://gitlab.yourdomain.com instance of gitlab.
+Unfortunately all existing configurations for single gitlab polling have to be adjusted slightly.
+-  Also config param `order` has moved from `projects.order` to global `projectsOrder`, as the order has effect on all projects and not per gitlab config.
 
 ## Breaking changes from 1.x to 2.0
 
