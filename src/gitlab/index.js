@@ -5,15 +5,16 @@ import {fetchProjects} from './projects'
 export async function update(config) {
   const projects = await fetchProjects(config)
   const projectsWithPipelines = await Promise.all(projects.map(project => projectWithPipelines(project, config)))
-  return projectsWithPipelines.filter(project => project.pipelines.length > 0)
+
+  return projectsWithPipelines
+    .filter(project => project.pipelines.length > 0)
 }
 
-async function projectWithPipelines({id, name}, config) {
-  const pipelines = filterOutEmpty(await fetchLatestPipelines(id, config))
+async function projectWithPipelines(project, config) {
+  const pipelines = filterOutEmpty(await fetchLatestPipelines(project.id, config))
   const status = masterBranchStatus(pipelines)
   return {
-    id,
-    name,
+    ...project,
     pipelines: pipelines,
     status
   }
@@ -29,3 +30,4 @@ function masterBranchStatus(pipelines) {
 function filterOutEmpty(pipelines) {
   return pipelines.filter(pipeline => pipeline.stages)
 }
+
