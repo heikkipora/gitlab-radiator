@@ -56,6 +56,7 @@ Optional configuration properties:
 - ```projects / include``` - Regular expression for inclusion of projects. Default is to include all projects.
 - ```projects / exclude``` - Regular expression for exclusion of projects. Default is to exclude no projects.
 - ```projects / order``` - Array of projects attributes to use for sorting projects. Default value is ```['name']``` (available attributes are ```status, name, id, nameWithoutNamespace, group```).
+- ```projects / excludePipelineStatus``` - Array of pipeline statuses, that should be excluded (i.e. hidden) (available statuses are ```running, pending, success, failed, canceled, skipped```).
 - ```interval``` - Number of seconds between updateing projects and pipelines from GitLab. Default value is 10 seconds.
 - ```port``` - HTTP port to listen on. Default value is 3000.
 - ```zoom``` - View zoom factor (to make your projects fit a display nicely). Default value is 1.0
@@ -72,6 +73,7 @@ Example yaml syntax:
 projects:
   exclude: .*/.*-inactive-project
   order: ['status', 'name']
+  excludePipelineStatus: ['canceled', 'pending']
 auth:
   username: 'radiator'
   password: 'p455w0rd'
