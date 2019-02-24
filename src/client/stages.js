@@ -8,12 +8,13 @@ export class Stages extends React.PureComponent {
 
     return <ol className="stages">
       {stages.map((stage, index) => {
-        return <Stage stage={stage} key={index}/>
+        return <Stage stage={stage} key={index} maxNonFailedJobsVisible={this.props.maxNonFailedJobsVisible}/>
       })}
     </ol>
   }
 }
 
 Stages.propTypes = {
-  stages: PropTypes.array
+  stages: PropTypes.array,
+  maxNonFailedJobsVisible: PropTypes.number
 }

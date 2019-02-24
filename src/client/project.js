@@ -10,7 +10,7 @@ export class Project extends React.PureComponent {
 
     return <li className={`project ${project.status}`} style={this.style(columns)}>
       <h2>{project.name}</h2>
-      <Stages stages={pipeline.stages}/>
+      <Stages stages={pipeline.stages} maxNonFailedJobsVisible={this.props.maxNonFailedJobsVisible}/>
       <Info now={now} pipeline={pipeline}/>
     </li>
   }
@@ -26,5 +26,6 @@ export class Project extends React.PureComponent {
 Project.propTypes = {
   project: PropTypes.object,
   columns: PropTypes.number,
-  now: PropTypes.number
+  now: PropTypes.number,
+  maxNonFailedJobsVisible: PropTypes.number
 }
