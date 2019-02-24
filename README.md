@@ -64,7 +64,7 @@ Optional configuration properties:
 - ```auth / username``` - Enables HTTP basic authentication with the defined username and password.
 - ```auth / password``` - Enables HTTP basic authentication with the defined username and password.
 - ```ignoreArchived``` - Ignore archived projects. Default value is `true`
-- ```maxNonFailedJobsVisible``` - Limit maximum number of non-failed jobs visible for a stage. Helps with highly concurrent project pipelines becoming uncomfortably high. Default values is unlimited.
+- ```maxNonFailedJobsVisible``` - Number of non-failed jobs visible for a stage at maximum. Helps with highly concurrent project pipelines becoming uncomfortably high. Default values is unlimited.
 
 Example yaml syntax:
 
