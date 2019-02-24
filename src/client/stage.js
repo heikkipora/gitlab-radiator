@@ -8,11 +8,12 @@ export class Stage extends React.PureComponent {
 
     return <li className="stage">
       <div className="name">{stage.name}</div>
-      <Jobs jobs={stage.jobs}/>
+      <Jobs jobs={stage.jobs} maxNonFailedJobsVisible={this.props.maxNonFailedJobsVisible}/>
     </li>
   }
 }
 
 Stage.propTypes = {
-  stage: PropTypes.object
+  stage: PropTypes.object,
+  maxNonFailedJobsVisible: PropTypes.number
 }

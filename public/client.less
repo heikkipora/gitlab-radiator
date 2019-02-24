@@ -133,14 +133,23 @@ ol.jobs {
   flex-direction: column;
 
   li {
-    padding: 6px;
-    color: @light-text-color;
-    border: 1px solid @background-color;
-    border-radius: 6px;
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+    &:not(.hidden-jobs) {
+      padding: 6px;
+      color: @light-text-color;
+      border: 1px solid @background-color;
+      border-radius: 6px;
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    &.hidden-jobs {
+      text-align: center;
+      color: @light-text-color;
+      font-size: 80%;
+      line-height: 100%;
+    }
 
     &:not(:last-child) {
       margin-bottom: 5px;
