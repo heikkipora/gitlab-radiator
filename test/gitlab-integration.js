@@ -13,10 +13,10 @@ describe('Gitlab client', () => {
     const config = {gitlab, perPage: 1}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {archived: false, id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project'},
-      {archived: false, id: 5304923, name: 'gitlab-radiator-test/empty-test'},
-      {archived: false, id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2'},
-      {archived: false, id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1'}
+      {archived: false, group: 'gitlab-radiator-test', id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project'},
+      {archived: false, group: 'gitlab-radiator-test', id: 5304923, name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test'},
+      {archived: false, group: 'gitlab-radiator-test', id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2'},
+      {archived: false, group: 'gitlab-radiator-test', id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1'}
     ])
   })
 
@@ -24,7 +24,7 @@ describe('Gitlab client', () => {
     const config = {gitlab, projects: {include: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {archived: false, id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1'}
+      {archived: false, id: 5290865, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1'}
     ])
   })
 
@@ -32,9 +32,9 @@ describe('Gitlab client', () => {
     const config = {gitlab, projects: {exclude: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {archived: false, id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project'},
-      {archived: false, id: 5304923, name: 'gitlab-radiator-test/empty-test'},
-      {archived: false, id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2'}
+      {archived: false, id: 5385889, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project'},
+      {archived: false, id: 5304923, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test'},
+      {archived: false, id: 5290928, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2'}
     ])
   })
 
@@ -147,8 +147,11 @@ describe('Gitlab client', () => {
     expect(projects).to.deep.equal(
       [
         {
+          archived: false,
+          group:  'gitlab-radiator-test',
           id: 5385889,
           name: 'gitlab-radiator-test/ci-skip-test-project',
+          nameWithoutNamespace: 'ci-skip-test-project',
           pipelines: [
             {
               id: 17172603,
@@ -171,10 +174,13 @@ describe('Gitlab client', () => {
             }
           ],
           status: 'success'
-        },
-        {
+      },
+      {
+        archived: false,
+        group:  'gitlab-radiator-test',
         id: 5290928,
         name: 'gitlab-radiator-test/integration-test-project-2',
+        nameWithoutNamespace: 'integration-test-project-2',
         pipelines: [
           {
             id: 16793189,
@@ -250,8 +256,11 @@ describe('Gitlab client', () => {
         status: 'failed'
       },
       {
+        archived: false,
+        group:  'gitlab-radiator-test',
         id: 5290865,
         name: 'gitlab-radiator-test/integration-test-project-1',
+        nameWithoutNamespace: 'integration-test-project-1',
         pipelines: [
           {
             id: 16733911,
