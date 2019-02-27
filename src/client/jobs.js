@@ -29,7 +29,7 @@ export class Jobs extends React.PureComponent {
       )
     )
 
-    const hiddenJobs = jobs.filter(job => !filteredJobs.includes(job))
+    const hiddenJobs = jobs.filter(job => filteredJobs.indexOf(job) < 0)
     const hiddenCountsByStatus = _.mapValues(
       _.groupBy(hiddenJobs, 'status'),
       jobsForStatus => jobsForStatus.length
