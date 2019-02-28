@@ -148,7 +148,7 @@ describe('Gitlab client', () => {
       [
         {
           archived: false,
-          group:  'gitlab-radiator-test',
+          group: 'gitlab-radiator-test',
           id: 5385889,
           name: 'gitlab-radiator-test/ci-skip-test-project',
           nameWithoutNamespace: 'ci-skip-test-project',
@@ -177,7 +177,7 @@ describe('Gitlab client', () => {
       },
       {
         archived: false,
-        group:  'gitlab-radiator-test',
+        group: 'gitlab-radiator-test',
         id: 5290928,
         name: 'gitlab-radiator-test/integration-test-project-2',
         nameWithoutNamespace: 'integration-test-project-2',
@@ -257,7 +257,7 @@ describe('Gitlab client', () => {
       },
       {
         archived: false,
-        group:  'gitlab-radiator-test',
+        group: 'gitlab-radiator-test',
         id: 5290865,
         name: 'gitlab-radiator-test/integration-test-project-1',
         nameWithoutNamespace: 'integration-test-project-1',

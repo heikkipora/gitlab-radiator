@@ -8,6 +8,7 @@ export async function update(config) {
 
   return projectsWithPipelines
     .filter(project => project.pipelines.length > 0)
+    .filter(excludePipelineStatusFilter(config))
 }
 
 async function projectWithPipelines(project, config) {
@@ -31,3 +32,11 @@ function filterOutEmpty(pipelines) {
   return pipelines.filter(pipeline => pipeline.stages)
 }
 
+function excludePipelineStatusFilter(config) {
+  return project => {
+    if (config.projects && config.projects.excludePipelineStatus) {
+      return config.projects.excludePipelineStatus.includes(project.status)
+    }
+    return true
+  }
+}
