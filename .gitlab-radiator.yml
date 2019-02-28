@@ -1,0 +1,5 @@
+gitlab:
+  access-token: dYHqgBL7YbKsrN3Kxo2B
+  url: https://gitlab.com
+interval: 30
+columns: 2
