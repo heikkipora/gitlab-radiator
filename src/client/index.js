@@ -1,4 +1,4 @@
-import {Projects} from './projects'
+import {GroupedProjects} from './groupedProjects'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -22,8 +22,10 @@ class RadiatorApp extends React.Component {
     <div>
       {this.renderErrorMessage()}
       {this.renderProgressMessage()}
-      <Projects now={this.state.now} zoom={this.state.zoom} columns={this.state.columns}
-                projects={this.state.projects || []} projectsOrder={this.state.projectsOrder} />
+
+      <GroupedProjects now={this.state.now} zoom={this.state.zoom} columns={this.state.columns}
+                       projects={this.state.projects || []} projectsOrder={this.state.projectsOrder}
+                       groupSuccessfulProjects={this.state.groupSuccessfulProjects}/>
     </div>
 
   renderErrorMessage = () =>

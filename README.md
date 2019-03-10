@@ -62,6 +62,7 @@ Optional configuration properties:
 - ```gitlabs / auth / password``` - Enables HTTP basic authentication with the defined username and password.
 - ```gitlabs / caFile``` - CA file location to be passed to the request library when accessing the gitlab instance.
 - ```gitlabs / ignoreArchived``` - Ignore archived projects. Default value is `true`
+- ```groupSuccessfulProjects``` - If set to `true` projects with successful pipeline status are grouped by namespace. Projects with other pipeline statuses are still rendered seperately. Default value is `false`.
 - ```projectsOrder``` - Array of project attributes to use for sorting projects. Default value is ```['name']``` (available attributes are ```status, name, id, nameWithoutNamespace, group```).
 - ```interval``` - Number of seconds between updateing projects and pipelines from GitLabs. Default value is 10 seconds.
 - ```port``` - HTTP port to listen on. Default value is 3000.

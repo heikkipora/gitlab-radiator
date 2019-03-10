@@ -80,6 +80,7 @@ ol.projects {
   flex-direction: row;
   flex-wrap: wrap;
   transform-origin: top left;
+
   li.project {
     margin: 12px;
     padding: 24px;
@@ -94,11 +95,11 @@ ol.projects {
 
     &.running {
       background: repeating-linear-gradient(
-        -45deg,
-        @project-background-color,
-        @project-background-color 20px,
-        darken(@project-background-color, 2%) 20px,
-        darken(@project-background-color, 2%) 40px
+              -45deg,
+              @project-background-color,
+              @project-background-color 20px,
+              darken(@project-background-color, 2%) 20px,
+              darken(@project-background-color, 2%) 40px
       );
     }
 
@@ -135,12 +136,14 @@ ol.stages {
     flex-direction: column;
     flex-grow: 1;
     min-width: 0;
+
     &:not(:last-child) {
       margin-right: 5px;
     }
+
     .name {
       font-size: 80%;
-      color:  @light-text-color;
+      color: @light-text-color;
       text-align: center;
       margin-bottom: 6px;
       text-overflow: ellipsis;
@@ -192,14 +195,66 @@ ol.jobs {
 
     &.running {
       background: repeating-linear-gradient(
-        -45deg,
-        @running-color,
-        @running-color 10px,
-        darken(@running-color, 8%) 10px,
-        darken(@running-color, 8%) 20px
+              -45deg,
+              @running-color,
+              @running-color 10px,
+              darken(@running-color, 8%) 10px,
+              darken(@running-color, 8%) 20px
       );
     }
   }
+}
+
+ol.groups {
+  list-style: none;
+  width: 100vmax;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  transform-origin: top left;
+
+  li.group {
+    margin: 12px;
+    padding: 24px;
+    border-radius: 6px;
+    background-color: @group-background-color;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .group-info {
+    padding: 6px;
+    color: @light-text-color;
+    border: 1px solid @background-color;
+    border-radius: 6px;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: @success-color;
+  }
+
+  h2 {
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 12px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2em;
+  }
+
+  h4, h6 {
+    text-transform: lowercase;
+    text-align: center;
+    margin: 0;
+    padding: 0 0px 6px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2em;
+  }
+
 }
 
 .pipeline-info {
@@ -212,6 +267,7 @@ ol.jobs {
     display: flex;
     justify-content: space-between;
     min-width: 0;
+
     span {
       overflow: hidden;
       white-space: nowrap;

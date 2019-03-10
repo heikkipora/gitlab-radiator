@@ -31,7 +31,8 @@ const globalState = {
   error: null,
   zoom: config.zoom,
   projectsOrder: config.projectsOrder,
-  columns: config.columns
+  columns: config.columns,
+  groupSuccessfulProjects: config.groupSuccessfulProjects
 }
 
 socketIoServer.on('connection', (socket) => {
