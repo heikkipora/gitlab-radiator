@@ -66,7 +66,9 @@ const signals = {
 
 function shutdown(signal) {
   httpServer.close(() => {
+    // eslint-disable-next-line no-console
     console.log(`Server stopped by ${signal}.`)
+    // eslint-disable-next-line no-process-exit
     process.exit(1)
   })
 }
