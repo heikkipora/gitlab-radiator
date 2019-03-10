@@ -90,7 +90,7 @@ zoom: 0.85
 columns: 4
 ```
 
-## Breaking changes from 2.x to xx
+## Breaking changes from 2.x to 3.0
 
 - Configuration file syntax has changed so that you now can define multiple gitlab instances to poll from. 
 E.g. polling from https://gitlab.com and from your own hosted https://gitlab.yourdomain.com instance of gitlab.
