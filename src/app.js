@@ -66,12 +66,10 @@ const signals = {
 
 function shutdown(signal) {
   httpServer.close(() => {
-    throw new Error('Server stopped by ' + signal + '.')
+    throw new Error(`Server stopped by ${signal}.`)
   })
 }
 
 Object.keys(signals).forEach((signal) => {
-  process.on(signal, () => {
-    shutdown(signal)
-  })
+  process.on(signal, () => shutdown(signal))
 })
