@@ -66,7 +66,8 @@ const signals = {
 
 function shutdown(signal) {
   httpServer.close(() => {
-    throw new Error(`Server stopped by ${signal}.`)
+    console.log(`Server stopped by ${signal}.`)
+    process.exit(1)
   })
 }
 
