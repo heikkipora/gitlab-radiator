@@ -10,7 +10,7 @@ export class Project extends React.PureComponent {
 
     return <li className={`project ${project.status}`} style={this.style(columns)}>
       <h2>{project.name}</h2>
-      <Stages stages={pipeline.stages} maxNonFailedJobsVisible={this.props.maxNonFailedJobsVisible}/>
+      <Stages stages={pipeline.stages} maxNonFailedJobsVisible={project.maxNonFailedJobsVisible}/>
       <Info now={now} pipeline={pipeline}/>
     </li>
   }

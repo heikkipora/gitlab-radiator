@@ -10,20 +10,30 @@ export const config = validate(yaml.safeLoad(yamlContent))
 config.interval = Number(config.interval || 10) * 1000
 config.port = Number(config.port || 3000)
 config.zoom = Number(config.zoom || 1.0)
-config.projectsOrder = (config.projects || {}).order || ['name']
 config.columns = Number(config.columns || 1)
-config.maxNonFailedJobsVisible = Number(config.maxNonFailedJobsVisible || 999999)
-config.ca = config.caFile && fs.existsSync(config.caFile, 'utf-8') ? fs.readFileSync(config.caFile) : undefined
-config.ignoreArchived = config.ignoreArchived === undefined ? true : config.ignoreArchived
-config.gitlab['access-token'] = config.gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN
+config.projectsOrder = config.projectsOrder || ['name']
+config.gitlabs = config.gitlabs.map((gitlab) => {
+  return {
+    url: gitlab.url,
+    ignoreArchived: gitlab.ignoreArchived === undefined ? true : gitlab.ignoreArchived,
+    maxNonFailedJobsVisible: Number(gitlab.maxNonFailedJobsVisible || 999999),
+    ca: gitlab.caFile && fs.existsSync(gitlab.caFile, 'utf-8') ? fs.readFileSync(gitlab.caFile) : undefined,
+    'access-token': gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN,
+    projects: {
+      excludePipelineStatus: (gitlab.projects || {}).excludePipelineStatus || []
+    }
+  }
+})
 
 function expandTilde(path) {
   return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)
 }
 
 function validate(cfg) {
-  assert.ok(cfg.gitlab, 'Mandatory gitlab properties missing from configuration file')
-  assert.ok(cfg.gitlab.url, 'Mandatory gitlab url missing from configuration file')
-  assert.ok(cfg.gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN, 'Mandatory gitlab access token missing from configuration (and none present at GITLAB_ACCESS_TOKEN env variable)')
+  assert.ok(cfg.gitlabs, 'Mandatory gitlab properties missing from configuration file')
+  cfg.gitlabs.forEach((gitlab) => {
+    assert.ok(gitlab.url, 'Mandatory gitlab url missing from configuration file')
+    assert.ok(gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN, 'Mandatory gitlab access token missing from configuration (and none present at GITLAB_ACCESS_TOKEN env variable)')
+  })
   return cfg
 }

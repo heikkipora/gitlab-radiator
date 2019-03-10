@@ -10,7 +10,7 @@ const gitlab = {
 
 describe('Gitlab client', () => {
   it('Should find four projects with paging active and with no filtering ', async () => {
-    const config = {gitlab, perPage: 1}
+    const config = {...gitlab, perPage: 1}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
       {archived: false, group: 'gitlab-radiator-test', id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project'},
@@ -21,7 +21,7 @@ describe('Gitlab client', () => {
   })
 
   it('Should find one project with inclusive filtering', async () => {
-    const config = {gitlab, projects: {include: '.*project-1'}}
+    const config = {...gitlab, projects: {include: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
       {archived: false, id: 5290865, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1'}
@@ -29,7 +29,7 @@ describe('Gitlab client', () => {
   })
 
   it('Should find three projects with exclusive filtering', async () => {
-    const config = {gitlab, projects: {exclude: '.*project-1'}}
+    const config = {...gitlab, projects: {exclude: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
       {archived: false, id: 5385889, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project'},
@@ -39,7 +39,7 @@ describe('Gitlab client', () => {
   })
 
   it('Should find latest non-skipped pipeline for project', async () => {
-    const config = {gitlab}
+    const config = {...gitlab}
     const pipelines = await fetchLatestPipelines(5385889, config)
     expect(pipelines).to.deep.equal(
       [{
@@ -65,7 +65,7 @@ describe('Gitlab client', () => {
   })
 
   it('Should find latest pipelines for project (feature branch + master) with stages and retried jobs merged to one entry', async () => {
-    const config = {gitlab}
+    const config = {...gitlab}
     const pipelines = await fetchLatestPipelines(5290928, config)
     expect(pipelines).to.deep.equal(
       [{
@@ -142,7 +142,7 @@ describe('Gitlab client', () => {
   })
 
   it('Should find two projects with two pipelines for the first and one for the second (and exclude projects without pipelines)', async() => {
-    const config = {gitlab}
+    const config = {gitlabs: [{...gitlab}]}
     const projects = await update(config)
     expect(projects).to.deep.equal(
       [

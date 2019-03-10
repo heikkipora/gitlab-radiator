@@ -10,8 +10,7 @@ export class Projects extends React.PureComponent {
     return <ol className="projects" style={this.zoomStyle(zoom)}>
       {_.sortBy(projects, projectsOrder)
         .map(project => {
-          return <Project now={now} columns={columns} project={project} key={project.id}
-                          maxNonFailedJobsVisible={this.props.maxNonFailedJobsVisible}/>
+          return <Project now={now} columns={columns} project={project} key={project.id}/>
         })
       }
     </ol>
@@ -31,6 +30,5 @@ Projects.propTypes = {
   projectsOrder: PropTypes.array,
   zoom: PropTypes.number,
   columns: PropTypes.number,
-  now: PropTypes.number,
-  maxNonFailedJobsVisible: PropTypes.number
+  now: PropTypes.number
 }

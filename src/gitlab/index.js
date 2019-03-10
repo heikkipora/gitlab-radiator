@@ -3,12 +3,23 @@ import {fetchLatestPipelines} from './pipelines'
 import {fetchProjects} from './projects'
 
 export async function update(config) {
-  const projects = await fetchProjects(config)
-  const projectsWithPipelines = await Promise.all(projects.map(project => projectWithPipelines(project, config)))
-
+  const projectsWithPipelines = await loadProjectsWithPipelines(config)
   return projectsWithPipelines
     .filter(project => project.pipelines.length > 0)
     .filter(excludePipelineStatusFilter(config))
+}
+
+async function loadProjectsWithPipelines(config) {
+  const allProjectsWithPipelines = []
+  await Promise.all(config.gitlabs.map(async (gitlab) => {
+    const projects = await fetchProjects(gitlab)
+    projects.forEach((project) => {
+      project.maxNonFailedJobsVisible = gitlab.maxNonFailedJobsVisible
+    })
+    const projectsWithPipelines = await Promise.all(projects.map(project => projectWithPipelines(project, gitlab)))
+    allProjectsWithPipelines.push(...projectsWithPipelines)
+  }))
+  return allProjectsWithPipelines
 }
 
 async function projectWithPipelines(project, config) {

@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import {gitlabRequest} from './client'
 
-export async function fetchLatestPipelines(projectId, config) {
-  const pipelines = await fetchLatestAndMasterPipeline(projectId, config)
+export async function fetchLatestPipelines(projectId, gitlab) {
+  const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)
 
   return Promise.all(pipelines.map(async ({id, ref, status}) => {
-    const jobs = await fetchJobs(projectId, id, config)
+    const jobs = await fetchJobs(projectId, id, gitlab)
     return {
       id,
       ref,
