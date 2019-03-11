@@ -108,3 +108,4 @@ Integration tests are (for now) skipped for pull request builds on Travis as the
 
 ## Contributors
  - Antti Oittinen ([codegeneralist](https://github.com/codegeneralist))
+ - Christian Wagner ([wagner-ch](https://github.com/wagner-ch/))
