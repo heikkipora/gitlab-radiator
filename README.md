@@ -90,6 +90,10 @@ zoom: 0.85
 columns: 4
 ```
 
+## Changelog
+
+See [releases](https://github.com/heikkipora/gitlab-radiator/releases).
+
 ## Breaking changes from 2.x to 3.0
 
 - Configuration file syntax has changed so that you now can define multiple gitlab instances to poll from. 
