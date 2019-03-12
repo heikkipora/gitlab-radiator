@@ -64,15 +64,15 @@ const signals = {
   'SIGTERM': 15
 }
 
-function shutdown(signal) {
+function shutdown(signal, value) {
   httpServer.close(() => {
     // eslint-disable-next-line no-console
     console.log(`Server stopped by ${signal}.`)
     // eslint-disable-next-line no-process-exit
-    process.exit(1)
+    process.exit(128 + value)
   })
 }
 
 Object.keys(signals).forEach((signal) => {
-  process.on(signal, () => shutdown(signal))
+  process.on(signal, () => shutdown(signal, signals[signal]))
 })
