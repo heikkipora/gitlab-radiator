@@ -68,6 +68,8 @@ Optional configuration properties:
 - ```port``` - HTTP port to listen on. Default value is 3000.
 - ```zoom``` - View zoom factor (to make your projects fit a display nicely). Default value is 1.0
 - ```columns``` - Number of columns to display (to fit more projects on screen). Default value is 1
+- ```colors``` - Define some custom colors. Available colors `success, failed, running, light-text, background, project-background, group-background, error-message-text, error-message-background
+` (you may have a look at `/public/colors.less`, the colorNames from config will replace value for `@<colorname>-color` less variable)
 
 Example yaml syntax:
 
@@ -88,6 +90,8 @@ interval: 30
 port: 8000
 zoom: 0.85
 columns: 4
+colors:
+  success: 'rgb(0,255,0)'
 ```
 
 ## Changelog
