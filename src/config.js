@@ -22,8 +22,8 @@ config.gitlabs = config.gitlabs.map((gitlab) => {
     'access-token': gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN,
     projects: {
       excludePipelineStatus: (gitlab.projects || {}).excludePipelineStatus || [],
-      include: gitlab.projects.include || '',
-      exclude: gitlab.projects.exclude || ''
+      include: (gitlab.projects || {}).include || '',
+      exclude: (gitlab.projects || {}).exclude || ''
     }
   }
 })
