@@ -21,7 +21,9 @@ config.gitlabs = config.gitlabs.map((gitlab) => {
     ca: gitlab.caFile && fs.existsSync(gitlab.caFile, 'utf-8') ? fs.readFileSync(gitlab.caFile) : undefined,
     'access-token': gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN,
     projects: {
-      excludePipelineStatus: (gitlab.projects || {}).excludePipelineStatus || []
+      excludePipelineStatus: (gitlab.projects || {}).excludePipelineStatus || [],
+      include: gitlab.projects.include || '',
+      exclude: gitlab.projects.exclude || ''
     }
   }
 })
