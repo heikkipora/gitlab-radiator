@@ -58,11 +58,11 @@ Optional configuration properties:
 - ```gitlabs / projects / exclude``` - Regular expression for exclusion of projects. Default is to exclude no projects.
 - ```gitlabs / projects / excludePipelineStatus``` - Array of pipeline statuses, that should be excluded (i.e. hidden) (available statuses are ```running, pending, success, failed, canceled, skipped```).
 - ```gitlabs / maxNonFailedJobsVisible``` - Number of non-failed jobs visible for a stage at maximum. Helps with highly concurrent project pipelines becoming uncomfortably high. Default values is unlimited.
-- ```gitlabs / auth / username``` - Enables HTTP basic authentication with the defined username and password.
-- ```gitlabs / auth / password``` - Enables HTTP basic authentication with the defined username and password.
 - ```gitlabs / caFile``` - CA file location to be passed to the request library when accessing the gitlab instance.
 - ```gitlabs / ignoreArchived``` - Ignore archived projects. Default value is `true`
 - ```groupSuccessfulProjects``` - If set to `true` projects with successful pipeline status are grouped by namespace. Projects with other pipeline statuses are still rendered seperately. Default value is `false`.
+- ```auth / username``` - Enables HTTP basic authentication with the defined username and password.
+- ```auth / password``` - Enables HTTP basic authentication with the defined username and password.
 - ```projectsOrder``` - Array of project attributes to use for sorting projects. Default value is ```['name']``` (available attributes are ```status, name, id, nameWithoutNamespace, group```).
 - ```interval``` - Number of seconds between updateing projects and pipelines from GitLabs. Default value is 10 seconds.
 - ```port``` - HTTP port to listen on. Default value is 3000.
@@ -80,10 +80,10 @@ gitlabs:
       exclude: .*/.*-inactive-project
       excludePipelineStatus: ['canceled', 'pending']
     maxNonFailedJobsVisible: 3
-    auth:
-          username: 'radiator'
-      password: 'p455w0rd'
 projectsOrder: ['status', 'name']
+auth:
+  username: 'radiator'
+  password: 'p455w0rd'
 interval: 30
 port: 8000
 zoom: 0.85
