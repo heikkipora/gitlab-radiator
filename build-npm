@@ -5,7 +5,6 @@ mkdir -p build/src
 
 # Copy static resources
 cp -r public build
-rm build/public/*.less build/public/*.css
 
 # Copy LICENSE, README and package.json
 cp LICENSE package.json README.md build
@@ -15,9 +14,6 @@ cp -r bin build
 
 # Bundle and minify client JS
 ./node_modules/.bin/browserify src/client/index.js | node_modules/.bin/uglifyjs --compress --mangle > build/public/client.js
-
-# Compile LESS to non-minified CSS 
-./node_modules/.bin/lessc --include-path=public public/client.less build/public/client.css
 
 # Transpile server
 node_modules/.bin/babel src --ignore **/client/*.js,**/dev-assets.js --out-dir build/src

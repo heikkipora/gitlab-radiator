@@ -22,9 +22,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.disable('x-powered-by')
-app.use(express.static(cacheDir))
-app.use(express.static(`${__dirname}/../public`))
 app.use(lessMiddleware(`${__dirname}/../public`, {
+    dest: cacheDir,
     preprocess: {
       less: (src) => {
         let colorLess = ''
@@ -36,6 +35,8 @@ app.use(lessMiddleware(`${__dirname}/../public`, {
     }
   }
 ))
+app.use(express.static(cacheDir))
+app.use(express.static(`${__dirname}/../public`))
 app.use(compression())
 app.use(basicAuth(config.auth))
 
