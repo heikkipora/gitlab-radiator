@@ -46,6 +46,7 @@
     "esm": "3.2.22",
     "express": "4.16.4",
     "js-yaml": "3.13.1",
+    "less-middleware": "3.1.0",
     "lodash": "4.17.11",
     "socket.io": "2.2.0"
   },
@@ -68,7 +69,6 @@
     "eslint": "5.16.0",
     "eslint-plugin-mocha": "5.3.0",
     "eslint-plugin-react": "7.12.4",
-    "less-middleware": "3.1.0",
     "mocha": "6.1.4",
     "react": "16.8.6",
     "react-dom": "16.8.6",
