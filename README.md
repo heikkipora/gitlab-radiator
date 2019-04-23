@@ -57,7 +57,7 @@ Optional configuration properties:
 - ```gitlabs / projects / include``` - Regular expression for inclusion of projects. Default is to include all projects.
 - ```gitlabs / projects / exclude``` - Regular expression for exclusion of projects. Default is to exclude no projects.
 - ```gitlabs / projects / excludePipelineStatus``` - Array of pipeline statuses, that should be excluded (i.e. hidden) (available statuses are ```running, pending, success, failed, canceled, skipped```).
-- ```gitlabs / projects / maxNonFailedJobsVisible``` - Number of non-failed jobs visible for a stage at maximum. Helps with highly concurrent project pipelines becoming uncomfortably high. Default values is unlimited.
+- ```gitlabs / maxNonFailedJobsVisible``` - Number of non-failed jobs visible for a stage at maximum. Helps with highly concurrent project pipelines becoming uncomfortably high. Default values is unlimited.
 - ```gitlabs / auth / username``` - Enables HTTP basic authentication with the defined username and password.
 - ```gitlabs / auth / password``` - Enables HTTP basic authentication with the defined username and password.
 - ```gitlabs / caFile``` - CA file location to be passed to the request library when accessing the gitlab instance.
@@ -79,7 +79,7 @@ gitlabs:
     projects:
       exclude: .*/.*-inactive-project
       excludePipelineStatus: ['canceled', 'pending']
-      maxNonFailedJobsVisible: 3
+    maxNonFailedJobsVisible: 3
     auth:
           username: 'radiator'
       password: 'p455w0rd'
