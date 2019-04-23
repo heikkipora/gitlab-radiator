@@ -1,17 +1,15 @@
 FROM node:8
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package*.json ./
-COPY .gitlab-radiator.yml /root/.gitlab-radiator.yml
+ADD ./ ./
 
-RUN npm install -g gitlab-radiator
-RUN npm install -g socket.io
-
-# Bundle app source
-COPY . .
-
+RUN npm install babel-register babel-preset-env --save-dev
+RUN ./build-npm
+ 
+RUN useradd -ms /bin/bash radiator
+RUN chown -R radiator /usr/src/app 
+USER radiator
+WORKDIR /home/radiator
 EXPOSE 3000
-CMD [ "gitlab-radiator" ]
+CMD [ "/usr/src/app/build/bin/gitlab-radiator" ]

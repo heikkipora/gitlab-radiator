@@ -3,4 +3,4 @@
 process.env.NODE_ENV = 'production'
 
 const path = require('path')
-require(path.join(__dirname, '..', 'src', 'app'))
+require(path.join(__dirname, '..', 'src', 'index'))

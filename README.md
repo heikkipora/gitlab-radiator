@@ -109,6 +109,17 @@ Unfortunately all existing configurations for single gitlab polling have to be a
 
 - Configuration file syntax has changed so that there's only a single ```interval``` property instead of two nested ones.
 
+## Docker
+
+In order to create a docker image from sources just run:
+
+```docker build --tag my-gitlab-radiator ./```
+
+In order to start that container run:
+
+```docker run --name my-gitlab-radiator -p 3000:3000 -v <path_to_your_dir_with_gitlab_radiator_config>:/home/radiator my-gitlab-radiator```
+
+
 ## Contributing
 
 Pull requests are welcome. Kindly check that your code passes ESLint checks by running ```npm run eslint``` first.
