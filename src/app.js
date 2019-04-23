@@ -28,7 +28,7 @@ app.use(lessMiddleware(`${__dirname}/../public`, {
       less: (src) => {
         let colorLess = ''
         Object.keys(config.colors).forEach((stateName) => {
-          colorLess += '@' + stateName + '-color:' + config.colors[stateName] + ';'
+          colorLess += `@${stateName}-color:${config.colors[stateName]};`
         })
         return src + colorLess
       }
