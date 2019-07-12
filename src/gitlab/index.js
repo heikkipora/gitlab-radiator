@@ -48,7 +48,7 @@ function filterOutEmpty(pipelines) {
 function excludePipelineStatusFilter(config) {
   return project => {
     if (config.projects && config.projects.excludePipelineStatus) {
-      return config.projects.excludePipelineStatus.includes(project.status)
+      return !config.projects.excludePipelineStatus.includes(project.status)
     }
     return true
   }
