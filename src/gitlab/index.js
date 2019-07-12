@@ -6,7 +6,6 @@ export async function update(config) {
   const projectsWithPipelines = await loadProjectsWithPipelines(config)
   return projectsWithPipelines
     .filter(project => project.pipelines.length > 0)
-    .filter(excludePipelineStatusFilter(config))
 }
 
 async function loadProjectsWithPipelines(config) {
@@ -26,6 +25,7 @@ async function loadProjectsWithPipelines(config) {
 
 async function projectWithPipelines(project, config) {
   const pipelines = filterOutEmpty(await fetchLatestPipelines(project.id, config))
+    .filter(excludePipelineStatusFilter(config))
   const status = masterBranchStatus(pipelines)
   return {
     ...project,
@@ -46,9 +46,9 @@ function filterOutEmpty(pipelines) {
 }
 
 function excludePipelineStatusFilter(config) {
-  return project => {
+  return pipeline => {
     if (config.projects && config.projects.excludePipelineStatus) {
-      return !config.projects.excludePipelineStatus.includes(project.status)
+      return !config.projects.excludePipelineStatus.includes(pipeline.status)
     }
     return true
   }
