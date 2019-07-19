@@ -90,7 +90,7 @@ ol.projects {
     flex-direction: column;
 
     &.failed {
-      background: fade(@failed-color, 50%);
+      background: fade(@failed-background-color, 50%);
     }
 
     &.running {
@@ -185,21 +185,23 @@ ol.jobs {
     }
 
     &.failed {
-      color: @background-color;
-      background-color: @failed-color;
+      color: @failed-text-color;
+      background-color: @failed-background-color;
     }
 
     &.success {
-      background-color: @success-color;
+      color: @success-text-color;
+      background-color: @success-background-color;
     }
 
     &.running {
+      color: @running-text-color;
       background: repeating-linear-gradient(
               -45deg,
-              @running-color,
-              @running-color 10px,
-              darken(@running-color, 8%) 10px,
-              darken(@running-color, 8%) 20px
+              @running-background-color,
+              @running-background-color 10px,
+              darken(@running-background-color, 8%) 10px,
+              darken(@running-background-color, 8%) 20px
       );
     }
   }
@@ -231,7 +233,7 @@ ol.groups {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    background-color: @success-color;
+    background-color: @success-background-color;
   }
 
   h2 {
