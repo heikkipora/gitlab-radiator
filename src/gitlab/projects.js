@@ -6,7 +6,8 @@ export async function fetchProjects(gitlab) {
   return _(projects)
     .flatten()
     .map(projectMapper)
-    .filter(regexFilter(gitlab))
+    .filter(includeRegexFilter(gitlab))
+    .filter(excludeRegexFilter(gitlab))
     .filter(archivedFilter(gitlab))
     .value()
 }
@@ -37,12 +38,19 @@ function getGroupName(project) {
   return pathWithNameSpace.split('/')[0]
 }
 
-function regexFilter(config) {
+function includeRegexFilter(config) {
   return project => {
     if (config.projects && config.projects.include) {
       const includeRegex = new RegExp(config.projects.include, "i")
       return includeRegex.test(project.name)
-    } else if (config.projects && config.projects.exclude) {
+    }
+    return true
+  }
+}
+
+function excludeRegexFilter(config) {
+  return project => {
+    if (config.projects && config.projects.exclude) {
       const excludeRegex = new RegExp(config.projects.exclude, "i")
       return !excludeRegex.test(project.name)
     }
