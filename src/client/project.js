@@ -16,9 +16,11 @@ export class Project extends React.PureComponent {
   }
 
   style = (columns) => {
-    const widthPercentage = Math.round(90 / columns)
+    const marginPx = 12
+    const widthPercentage = Math.floor(100 / columns)
     return {
-      width: `${widthPercentage}%`
+      margin: `${marginPx}px`,
+      width: `calc(${widthPercentage}% - ${2 * marginPx}px)`
     }
   }
 }
