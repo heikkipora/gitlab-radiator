@@ -58,7 +58,7 @@ socketIoServer.on('connection', (socket) => {
   socket.emit('state', withDate(globalState))
 })
 
-setInterval(async () => {
+async function runUpdate() {
   try {
     globalState.projects = await update(config)
     globalState.error = null
@@ -69,7 +69,10 @@ setInterval(async () => {
     globalState.error = `Failed to communicate with GitLab API: ${error.message}`
     socketIoServer.emit('state', withDate(globalState))
   }
-}, config.interval)
+  setTimeout(runUpdate, config.interval)
+}
+
+runUpdate()
 
 function withDate(state) {
   return {
