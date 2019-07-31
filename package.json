@@ -14,7 +14,7 @@
     "build": "./build-npm",
     "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 babel-node src/app.js",
     "eslint": "eslint --fix src/* bin/* test/*",
-    "test": "mocha --require @babel/register --require @babel/polyfill --timeout 20000 test/*.js test/**/*.js"
+    "test": "mocha --require @babel/register --timeout 20000 test/*.js test/**/*.js"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -57,7 +57,6 @@
     "@babel/plugin-proposal-class-properties": "7.5.5",
     "@babel/plugin-proposal-object-rest-spread": "7.5.5",
     "@babel/plugin-transform-runtime": "7.5.5",
-    "@babel/polyfill": "7.4.4",
     "@babel/preset-env": "7.5.5",
     "@babel/preset-react": "7.0.0",
     "@babel/register": "7.5.5",
