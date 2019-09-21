@@ -1,5 +1,5 @@
 import _ from "lodash"
-import {distanceInWords} from "date-fns"
+import {formatDistance} from "date-fns"
 
 export default function renderTimestamp(stages, now) {
   const timestamps = getTimestamps(stages)
@@ -40,5 +40,5 @@ function renderDistance(predicate, timestamp, now) {
 }
 
 function formatDate(timestamp, now) {
-  return distanceInWords(new Date(timestamp), new Date(now))
+  return formatDistance(new Date(timestamp), new Date(now))
 }
