@@ -8,7 +8,7 @@ module.exports = {
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "settings": {
         "react": {
-            "version": "16.5",
+            "version": "16.10",
         }
     },
     "parserOptions": {
