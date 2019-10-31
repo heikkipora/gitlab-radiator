@@ -52,7 +52,8 @@ async function fetchJobs(projectId, pipelineId, config) {
       stage: job.stage,
       name: job.name,
       startedAt: job.started_at,
-      finishedAt: job.finished_at
+      finishedAt: job.finished_at,
+      url: job.web_url
     }))
     .groupBy('stage')
     .mapValues(mergeRetriedJobs)

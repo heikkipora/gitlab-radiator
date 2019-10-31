@@ -6,7 +6,7 @@ export class Job extends React.PureComponent {
     const {job} = this.props
 
     return <li className={job.status}>
-      {job.name}
+      <a href={job.url} target="_blank" rel="noopener noreferrer">{job.name}</a>
     </li>
   }
 }
