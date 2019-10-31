@@ -29,7 +29,8 @@ function projectMapper(project) {
     name: project.path_with_namespace,
     nameWithoutNamespace: project.path,
     group: getGroupName(project),
-    archived: project.archived
+    archived: project.archived,
+    url: project.web_url
   }
 }
 
