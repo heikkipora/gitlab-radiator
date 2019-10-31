@@ -29,7 +29,7 @@ async function projectWithPipelines(project, config) {
   const status = masterBranchStatus(pipelines)
   return {
     ...project,
-    pipelines: pipelines,
+    pipelines,
     status
   }
 }

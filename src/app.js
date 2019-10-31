@@ -2,6 +2,7 @@ import {basicAuth} from './auth'
 import compression from 'compression'
 import {config} from './config'
 import express from 'express'
+import {fetchOfflineRunners} from './gitlab/runners'
 import http from 'http'
 import lessMiddleware from 'less-middleware'
 import os from 'os'
@@ -61,7 +62,7 @@ socketIoServer.on('connection', (socket) => {
 async function runUpdate() {
   try {
     globalState.projects = await update(config)
-    globalState.error = null
+    globalState.error = await errorIfRunnerOffline()
     socketIoServer.emit('state', withDate(globalState))
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -70,6 +71,23 @@ async function runUpdate() {
     socketIoServer.emit('state', withDate(globalState))
   }
   setTimeout(runUpdate, config.interval)
+}
+
+async function errorIfRunnerOffline() {
+  const offlineRunnersPerGitlab = await Promise.all(config.gitlabs.map(fetchOfflineRunners))
+  const {offline, totalCount} = offlineRunnersPerGitlab.reduce((acc, runner) => {
+    return {
+      offline: acc.offline.concat(runner.offline),
+      totalCount: acc.totalCount + runner.totalCount
+    }
+  }, {offline: [], totalCount: 0})
+
+  if (offline.length > 0) {
+    const names = offline.map(r => r.name).sort().join(', ')
+    const counts = offline.length === totalCount ? 'All' : `${offline.length}/${totalCount}`
+    return `${counts} runners offline: ${names}`
+  }
+  return null
 }
 
 runUpdate()
