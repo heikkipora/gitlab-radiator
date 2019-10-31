@@ -12,7 +12,7 @@ export async function fetchOfflineRunners(gitlab) {
 async function fetchRunners(gitlab) {
   const {data: runners} = await gitlabRequest('/runners', {}, gitlab)
   return runners.map(r => ({
-    name: r.name,
+    name: r.description || r.id,
     status: r.status
   }))
 }
