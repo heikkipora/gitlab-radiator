@@ -7,10 +7,12 @@ export class Project extends React.PureComponent {
   render() {
     const {project, columns, now} = this.props
     const [pipeline] = project.pipelines
-    const pipelineUrl = `${project.url}/pipelines`
 
     return <li className={`project ${project.status}`} style={this.style(columns)}>
-      <h2><a href={pipelineUrl} target="_blank" rel="noopener noreferrer">{project.name}</a></h2>
+      <h2>
+        {project.url && <a href={`${project.url}/pipelines`} target="_blank" rel="noopener noreferrer">{project.name}</a>}
+        {!project.url && project.name}
+      </h2>
       <Stages stages={pipeline.stages} maxNonFailedJobsVisible={project.maxNonFailedJobsVisible}/>
       <Info now={now} pipeline={pipeline}/>
     </li>
