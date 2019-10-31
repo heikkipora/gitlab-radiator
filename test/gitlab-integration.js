@@ -13,10 +13,10 @@ describe('Gitlab client', () => {
     const config = {...gitlab, perPage: 1}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {archived: false, group: 'gitlab-radiator-test', id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project'},
-      {archived: false, group: 'gitlab-radiator-test', id: 5304923, name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test'},
-      {archived: false, group: 'gitlab-radiator-test', id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2'},
-      {archived: false, group: 'gitlab-radiator-test', id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1'}
+      {archived: false, group: 'gitlab-radiator-test', id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},
+      {archived: false, group: 'gitlab-radiator-test', id: 5304923, name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test', url: 'https://gitlab.com/gitlab-radiator-test/empty-test'},
+      {archived: false, group: 'gitlab-radiator-test', id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2', url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2'},
+      {archived: false, group: 'gitlab-radiator-test', id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1', url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1'}
     ])
   })
 
@@ -24,7 +24,7 @@ describe('Gitlab client', () => {
     const config = {...gitlab, projects: {include: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {archived: false, id: 5290865, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1'}
+      {archived: false, id: 5290865, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1', url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1'}
     ])
   })
 
@@ -32,9 +32,9 @@ describe('Gitlab client', () => {
     const config = {...gitlab, projects: {exclude: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {archived: false, id: 5385889, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project'},
-      {archived: false, id: 5304923, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test'},
-      {archived: false, id: 5290928, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2'}
+      {archived: false, id: 5385889, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},
+      {archived: false, id: 5304923, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test', url: 'https://gitlab.com/gitlab-radiator-test/empty-test'},
+      {archived: false, id: 5290928, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2', url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2'}
     ])
   })
 
@@ -55,7 +55,8 @@ describe('Gitlab client', () => {
             id: 51360738,
             name: 'test',
             startedAt: '2018-02-06T19:08:18.204Z',
-            status: 'success'
+            status: 'success',
+            url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/51360738'
           }],
           name: 'test'
         }],
@@ -85,7 +86,8 @@ describe('Gitlab client', () => {
                 status: 'success',
                 name: 'fail_randomly_long_name',
                 startedAt: '2018-01-29T20:43:16.150Z',
-                finishedAt: '2018-01-29T20:44:14.087Z'
+                finishedAt: '2018-01-29T20:44:14.087Z',
+                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50073450'
               }
             ]
           },
@@ -97,7 +99,8 @@ describe('Gitlab client', () => {
                 status: 'success',
                 name: 'build_my_stuff',
                 startedAt: '2018-01-29T20:33:25.756Z',
-                finishedAt: '2018-01-29T20:34:34.936Z'
+                finishedAt: '2018-01-29T20:34:34.936Z',
+                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50072465'
               }
             ]
           }
@@ -119,7 +122,8 @@ describe('Gitlab client', () => {
                 id: 50073308,
                 name: 'fail_randomly_long_name',
                 startedAt: '2018-01-29T20:41:45.452Z',
-                status: 'failed'
+                status: 'failed',
+                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50073308'
               }
             ],
             name: 'test'
@@ -131,7 +135,8 @@ describe('Gitlab client', () => {
                 id: 49858384,
                 name: 'build_my_stuff',
                 startedAt: '2018-01-28T10:20:10.340Z',
-                status: 'success'
+                status: 'success',
+                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/49858384'
               }
             ],
             name: 'build'
@@ -152,6 +157,7 @@ describe('Gitlab client', () => {
           id: 5385889,
           name: 'gitlab-radiator-test/ci-skip-test-project',
           nameWithoutNamespace: 'ci-skip-test-project',
+          url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project',
           pipelines: [
             {
               id: 17172603,
@@ -167,7 +173,8 @@ describe('Gitlab client', () => {
                   id: 51360738,
                   name: 'test',
                   startedAt: '2018-02-06T19:08:18.204Z',
-                  status: 'success'
+                  status: 'success',
+                  url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/51360738'
                 }],
                 name: 'test'
               }]
@@ -181,6 +188,7 @@ describe('Gitlab client', () => {
         id: 5290928,
         name: 'gitlab-radiator-test/integration-test-project-2',
         nameWithoutNamespace: 'integration-test-project-2',
+        url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2',
         pipelines: [
           {
             id: 16793189,
@@ -199,7 +207,8 @@ describe('Gitlab client', () => {
                     status: 'success',
                     name: 'fail_randomly_long_name',
                     startedAt: '2018-01-29T20:43:16.150Z',
-                    finishedAt: '2018-01-29T20:44:14.087Z'
+                    finishedAt: '2018-01-29T20:44:14.087Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50073450'
                   }
                 ]
               },
@@ -211,7 +220,8 @@ describe('Gitlab client', () => {
                     status: 'success',
                     name: 'build_my_stuff',
                     startedAt: '2018-01-29T20:33:25.756Z',
-                    finishedAt: '2018-01-29T20:34:34.936Z'
+                    finishedAt: '2018-01-29T20:34:34.936Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50072465'
                   }
                 ]
               }
@@ -234,7 +244,8 @@ describe('Gitlab client', () => {
                     status: 'failed',
                     name: 'fail_randomly_long_name',
                     startedAt: '2018-01-29T20:41:45.452Z',
-                    finishedAt: '2018-01-29T20:43:22.986Z'
+                    finishedAt: '2018-01-29T20:43:22.986Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50073308'
                   }
                 ]
               },
@@ -246,7 +257,8 @@ describe('Gitlab client', () => {
                     status: 'success',
                     name: 'build_my_stuff',
                     startedAt: '2018-01-28T10:20:10.340Z',
-                    finishedAt: '2018-01-28T10:21:40.299Z'
+                    finishedAt: '2018-01-28T10:21:40.299Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/49858384'
                   }
                 ]
               }
@@ -261,6 +273,7 @@ describe('Gitlab client', () => {
         id: 5290865,
         name: 'gitlab-radiator-test/integration-test-project-1',
         nameWithoutNamespace: 'integration-test-project-1',
+        url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1',
         pipelines: [
           {
             id: 16733911,
@@ -279,28 +292,32 @@ describe('Gitlab client', () => {
                     status: 'success',
                     name: 'api-test',
                     startedAt: '2018-01-28T16:10:38.442Z',
-                    finishedAt: '2018-01-28T16:12:47.393Z'
+                    finishedAt: '2018-01-28T16:12:47.393Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876215'
                   },
                   {
                     id: 49876216,
                     status: 'success',
                     name: 'browser-test',
                     startedAt: '2018-01-28T16:12:51.715Z',
-                    finishedAt: '2018-01-28T16:14:53.861Z'
+                    finishedAt: '2018-01-28T16:14:53.861Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876216'
                   },
                   {
                     id: 49876213,
                     status: 'success',
                     name: 'eslint',
                     startedAt: '2018-01-28T16:06:21.808Z',
-                    finishedAt: '2018-01-28T16:08:32.882Z'
+                    finishedAt: '2018-01-28T16:08:32.882Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876213'
                   },
                   {
                     id: 49876214,
                     status: 'success',
                     name: 'verify',
                     startedAt: '2018-01-28T16:08:34.100Z',
-                    finishedAt: '2018-01-28T16:10:35.798Z'
+                    finishedAt: '2018-01-28T16:10:35.798Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876214'
                   }
                 ]
               },
@@ -312,7 +329,8 @@ describe('Gitlab client', () => {
                     status: 'success',
                     name: 'package-my-stuff',
                     startedAt: '2018-01-28T16:14:55.299Z',
-                    finishedAt: '2018-01-28T16:15:51.073Z'
+                    finishedAt: '2018-01-28T16:15:51.073Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876217'
                   }
                 ]
               },
@@ -324,7 +342,8 @@ describe('Gitlab client', () => {
                     status: 'success',
                     name: 'deploy-my-awesome-stuff',
                     startedAt: '2018-01-28T16:15:57.358Z',
-                    finishedAt: '2018-01-28T16:17:09.471Z'
+                    finishedAt: '2018-01-28T16:17:09.471Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876218'
                   }
                 ]
               },
@@ -334,12 +353,14 @@ describe('Gitlab client', () => {
                   {
                     id: 49876219,
                     status: 'manual',
-                    name: 'manual_step-1'
+                    name: 'manual_step-1',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876219'
                   },
                   {
                     id: 49876220,
                     status: 'manual',
-                    name: 'manual_step-2'
+                    name: 'manual_step-2',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876220'
                   }
                 ]
               }
