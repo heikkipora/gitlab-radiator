@@ -5,6 +5,8 @@ export async function fetchProjects(gitlab) {
   const projects = await fetchProjectsPaged(gitlab)
   return _(projects)
     .flatten()
+    // Ignore projects for which CI/CD is not enabled
+    .filter(project => project.jobs_enabled)
     .map(projectMapper)
     .filter(includeRegexFilter(gitlab))
     .filter(excludeRegexFilter(gitlab))
