@@ -7,13 +7,20 @@ describe("projects", () => {
     const response = {
         data: [
             {
-                path_with_namespace: "group1/pro"
+                path_with_namespace: "group1/pro",
+                jobs_enabled: true
             },
             {
-                path_with_namespace: "group1/pro-other"
+                path_with_namespace: "group1/pro-other",
+                jobs_enabled: true
             },
             {
-                path_with_namespace: "group2/something"
+                path_with_namespace: "group2/something",
+                jobs_enabled: true
+            },
+            {
+                path_with_namespace: "group3/no-ci-pipelines",
+                jobs_enabled: false
             }
         ],
         headers: {}
