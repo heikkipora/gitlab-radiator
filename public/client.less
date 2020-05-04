@@ -9,8 +9,9 @@
   box-sizing: border-box;
 }
 
-html, body {
-  font-family: 'Open Sans', sans-serif;
+html,
+body {
+  font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
@@ -75,7 +76,8 @@ a {
   }
 }
 
-li, ol {
+li,
+ol {
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -102,11 +104,11 @@ ol.projects {
 
     &.running {
       background: repeating-linear-gradient(
-              -45deg,
-              @project-background-color,
-              @project-background-color 20px,
-              darken(@project-background-color, 2%) 20px,
-              darken(@project-background-color, 2%) 40px
+        -45deg,
+        @project-background-color,
+        @project-background-color 20px,
+        darken(@project-background-color, 2%) 20px,
+        darken(@project-background-color, 2%) 40px
       );
     }
 
@@ -120,7 +122,8 @@ ol.projects {
       line-height: 1.2em;
     }
 
-    h4, h6 {
+    h4,
+    h6 {
       text-transform: lowercase;
       text-align: center;
       margin: 0;
@@ -187,8 +190,19 @@ ol.jobs {
       margin-bottom: 5px;
     }
 
-    &.created, &.pending, &.skipped {
-      background-color: @project-background-color;
+    &.skipped {
+      color: @skipped-text-color;
+      background-color: @skipped-background-color;
+    }
+
+    &.created {
+      color: @created-text-color;
+      background-color: @created-background-color;
+    }
+
+    &.pending {
+      color: @pending-text-color;
+      background-color: @pending-background-color;
     }
 
     &.failed {
@@ -204,11 +218,11 @@ ol.jobs {
     &.running {
       color: @running-text-color;
       background: repeating-linear-gradient(
-              -45deg,
-              @running-background-color,
-              @running-background-color 10px,
-              darken(@running-background-color, 8%) 10px,
-              darken(@running-background-color, 8%) 20px
+        -45deg,
+        @running-background-color,
+        @running-background-color 10px,
+        darken(@running-background-color, 8%) 10px,
+        darken(@running-background-color, 8%) 20px
       );
     }
   }
@@ -253,7 +267,8 @@ ol.groups {
     line-height: 1.2em;
   }
 
-  h4, h6 {
+  h4,
+  h6 {
     text-transform: lowercase;
     text-align: center;
     margin: 0;
@@ -263,7 +278,6 @@ ol.groups {
     white-space: nowrap;
     line-height: 1.2em;
   }
-
 }
 
 .pipeline-info {
