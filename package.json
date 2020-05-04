@@ -5,7 +5,7 @@
     "email": "heikki.pora@gmail.com"
   },
   "description": "The missing GitLab build radiator view",
-  "version": "3.1.8",
+  "version": "3.1.9",
   "license": "MIT",
   "bin": {
     "gitlab-radiator": "bin/gitlab-radiator"
