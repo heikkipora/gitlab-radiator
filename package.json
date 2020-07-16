@@ -47,7 +47,7 @@
     "express": "4.17.1",
     "js-yaml": "3.14.0",
     "less-middleware": "3.1.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "socket.io": "2.3.0"
   },
   "devDependencies": {
