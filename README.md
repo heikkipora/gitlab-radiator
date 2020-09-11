@@ -31,7 +31,13 @@ And if you have an onsite GitLab with HTTPS and self-signed certificates:
 
 You might prefer providing the CA file location in configuration instead of totally disabling TLS certificate checking.
 
-Then navigate with a browser to http://localhost:3000 - or whatever port you did configure.
+Then navigate with a browser to `http://localhost:3000` - or whatever port you did configure.
+
+### Multi-screen support
+
+It's possible to split the radiator view to multiple physical screens by specifying the total number of screens and the current screen with the `screens` URL parameter. The parameter value format is `XofY` where `X` is the number of the screen in question (1...total), and `Y` is the total number of screens (max 9).
+
+Example: `http://localhost:3000/?screen=2of3`
 
 ## Configuration
 

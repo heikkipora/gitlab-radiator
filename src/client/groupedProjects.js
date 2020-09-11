@@ -14,9 +14,10 @@ export class GroupedProjects extends React.PureComponent {
   }
 
   renderProjects(projects) {
-    const {zoom, columns, now, projectsOrder} = this.props
+    const {zoom, columns, now, projectsOrder, screen} = this.props
     return <Projects now={now} zoom={zoom} columns={columns}
-                     projects={projects || []} projectsOrder={projectsOrder}/>
+                     projects={projects || []} projectsOrder={projectsOrder}
+                     screen={screen}/>
   }
 
   renderGroupedProjects(groupedProjects) {
@@ -60,5 +61,9 @@ GroupedProjects.propTypes = {
   zoom: PropTypes.number,
   columns: PropTypes.number,
   now: PropTypes.number,
-  groupSuccessfulProjects: PropTypes.bool
+  groupSuccessfulProjects: PropTypes.bool,
+  screen: PropTypes.shape({
+    id: PropTypes.number,
+    total: PropTypes.number
+  }).isRequired
 }

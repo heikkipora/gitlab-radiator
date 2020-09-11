@@ -10,6 +10,7 @@ class RadiatorApp extends React.Component {
       error: undefined,
       now: undefined
     }
+    this.screen = this.screenArguments()
   }
 
   componentDidMount = () => {
@@ -25,7 +26,8 @@ class RadiatorApp extends React.Component {
 
       <GroupedProjects now={this.state.now} zoom={this.state.zoom} columns={this.state.columns}
                        projects={this.state.projects || []} projectsOrder={this.state.projectsOrder}
-                       groupSuccessfulProjects={this.state.groupSuccessfulProjects}/>
+                       groupSuccessfulProjects={this.state.groupSuccessfulProjects}
+                       screen={this.screen}/>
     </div>
 
   renderErrorMessage = () =>
@@ -43,6 +45,20 @@ class RadiatorApp extends React.Component {
   onServerStateUpdated = state => this.setState(state)
 
   onDisconnect = () => this.setState({error: 'gitlab-radiator server is offline'})
+
+  screenArguments = () => {
+    const screen = new URLSearchParams(window.location.search).get('screen')
+    const matches = (/(\d)of(\d)/).exec(screen)
+    let id = matches ? Number(matches[1]) : 1
+    const total = matches ? Number(matches[2]) : 1
+    if (id > total) {
+      id = total
+    }
+    return {
+      id,
+      total
+    }
+  }
 }
 
 ReactDOM.render(<RadiatorApp/>, document.getElementById('app'))
