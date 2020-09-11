@@ -47,8 +47,8 @@ class RadiatorApp extends React.Component {
   onDisconnect = () => this.setState({error: 'gitlab-radiator server is offline'})
 
   screenArguments = () => {
-    const screen = new URLSearchParams(window.location.search).get('screen')
-    const matches = (/(\d)of(\d)/).exec(screen)
+    const screen = window.location.search
+    const matches = (/screen=(\d)of(\d)/).exec(window.location.search)
     let id = matches ? Number(matches[1]) : 1
     const total = matches ? Number(matches[2]) : 1
     if (id > total) {
