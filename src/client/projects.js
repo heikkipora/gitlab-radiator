@@ -21,7 +21,7 @@ export class Projects extends React.PureComponent {
     const perScreen = Math.ceil(projectsCount / screen.total)
     const first = perScreen * (screen.id - 1)
     const last = perScreen * screen.id
-    return (_, projectIndex) => projectIndex >= first && projectIndex < last
+    return (_project, projectIndex) => projectIndex >= first && projectIndex < last
   }
 
   zoomStyle = zoom => {
