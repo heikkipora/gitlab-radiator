@@ -6,13 +6,14 @@ class RadiatorApp extends React.Component {
   constructor() {
     super()
     this.state = {
-      projects: undefined,
+      projects: [],
       error: undefined,
       now: undefined
     }
     const args = this.parseQueryString()
     this.screen = this.screenArguments(args)
     this.override = this.overrideArguments(args)
+    this.includedTags = this.tagArguments(args)
   }
 
   componentDidMount = () => {
@@ -27,7 +28,7 @@ class RadiatorApp extends React.Component {
       {this.renderProgressMessage()}
 
       <GroupedProjects now={this.state.now} zoom={this.state.zoom} columns={this.state.columns}
-                       projects={this.state.projects || []} projectsOrder={this.state.projectsOrder}
+                       projects={this.state.projects} projectsOrder={this.state.projectsOrder}
                        groupSuccessfulProjects={this.state.groupSuccessfulProjects}
                        screen={this.screen}/>
     </div>
@@ -45,13 +46,42 @@ class RadiatorApp extends React.Component {
   }
 
   onServerStateUpdated = state => {
+    const projects = this.filterProjectsByTags(state.projects)
     this.setState({
       ...state,
-      ...this.override
+      ...this.override,
+      projects
     })
   }
 
   onDisconnect = () => this.setState({error: 'gitlab-radiator server is offline'})
+
+  filterProjectsByTags = projects => {
+    // No tag lisst specified, include all projects
+    if (!this.includedTags) {
+      return projects
+    }
+    // Empty tag list specified, include projects without tags
+    if (this.includedTags.length === 0) {
+      return projects.filter(project =>
+        project.tags.length === 0
+      )
+    }
+    // Tag list specigied, include projectes which have at least one of them
+    return projects.filter(project =>
+      project.tags.some(tag => this.includedTags.includes(tag))
+    )
+  }
+
+  tagArguments = args => {
+    if (args.tags === undefined) {
+      return null
+    }
+    return (args.tags || '')
+      .split(',')
+      .map(t => t.toLowerCase().trim())
+      .filter(t => t)
+  }
 
   overrideArguments = args => {
     const columns = args.columns ? {columns: Number(args.columns)} : {}
