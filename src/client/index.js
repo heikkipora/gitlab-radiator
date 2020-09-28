@@ -10,7 +10,8 @@ class RadiatorApp extends React.Component {
       error: undefined,
       now: undefined
     }
-    this.screen = this.screenArguments()
+    const args = this.parseQueryString()
+    this.screen = this.screenArguments(args)
   }
 
   componentDidMount = () => {
@@ -46,8 +47,8 @@ class RadiatorApp extends React.Component {
 
   onDisconnect = () => this.setState({error: 'gitlab-radiator server is offline'})
 
-  screenArguments = () => {
-    const matches = (/screen=(\d)of(\d)/).exec(window.location.search)
+  screenArguments = args => {
+    const matches = (/(\d)of(\d)/).exec(args.screen || '')
     let id = matches ? Number(matches[1]) : 1
     const total = matches ? Number(matches[2]) : 1
     if (id > total) {
@@ -57,6 +58,20 @@ class RadiatorApp extends React.Component {
       id,
       total
     }
+  }
+
+  parseQueryString = () => {
+    return document.location.search
+      .slice(1)
+      .split('&')
+      .filter(p => p)
+      .reduce((acc, parameter) => {
+        const [key, value] = parameter.split('=')
+        return {
+          ...acc,
+          [key]: decodeURIComponent(value)
+        }
+      }, {})
   }
 }
 
