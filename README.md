@@ -33,11 +33,22 @@ You might prefer providing the CA file location in configuration instead of tota
 
 Then navigate with a browser to `http://localhost:3000` - or whatever port you did configure.
 
+## URL parameters
+
+In addition to server-side configuration, `gitlab-radiator` views can be customized by providing URL parameters. This comes in handy especially when multiple physical screens are pointed to the same server instance.
+
 ### Multi-screen support
 
 It's possible to split the radiator view to multiple physical screens by specifying the total number of screens and the current screen with the `screens` URL parameter. The parameter value format is `XofY` where `X` is the number of the screen in question (1...total), and `Y` is the total number of screens (max 9).
 
 Example: `http://localhost:3000/?screen=2of3`
+
+### Overriding number of columns and zoom level
+
+Want to display a radiator view on your own display with different layout from that displayed on multiple displays on the nearest wall?
+`columns` and `zoom` configuration values (see `Configuration` section below) can be overriden for a single user / browser by providing them as URL parameters.
+
+Example: `http://localhost:3000/?columns=2&zoom=0.8`
 
 ## Configuration
 

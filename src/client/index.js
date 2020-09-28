@@ -12,6 +12,7 @@ class RadiatorApp extends React.Component {
     }
     const args = this.parseQueryString()
     this.screen = this.screenArguments(args)
+    this.override = this.overrideArguments(args)
   }
 
   componentDidMount = () => {
@@ -43,9 +44,23 @@ class RadiatorApp extends React.Component {
     return null
   }
 
-  onServerStateUpdated = state => this.setState(state)
+  onServerStateUpdated = state => {
+    this.setState({
+      ...state,
+      ...this.override
+    })
+  }
 
   onDisconnect = () => this.setState({error: 'gitlab-radiator server is offline'})
+
+  overrideArguments = args => {
+    const columns = args.columns ? {columns: Number(args.columns)} : {}
+    const zoom = args.zoom ? {zoom: Number(args.zoom)} : {}
+    return {
+      ...columns,
+      ...zoom
+    }
+  }
 
   screenArguments = args => {
     const matches = (/(\d)of(\d)/).exec(args.screen || '')
