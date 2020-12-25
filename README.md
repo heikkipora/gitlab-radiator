@@ -7,7 +7,7 @@
 <img src="https://raw.github.com/heikkipora/gitlab-radiator/master/screenshot.png" width="50%">
 
 [![npm version](https://badge.fury.io/js/gitlab-radiator.svg)](https://badge.fury.io/js/gitlab-radiator)
-[![build status](https://travis-ci.org/heikkipora/gitlab-radiator.svg?branch=master)](https://travis-ci.org/heikkipora/gitlab-radiator)
+![Run tests](https://github.com/heikkipora/gitlab-radiator/workflows/Run%20tests/badge.svg)
 
 ## Pre-requisites
 
