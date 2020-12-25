@@ -45,18 +45,18 @@ describe('Gitlab client', () => {
       [{
         commit: {
           author: 'Heikki Pora',
-          title: 'Initial commit'
+          title: '[ci skip] do nothing'
         },
-        id: 17172603,
+        id: 234495591,
         ref: 'master',
         stages: [{
           jobs: [{
-            finishedAt: '2018-02-06T19:09:04.470Z',
-            id: 51360738,
+            finishedAt: '2020-12-25T20:08:30.992Z',
+            id: 932219322,
             name: 'test',
-            startedAt: '2018-02-06T19:08:18.204Z',
+            startedAt: '2020-12-25T20:07:50.812Z',
             status: 'success',
-            url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/51360738'
+            url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/932219322'
           }],
           name: 'test'
         }],
@@ -70,7 +70,7 @@ describe('Gitlab client', () => {
     const pipelines = await fetchLatestPipelines(5290928, config)
     expect(pipelines).to.deep.equal(
       [{
-        id: 16793189,
+        id: 234613306,
         status: 'success',
         commit: {
           title: 'Fail more',
@@ -82,12 +82,12 @@ describe('Gitlab client', () => {
             name: 'test',
             jobs: [
               {
-                id: 50073450,
+                id: 932599898,
                 status: 'success',
                 name: 'fail_randomly_long_name',
-                startedAt: '2018-01-29T20:43:16.150Z',
-                finishedAt: '2018-01-29T20:44:14.087Z',
-                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50073450'
+                startedAt: '2020-12-26T13:59:35.397Z',
+                finishedAt: '2020-12-26T14:00:11.845Z',
+                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/932599898'
               }
             ]
           },
@@ -95,19 +95,19 @@ describe('Gitlab client', () => {
             name: 'build',
             jobs: [
               {
-                id: 50072465,
+                id: 932599715,
                 status: 'success',
                 name: 'build_my_stuff',
-                startedAt: '2018-01-29T20:33:25.756Z',
-                finishedAt: '2018-01-29T20:34:34.936Z',
-                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50072465'
+                startedAt: '2020-12-26T14:00:12.710Z',
+                finishedAt: '2020-12-26T14:00:53.946Z',
+                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/932599715'
               }
             ]
           }
         ]
       },
       {
-        id: 16728199,
+        id: 234613296,
         status: 'failed',
         commit: {
           author: 'Heikki Pora',
@@ -118,12 +118,12 @@ describe('Gitlab client', () => {
           {
             jobs: [
               {
-                finishedAt: '2018-01-29T20:43:22.986Z',
-                id: 50073308,
+                finishedAt: '2020-12-26T14:01:11.815Z',
+                id: 932600811,
                 name: 'fail_randomly_long_name',
-                startedAt: '2018-01-29T20:41:45.452Z',
+                startedAt: '2020-12-26T14:00:39.928Z',
                 status: 'failed',
-                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50073308'
+                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/932600811'
               }
             ],
             name: 'test'
@@ -131,12 +131,12 @@ describe('Gitlab client', () => {
           {
             jobs: [
               {
-                finishedAt: '2018-01-28T10:21:40.299Z',
-                id: 49858384,
+                finishedAt: '2020-12-26T13:59:28.050Z',
+                id: 932599688,
                 name: 'build_my_stuff',
-                startedAt: '2018-01-28T10:20:10.340Z',
+                startedAt: '2020-12-26T13:58:54.325Z',
                 status: 'success',
-                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/49858384'
+                url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/932599688'
               }
             ],
             name: 'build'
@@ -161,21 +161,21 @@ describe('Gitlab client', () => {
           url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project',
           pipelines: [
             {
-              id: 17172603,
+              id: 234495591,
               status: 'success',
               commit: {
                 author: 'Heikki Pora',
-                title: 'Initial commit'
+                title: '[ci skip] do nothing'
               },
               ref: 'master',
               stages: [{
                 jobs: [{
-                  finishedAt: '2018-02-06T19:09:04.470Z',
-                  id: 51360738,
+                  finishedAt: '2020-12-25T20:08:30.992Z',
+                  id: 932219322,
                   name: 'test',
-                  startedAt: '2018-02-06T19:08:18.204Z',
+                  startedAt: '2020-12-25T20:07:50.812Z',
                   status: 'success',
-                  url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/51360738'
+                  url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/932219322'
                 }],
                 name: 'test'
               }]
@@ -193,7 +193,7 @@ describe('Gitlab client', () => {
         tags: [],
         pipelines: [
           {
-            id: 16793189,
+            id: 234613306,
             status: 'success',
             commit: {
               title: 'Fail more',
@@ -205,12 +205,12 @@ describe('Gitlab client', () => {
                 name: 'test',
                 jobs: [
                   {
-                    id: 50073450,
+                    id: 932599898,
                     status: 'success',
                     name: 'fail_randomly_long_name',
-                    startedAt: '2018-01-29T20:43:16.150Z',
-                    finishedAt: '2018-01-29T20:44:14.087Z',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50073450'
+                    startedAt: '2020-12-26T13:59:35.397Z',
+                    finishedAt: '2020-12-26T14:00:11.845Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/932599898'
                   }
                 ]
               },
@@ -218,19 +218,19 @@ describe('Gitlab client', () => {
                 name: 'build',
                 jobs: [
                   {
-                    id: 50072465,
+                    id: 932599715,
                     status: 'success',
                     name: 'build_my_stuff',
-                    startedAt: '2018-01-29T20:33:25.756Z',
-                    finishedAt: '2018-01-29T20:34:34.936Z',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50072465'
+                    startedAt: '2020-12-26T14:00:12.710Z',
+                    finishedAt: '2020-12-26T14:00:53.946Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/932599715'
                   }
                 ]
               }
             ]
           },
           {
-            id: 16728199,
+            id: 234613296,
             ref: 'master',
             status: 'failed',
             commit: {
@@ -242,12 +242,12 @@ describe('Gitlab client', () => {
                 name: 'test',
                 jobs: [
                   {
-                    id: 50073308,
+                    id: 932600811,
                     status: 'failed',
                     name: 'fail_randomly_long_name',
-                    startedAt: '2018-01-29T20:41:45.452Z',
-                    finishedAt: '2018-01-29T20:43:22.986Z',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/50073308'
+                    startedAt: '2020-12-26T14:00:39.928Z',
+                    finishedAt: '2020-12-26T14:01:11.815Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/932600811'
                   }
                 ]
               },
@@ -255,12 +255,12 @@ describe('Gitlab client', () => {
                 name: 'build',
                 jobs: [
                   {
-                    id: 49858384,
+                    id: 932599688,
                     status: 'success',
                     name: 'build_my_stuff',
-                    startedAt: '2018-01-28T10:20:10.340Z',
-                    finishedAt: '2018-01-28T10:21:40.299Z',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/49858384'
+                    startedAt: '2020-12-26T13:58:54.325Z',
+                    finishedAt: '2020-12-26T13:59:28.050Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2/-/jobs/932599688'
                   }
                 ]
               }
@@ -279,7 +279,7 @@ describe('Gitlab client', () => {
         tags: ['display-1'],
         pipelines: [
           {
-            id: 16733911,
+            id: 234493901,
             ref: 'master',
             status: 'success',
             commit: {
@@ -291,36 +291,36 @@ describe('Gitlab client', () => {
                 name: 'test',
                 jobs: [
                   {
-                    id: 49876215,
+                    id: 932213321,
                     status: 'success',
                     name: 'api-test',
-                    startedAt: '2018-01-28T16:10:38.442Z',
-                    finishedAt: '2018-01-28T16:12:47.393Z',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876215'
+                    startedAt: '2020-12-25T20:02:42.733Z',
+                    finishedAt: '2020-12-25T20:03:36.383Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213321'
                   },
                   {
-                    id: 49876216,
+                    id: 932213322,
                     status: 'success',
                     name: 'browser-test',
-                    startedAt: '2018-01-28T16:12:51.715Z',
-                    finishedAt: '2018-01-28T16:14:53.861Z',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876216'
+                    startedAt: '2020-12-25T20:02:43.020Z',
+                    finishedAt: '2020-12-25T20:03:28.386Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213322'
                   },
                   {
-                    id: 49876213,
+                    id: 932213319,
                     status: 'success',
                     name: 'eslint',
-                    startedAt: '2018-01-28T16:06:21.808Z',
-                    finishedAt: '2018-01-28T16:08:32.882Z',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876213'
+                    startedAt: '2020-12-25T20:02:42.444Z',
+                    finishedAt: '2020-12-25T20:03:34.931Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213319'
                   },
                   {
-                    id: 49876214,
+                    id: 932213320,
                     status: 'success',
                     name: 'verify',
-                    startedAt: '2018-01-28T16:08:34.100Z',
-                    finishedAt: '2018-01-28T16:10:35.798Z',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876214'
+                    startedAt: '2020-12-25T20:02:42.663Z',
+                    finishedAt: '2020-12-25T20:03:35.364Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213320'
                   }
                 ]
               },
@@ -328,12 +328,12 @@ describe('Gitlab client', () => {
                 name: 'build',
                 jobs: [
                   {
-                    id: 49876217,
+                    id: 932213323,
                     status: 'success',
                     name: 'package-my-stuff',
-                    startedAt: '2018-01-28T16:14:55.299Z',
-                    finishedAt: '2018-01-28T16:15:51.073Z',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876217'
+                    startedAt: '2020-12-25T20:03:37.107Z',
+                    finishedAt: '2020-12-25T20:04:22.618Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213323'
                   }
                 ]
               },
@@ -341,12 +341,12 @@ describe('Gitlab client', () => {
                 name: 'deploy',
                 jobs: [
                   {
-                    id: 49876218,
+                    id: 932213324,
                     status: 'success',
                     name: 'deploy-my-awesome-stuff',
-                    startedAt: '2018-01-28T16:15:57.358Z',
-                    finishedAt: '2018-01-28T16:17:09.471Z',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876218'
+                    startedAt: '2020-12-25T20:04:23.450Z',
+                    finishedAt: '2020-12-25T20:05:14.167Z',
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213324'
                   }
                 ]
               },
@@ -354,16 +354,16 @@ describe('Gitlab client', () => {
                 name: 'finnish',
                 jobs: [
                   {
-                    id: 49876219,
+                    id: 932213325,
                     status: 'manual',
                     name: 'manual_step-1',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876219'
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213325'
                   },
                   {
-                    id: 49876220,
+                    id: 932213326,
                     status: 'manual',
                     name: 'manual_step-2',
-                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/49876220'
+                    url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213326'
                   }
                 ]
               }
