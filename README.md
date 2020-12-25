@@ -132,7 +132,7 @@ See [releases](https://github.com/heikkipora/gitlab-radiator/releases).
 ## Contributing
 
 Pull requests are welcome. Kindly check that your code passes ESLint checks by running `npm run eslint` first.
-Integration tests are (for now) skipped for pull request builds on Travis as they depend on a secret API token.
+Tests are run automatically for pull requests by Github Actions against a test profile with a few CI pipelines on gitlab.com
 
 ## Contributors
 

@@ -5,7 +5,7 @@ import {update} from '../src/gitlab'
 
 const gitlab = {
   url: 'https://gitlab.com',
-  'access-token': process.env.GITLAB_ACCESS_TOKEN
+  'access-token': 'K34Nzm3_JA1rQMML6j5h'
 }
 
 describe('Gitlab client', () => {
