@@ -55,6 +55,7 @@ async function fetchJobs(projectId, pipelineId, config) {
       finishedAt: job.finished_at,
       url: job.web_url
     }))
+    .orderBy('id')
     .groupBy('stage')
     .mapValues(mergeRetriedJobs)
     .mapValues(cleanup)
