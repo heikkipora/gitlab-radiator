@@ -3,43 +3,59 @@ import {gitlabRequest} from './client'
 
 export async function fetchLatestPipelines(projectId, gitlab) {
   const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)
+  const jobsForPipelines = await fetchJobsForPipelines(projectId, pipelines, gitlab)
 
-  return Promise.all(pipelines.map(async ({id, ref, status}) => {
-    const jobs = await fetchJobs(projectId, id, gitlab)
+  return pipelines.map(({id, ref, status}) => {
+    const jobs = matchJobs(id, jobsForPipelines)
     return {
       id,
       ref,
       status,
       ...jobs
     }
-  }))
+  })
 }
 
-// eslint-disable-next-line max-statements
 async function fetchLatestAndMasterPipeline(projectId, config) {
-  const pipelines = await fetchPipelines(projectId, config, {per_page: 100})
-  if (pipelines.length === 0) {
+  const [latestPipeline] = await fetchNonSkippedPipelines(projectId, config, {per_page: 100})
+  if (!latestPipeline) {
     return []
   }
-  const latestPipeline = _.take(pipelines, 1)
-  if (latestPipeline[0].ref === 'master') {
-    return latestPipeline
+  if (latestPipeline.ref === 'master') {
+    return [latestPipeline]
   }
-  const latestMasterPipeline = _(pipelines).filter({ref: 'master'}).take(1).value()
-  if (latestMasterPipeline.length > 0) {
-    return latestPipeline.concat(latestMasterPipeline)
-  }
-  const masterPipelines = await fetchPipelines(projectId, config, {per_page: 50, ref: 'master'})
-  return latestPipeline.concat(_.take(masterPipelines, 1))
+  const [latestMasterPipeline] = await fetchNonSkippedPipelines(projectId, config, {per_page: 50, ref: 'master'})
+  return [latestPipeline].concat(latestMasterPipeline || [])
 }
 
-async function fetchPipelines(projectId, config, options) {
+async function fetchNonSkippedPipelines(projectId, config, options) {
   const {data: pipelines} = await gitlabRequest(`/projects/${projectId}/pipelines`, options, config)
   return pipelines.filter(pipeline => pipeline.status !== 'skipped')
 }
 
-async function fetchJobs(projectId, pipelineId, config) {
-  const {data: gitlabJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/jobs`, {per_page: 100}, config)
+// GitLab API endpoint `/projects/${projectId}/pipelines/${pipelineId}/jobs` is broken and not returning all jobs
+// Need to fetch all jobs for the project (from newer to older) and match later
+async function fetchJobsForPipelines(projectId, pipelines, config) {
+  const includedPipelineIds = pipelines.map(pipeline => pipeline.id)
+  const [oldestCreatedAt] = pipelines.map(pipeline => pipeline.created_at).sort()
+
+  const jobs = []
+  const SAFETY_MAX_PAGE = 10
+  for (let page = 1; page <= SAFETY_MAX_PAGE; page += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    const {data: jobsBatch} = await gitlabRequest(`/projects/${projectId}/jobs`, {page, per_page: 100}, config)
+    jobs.push(jobsBatch
+      .filter(job => includedPipelineIds.includes(job.pipeline.id))
+      .filter(job => job.created_at >= oldestCreatedAt))
+    if (jobsBatch.length === 0 || jobsBatch[jobsBatch.length - 1].created_at < oldestCreatedAt) {
+      break
+    }
+  }
+  return jobs.flat()
+}
+
+function matchJobs(pipelineId, gitlabJobsForMultiplePipelines) {
+  const gitlabJobs = gitlabJobsForMultiplePipelines.filter(job => job.pipeline.id === pipelineId)
   if (gitlabJobs.length === 0) {
     return {}
   }
