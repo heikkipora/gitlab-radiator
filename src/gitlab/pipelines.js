@@ -70,25 +70,25 @@ async function fetchJobs(projectId, pipelineId, config) {
 }
 
 function findCommit(jobs) {
-  const job = _(jobs).filter(j => j.commit).head()
-  if (job && job.commit) {
-    return {
-      title: job.commit.title,
-      author: job.commit.author_name
-    }
+  const [job] = jobs.filter(j => j.commit)
+  if (!job) {
+    return null
   }
-  return null
+  return {
+    title: job.commit.title,
+    author: job.commit.author_name
+  }
 }
 
 function mergeRetriedJobs(jobs) {
-  return _.reduce(jobs, (acc, job) => {
-    const index = _.findIndex(acc, {name: job.name})
+  return jobs.reduce((mergedJobs, job) => {
+    const index = mergedJobs.findIndex(mergedJob => mergedJob.name === job.name)
     if (index >= 0) {
-      acc[index] = job
+      mergedJobs[index] = job
     } else {
-      acc.push(job)
+      mergedJobs.push(job)
     }
-    return acc
+    return mergedJobs
   }, [])
 }
 
