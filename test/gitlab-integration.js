@@ -9,8 +9,8 @@ const gitlab = {
 }
 
 describe('Gitlab client', () => {
-  it('Should find four projects with paging active and with no filtering ', async () => {
-    const config = {...gitlab, perPage: 2}
+  it('Should find four projects with no filtering ', async () => {
+    const config = {...gitlab}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
       {archived: false, group: 'gitlab-radiator-test', id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},

@@ -1,28 +1,28 @@
-import _ from 'lodash'
 import {gitlabRequest} from './client'
 
 export async function fetchProjects(gitlab) {
-  const projects = await fetchProjectsPaged(gitlab)
-  return _(projects)
-    .flatten()
+  const projects = await fetchOwnProjects(gitlab)
+  return projects
     // Ignore projects for which CI/CD is not enabled
     .filter(project => project.jobs_enabled)
     .map(projectMapper)
     .filter(includeRegexFilter(gitlab))
     .filter(excludeRegexFilter(gitlab))
     .filter(archivedFilter(gitlab))
-    .value()
 }
 
-async function fetchProjectsPaged(gitlab, page = 1, projectFragments = []) {
-  const {data, headers} = await gitlabRequest('/projects', {page, per_page: gitlab.perPage || 100, membership: true}, gitlab)
-
-  projectFragments.push(data)
-  const nextPage = headers['x-next-page']
-  if (nextPage) {
-    return fetchProjectsPaged(gitlab, Number(nextPage), projectFragments)
+async function fetchOwnProjects(gitlab) {
+  const projects = []
+  const SAFETY_MAX_PAGE = 10
+  for (let page = 1; page <= SAFETY_MAX_PAGE; page += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    const {data, headers} = await gitlabRequest('/projects', {page, per_page: 100, membership: true}, gitlab)
+    projects.push(data)
+    if (data.length === 0 || !headers['x-next-page']) {
+      break
+    }
   }
-  return projectFragments
+  return projects.flat()
 }
 
 function projectMapper(project) {
