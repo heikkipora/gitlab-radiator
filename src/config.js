@@ -5,7 +5,7 @@ import yaml from 'js-yaml'
 
 const configFile = expandTilde(process.env.GITLAB_RADIATOR_CONFIG || '~/.gitlab-radiator.yml')
 const yamlContent = fs.readFileSync(configFile, 'utf8')
-export const config = validate(yaml.safeLoad(yamlContent))
+export const config = validate(yaml.load(yamlContent))
 
 config.interval = Number(config.interval || 10) * 1000
 config.port = Number(config.port || 3000)
