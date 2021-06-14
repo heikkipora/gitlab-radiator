@@ -121,3 +121,7 @@ class RadiatorApp extends React.Component {
 }
 
 ReactDOM.render(<RadiatorApp/>, document.getElementById('app'))
+
+if (module.hot) {
+  module.hot.accept()
+}

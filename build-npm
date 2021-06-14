@@ -13,7 +13,7 @@ cp LICENSE package.json README.md build
 cp -r bin build
 
 # Bundle and minify client JS
-./node_modules/.bin/browserify src/client/index.js | node_modules/.bin/uglifyjs --compress --mangle > build/public/client.js
+npx webpack --mode production
 
 # Transpile server
 node_modules/.bin/babel src --ignore **/client/*.js,**/dev-assets.js --out-dir build/src
