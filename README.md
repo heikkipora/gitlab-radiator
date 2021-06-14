@@ -129,6 +129,17 @@ See [releases](https://github.com/heikkipora/gitlab-radiator/releases).
   Unfortunately all existing configurations for single gitlab polling have to be adjusted slightly.
 - Also config param `order` has moved from `projects.order` to global `projectsOrder`, as the order has effect on all projects and not per gitlab config.
 
+## Docker
+
+In order to create a docker image from sources just run:
+
+```docker build --tag my-gitlab-radiator ./```
+
+In order to start that container run:
+
+```docker run --name my-gitlab-radiator -p 3000:3000 -v <path_to_your_dir_with_gitlab_radiator_config>:/home/radiator my-gitlab-radiator```
+
+
 ## Contributing
 
 Pull requests are welcome. Kindly check that your code passes ESLint checks by running `npm run eslint` first.
