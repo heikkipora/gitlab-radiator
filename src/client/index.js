@@ -57,7 +57,7 @@ class RadiatorApp extends React.Component {
   onDisconnect = () => this.setState({error: 'gitlab-radiator server is offline'})
 
   filterProjectsByTags = projects => {
-    // No tag lisst specified, include all projects
+    // No tag list specified, include all projects
     if (!this.includedTags) {
       return projects
     }
@@ -67,7 +67,7 @@ class RadiatorApp extends React.Component {
         project.tags.length === 0
       )
     }
-    // Tag list specigied, include projectes which have at least one of them
+    // Tag list specified, include projects which have at least one of them
     return projects.filter(project =>
       project.tags.some(tag => this.includedTags.includes(tag))
     )
