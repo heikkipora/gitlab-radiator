@@ -14,7 +14,7 @@ const cacheDir = path.join(os.tmpdir(), 'gitlab-radiator-css-cache')
 
 const app = express()
 const httpServer = http.Server(app)
-const socketIoServer = socketIo(httpServer)
+const socketIoServer = socketIo(httpServer, {serveClient: false})
 
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line global-require
