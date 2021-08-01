@@ -5,7 +5,8 @@ import {update} from '../src/gitlab'
 
 const gitlab = {
   url: 'https://gitlab.com',
-  'access-token': 'K34Nzm3_JA1rQMML6j5h'
+  'access-token': 'K34Nzm3_JA1rQMML6j5h',
+  maxNonFailedJobsVisible: 10
 }
 
 describe('Gitlab client', () => {
@@ -155,6 +156,7 @@ describe('Gitlab client', () => {
           archived: false,
           group: 'gitlab-radiator-test',
           id: 5385889,
+          maxNonFailedJobsVisible: 10,
           name: 'gitlab-radiator-test/ci-skip-test-project',
           nameWithoutNamespace: 'ci-skip-test-project',
           tags: [],
@@ -187,6 +189,7 @@ describe('Gitlab client', () => {
         archived: false,
         group: 'gitlab-radiator-test',
         id: 5290928,
+        maxNonFailedJobsVisible: 10,
         name: 'gitlab-radiator-test/integration-test-project-2',
         nameWithoutNamespace: 'integration-test-project-2',
         url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2',
@@ -273,6 +276,7 @@ describe('Gitlab client', () => {
         archived: false,
         group: 'gitlab-radiator-test',
         id: 5290865,
+        maxNonFailedJobsVisible: 10,
         name: 'gitlab-radiator-test/integration-test-project-1',
         nameWithoutNamespace: 'integration-test-project-1',
         url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1',

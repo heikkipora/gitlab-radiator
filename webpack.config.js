@@ -3,15 +3,15 @@ const webpack = require('webpack')
 
 module.exports = {
   entry: [
-    './src/client/index.js',
+    './src/client/index.tsx',
     'webpack-hot-middleware/client'
   ],
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
+        use: 'ts-loader',
         exclude: /node_modules/,
-        use: ['babel-loader']
       },
       {
         test: /\.(ttf|html)$/i,
@@ -24,7 +24,7 @@ module.exports = {
     path: path.resolve(__dirname, 'build/public')
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.ts', '.tsx']
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
