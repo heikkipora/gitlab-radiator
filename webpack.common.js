@@ -2,10 +2,6 @@ const path = require('path')
 const webpack = require('webpack')
 
 module.exports = {
-  entry: [
-    './src/client/index.tsx',
-    'webpack-hot-middleware/client'
-  ],
   module: {
     rules: [
       {
@@ -25,10 +21,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.ts', '.tsx']
-  },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    hot: true
   }
 }
