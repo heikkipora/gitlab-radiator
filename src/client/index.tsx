@@ -1,3 +1,6 @@
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
+
 import type {GlobalState, Project} from './gitlab-types'
 import {argumentsFromDocumentUrl} from './arguments'
 import {GroupedProjects} from './groupedProjects'
