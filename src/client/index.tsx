@@ -1,7 +1,6 @@
 import type {GlobalState, Project} from './gitlab-types'
 import {argumentsFromDocumentUrl} from './arguments'
 import {GroupedProjects} from './groupedProjects'
-import {io} from 'socket.io-client'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -24,7 +23,7 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
   }
 
   componentDidMount = () => {
-    const socket = io()
+    const socket = (window as any).io()
     socket.on('state', this.onServerStateUpdated.bind(this))
     socket.on('disconnect', this.onDisconnect.bind(this))
   }
