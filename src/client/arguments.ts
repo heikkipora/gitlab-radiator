@@ -22,12 +22,31 @@ function tagArguments(args: ParsedQueryString): string[] | null {
 }
 
 function overrideArguments(args: ParsedQueryString): {columns?: number, zoom?: number} {
-  const columns = args.columns ? {columns: Number(args.columns)} : {}
-  const zoom = args.zoom ? {zoom: Number(args.zoom)} : {}
   return {
-    ...columns,
-    ...zoom
+    ...parseColumns(args),
+    ...parseZoom(args)
   }
+}
+
+function parseColumns(args: ParsedQueryString) {
+  if (args.columns) {
+    const columns = Number(args.columns)
+    if (columns > 0 && columns <= 10) {
+      return {columns}
+    }
+  }
+  return {}
+}
+
+
+function parseZoom(args: ParsedQueryString) {
+  if (args.zoom) {
+    const zoom = Number(args.zoom)
+    if (zoom > 0 && zoom <= 2) {
+      return {zoom}
+    }
+  }
+  return {}
 }
 
 function screenArguments(args: ParsedQueryString): {id: number, total: number} {
