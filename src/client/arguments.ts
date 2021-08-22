@@ -1,3 +1,7 @@
+interface ParsedQueryString {
+  [key: string]: string | undefined
+}
+
 export function argumentsFromDocumentUrl(): {override: {columns?: number, zoom?: number}, includedTags: string[] | null, screen: {id: number, total: number}} {
   const args = parseQueryString(document.location.search)
   return {
@@ -7,17 +11,17 @@ export function argumentsFromDocumentUrl(): {override: {columns?: number, zoom?:
   }
 }
 
-function tagArguments(args: {[key: string]: string}): string[] | null {
+function tagArguments(args: ParsedQueryString): string[] | null {
   if (args.tags === undefined) {
     return null
   }
-  return (args.tags || '')
+  return args.tags
     .split(',')
     .map(t => t.toLowerCase().trim())
     .filter(t => t)
 }
 
-function overrideArguments(args: {[key: string]: string}): {columns?: number, zoom?: number} {
+function overrideArguments(args: ParsedQueryString): {columns?: number, zoom?: number} {
   const columns = args.columns ? {columns: Number(args.columns)} : {}
   const zoom = args.zoom ? {zoom: Number(args.zoom)} : {}
   return {
@@ -26,7 +30,7 @@ function overrideArguments(args: {[key: string]: string}): {columns?: number, zo
   }
 }
 
-function screenArguments(args: {[key: string]: string}): {id: number, total: number} {
+function screenArguments(args: ParsedQueryString): {id: number, total: number} {
   const matches = (/(\d)of(\d)/).exec(args.screen || '')
   let id = matches ? Number(matches[1]) : 1
   const total = matches ? Number(matches[2]) : 1
@@ -39,16 +43,14 @@ function screenArguments(args: {[key: string]: string}): {id: number, total: num
   }
 }
 
-function parseQueryString(search: string): {[key: string]: string} {
-  return search
+function parseQueryString(search: string): ParsedQueryString {
+  const entries = search
     .slice(1)
     .split('&')
-    .filter(p => p)
-    .reduce((acc, parameter) => {
+    .filter(parameter => parameter)
+    .map((parameter: string): [string, string | undefined] => {
       const [key, value] = parameter.split('=')
-      return {
-        ...acc,
-        [key]: decodeURIComponent(value)
-      }
-    }, {})
+      return [key, value]
+    })
+  return Object.fromEntries(entries)
 }
