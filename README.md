@@ -1,3 +1,4 @@
+
 # The missing GitLab build radiator view
 
 ## Introduction
@@ -121,13 +122,6 @@ colors:
 ## Changelog
 
 See [releases](https://github.com/heikkipora/gitlab-radiator/releases).
-
-## Breaking changes from 2.x to 3.0
-
-- Configuration file syntax has changed so that you now can define multiple gitlab instances to poll from.
-  E.g. polling from https://gitlab.com and from your own hosted https://gitlab.yourdomain.com instance of gitlab.
-  Unfortunately all existing configurations for single gitlab polling have to be adjusted slightly.
-- Also config param `order` has moved from `projects.order` to global `projectsOrder`, as the order has effect on all projects and not per gitlab config.
 
 ## Contributing
 
