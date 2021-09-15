@@ -26,6 +26,7 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
   }
 
   componentDidMount = () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const socket = (window as any).io()
     socket.on('state', this.onServerStateUpdated.bind(this))
     socket.on('disconnect', this.onDisconnect.bind(this))
