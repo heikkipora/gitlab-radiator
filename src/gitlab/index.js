@@ -24,7 +24,7 @@ async function loadProjectsWithPipelines(config) {
 async function projectWithPipelines(project, config) {
   const pipelines = filterOutEmpty(await fetchLatestPipelines(project.id, config))
     .filter(excludePipelineStatusFilter(config))
-  const status = masterBranchStatus(pipelines)
+  const status = defaultBranchStatus(project, pipelines)
   return {
     ...project,
     pipelines,
@@ -32,9 +32,9 @@ async function projectWithPipelines(project, config) {
   }
 }
 
-function masterBranchStatus(pipelines) {
+function defaultBranchStatus(project, pipelines) {
   return _(pipelines)
-    .filter({ref: 'master'})
+    .filter({ref: project.default_branch})
     .map('status')
     .head()
 }

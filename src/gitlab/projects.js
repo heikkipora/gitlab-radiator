@@ -32,6 +32,7 @@ function projectMapper(project) {
     nameWithoutNamespace: project.path,
     group: getGroupName(project),
     archived: project.archived,
+    default_branch: project.default_branch || 'master',
     url: project.web_url,
     tags: (project.tag_list || []).map(t => t.toLowerCase())
   }

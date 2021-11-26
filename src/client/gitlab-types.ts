@@ -17,6 +17,7 @@ export interface Project {
   nameWithoutNamespace: string
   tags: string[]
   url: string
+  default_branch: string
   pipelines: Pipeline[]
   maxNonFailedJobsVisible: number
   status: 'success' | 'failed'
