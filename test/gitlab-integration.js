@@ -10,10 +10,11 @@ const gitlab = {
 }
 
 describe('Gitlab client', () => {
-  it('Should find four projects with no filtering ', async () => {
+  it('Should find five projects with no filtering ', async () => {
     const config = {...gitlab}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
+      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 39541352, name: 'gitlab-radiator-test/project-with-child-pipeline', nameWithoutNamespace: 'project-with-child-pipeline', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline'},
       {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},
       {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5304923, name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/empty-test'},
       {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2'},
@@ -29,10 +30,11 @@ describe('Gitlab client', () => {
     ])
   })
 
-  it('Should find three projects with exclusive filtering', async () => {
+  it('Should find four projects with exclusive filtering', async () => {
     const config = {...gitlab, projects: {exclude: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
+      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 39541352, name: 'gitlab-radiator-test/project-with-child-pipeline', nameWithoutNamespace: 'project-with-child-pipeline', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline'},
       {archived: false, default_branch: 'master', id: 5385889, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},
       {archived: false, default_branch: 'master', id: 5304923, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/empty-test'},
       {archived: false, default_branch: 'master', id: 5290928, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2'}
@@ -148,7 +150,7 @@ describe('Gitlab client', () => {
   })
 
   it('Should find two projects with two pipelines for the first and one for the second (and exclude projects without pipelines)', async() => {
-    const config = {gitlabs: [{...gitlab}]}
+    const config = {gitlabs: [{...gitlab, projects: {exclude: '.*-with-child-pipeline'}}]}
     const projects = await update(config)
     expect(projects).to.deep.equal(
       [
