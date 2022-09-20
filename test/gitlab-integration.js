@@ -383,4 +383,52 @@ describe('Gitlab client', () => {
       }]
     )
   })
+
+  it('Should include triggered child pipeline for project', async () => {
+    const config = {...gitlab}
+    const pipelines = await fetchLatestPipelines(39541352, config)
+    expect(pipelines).to.deep.equal(
+      [{
+        commit: {
+          author: 'Heikki Pora',
+          title: 'Initial commit'
+        },
+        id: 644417453,
+        ref: 'master',
+        stages: [{
+          jobs: [{
+            finishedAt: '2022-09-19T16:59:07.394Z',
+            id: 3050180428,
+            name: 'start-job',
+            startedAt: '2022-09-19T16:58:54.170Z',
+            status: 'success',
+            url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/3050180428'
+          }],
+          name: 'start'
+        }, {
+          jobs: [{
+            finishedAt: '2022-09-19T16:59:23.868Z',
+            id: 3050181208,
+            name: 'build',
+            startedAt: '2022-09-19T16:59:08.204Z',
+            status: 'success',
+            url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/3050181208'
+          }],
+          name: 'build'
+        },{
+          jobs: [{
+            finishedAt: '2022-09-19T16:59:36.918Z',
+            id: 3050181210,
+            name: 'test',
+            startedAt: '2022-09-19T16:59:24.138Z',
+            status: 'success',
+            url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/3050181210'
+          }],
+          name: 'test'
+        }],
+        status: 'success'
+      }]
+    )
+  })
+
 })

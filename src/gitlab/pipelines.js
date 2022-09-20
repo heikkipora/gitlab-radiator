@@ -5,12 +5,14 @@ export async function fetchLatestPipelines(projectId, gitlab) {
   const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)
 
   return Promise.all(pipelines.map(async ({id, ref, status}) => {
-    const jobs = await fetchJobs(projectId, id, gitlab)
+    const {commit, stages} = await fetchJobs(projectId, id, gitlab)
+    const downstreamStages = await fetchDownstreamJobs(projectId, id, gitlab)
     return {
       id,
       ref,
       status,
-      ...jobs
+      commit,
+      stages: stages.concat(downstreamStages)
     }
   }))
 }
@@ -36,6 +38,20 @@ async function fetchLatestAndMasterPipeline(projectId, config) {
 async function fetchPipelines(projectId, config, options) {
   const {data: pipelines} = await gitlabRequest(`/projects/${projectId}/pipelines`, options, config)
   return pipelines.filter(pipeline => pipeline.status !== 'skipped')
+}
+
+async function fetchDownstreamJobs(projectId, pipelineId, config) {
+  const {data: gitlabBridgeJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/bridges`, {per_page: 100}, config)
+  const childPipelineIds = gitlabBridgeJobs
+    .filter(bridge => bridge.downstream_pipeline.status !== 'skipped')
+    .map(bridge => bridge.downstream_pipeline.id)
+
+  const downstreamStages = []
+  for(const childPipelineId of childPipelineIds) {
+    const {stages} = await fetchJobs(projectId, childPipelineId, config)
+    downstreamStages.push(stages)
+  }
+  return downstreamStages.flat()
 }
 
 async function fetchJobs(projectId, pipelineId, config) {
