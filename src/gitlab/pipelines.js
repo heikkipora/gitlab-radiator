@@ -39,7 +39,7 @@ async function fetchPipelines(projectId, config, options) {
 }
 
 async function fetchJobs(projectId, pipelineId, config) {
-  const {data: gitlabJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/jobs`, {per_page: 100}, config)
+  const {data: gitlabJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/jobs?include_retried=true`, {per_page: 100}, config)
   if (gitlabJobs.length === 0) {
     return {}
   }
