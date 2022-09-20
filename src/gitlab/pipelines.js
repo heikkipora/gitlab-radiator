@@ -42,14 +42,15 @@ async function fetchPipelines(projectId, config, options) {
 
 async function fetchDownstreamJobs(projectId, pipelineId, config) {
   const {data: gitlabBridgeJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/bridges`, {per_page: 100}, config)
-  const childPipelineIds = gitlabBridgeJobs
-    .filter(bridge => bridge.downstream_pipeline.status !== 'skipped')
-    .map(bridge => bridge.downstream_pipeline.id)
+  const childPipelines = gitlabBridgeJobs.filter(bridge => bridge.downstream_pipeline.status !== 'skipped')
 
   const downstreamStages = []
-  for(const childPipelineId of childPipelineIds) {
-    const {stages} = await fetchJobs(projectId, childPipelineId, config)
-    downstreamStages.push(stages)
+  for(const childPipeline of childPipelines) {
+    const {stages} = await fetchJobs(projectId, childPipeline.downstream_pipeline.id, config)
+    downstreamStages.push(stages.map(stage => ({
+      ...stage,
+      name: `${childPipeline.stage}:${stage.name}`
+    })))
   }
   return downstreamStages.flat()
 }

@@ -414,7 +414,7 @@ describe('Gitlab client', () => {
             status: 'success',
             url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/3050181208'
           }],
-          name: 'build'
+          name: 'run-child:build'
         },{
           jobs: [{
             finishedAt: '2022-09-19T16:59:36.918Z',
@@ -424,7 +424,7 @@ describe('Gitlab client', () => {
             status: 'success',
             url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/3050181210'
           }],
-          name: 'test'
+          name: 'run-child:test'
         }],
         status: 'success'
       }]
