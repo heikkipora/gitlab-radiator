@@ -3,9 +3,9 @@ import 'regenerator-runtime/runtime'
 
 import type {GlobalState, Project} from './gitlab-types'
 import {argumentsFromDocumentUrl} from './arguments'
+import {createRoot} from 'react-dom/client'
 import {GroupedProjects} from './groupedProjects'
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 class RadiatorApp extends React.Component<unknown, GlobalState> {
   public args: {override: {columns?: number, zoom?: number}, includedTags: string[] | null, screen: {id: number, total: number}}
@@ -89,6 +89,7 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
   }
 }
 
-ReactDOM.render(<RadiatorApp/>, document.getElementById('app'))
+const root = createRoot(document.getElementById('app')!)
+root.render(<RadiatorApp/>);
 
 module.hot?.accept()
