@@ -89,6 +89,7 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = createRoot(document.getElementById('app')!)
 root.render(<RadiatorApp/>);
 
