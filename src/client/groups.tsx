@@ -1,6 +1,6 @@
 import type {Pipeline, Project} from './gitlab-types'
 import React from 'react'
-import {renderTimestamp} from './renderTimestamp'
+import {Timestamp} from './renderTimestamp'
 
 export function Groups({groupedProjects, now, zoom, columns}: {groupedProjects: {[groupname: string]: Project[]}, now: number, zoom: number, columns: number}): JSX.Element {
   return <ol className="groups" style={zoomStyle(zoom)}>
@@ -37,7 +37,7 @@ function GroupInfoElement({now, pipeline}: {now: number, pipeline: (Pipeline & {
       <span>{pipeline.commit ? pipeline.project : '-'}</span>
     </div>
     <div>
-      <span>{renderTimestamp(pipeline.stages, now)}</span>
+      <Timestamp stages={pipeline.stages} now={now}/>
       <span>on {pipeline.ref}</span>
     </div>
   </div>

@@ -1,11 +1,12 @@
 import {formatDistance} from 'date-fns'
+import React from 'react'
 import type {Stage} from './gitlab-types'
 
-export function renderTimestamp(stages: Stage[], now: number): string {
+export function Timestamp({stages, now}: {stages: Stage[], now: number}) {
   const timestamps = getTimestamps(stages)
 
   if (timestamps.length === 0) {
-    return 'Pending...'
+    return <span>Pending...</span>
   }
 
   const finished = timestamps
@@ -14,11 +15,11 @@ export function renderTimestamp(stages: Stage[], now: number): string {
   const inProgress = timestamps.length > finished.length
   if (inProgress) {
     const [timestamp] = timestamps.sort((a, b) => a.startedAt - b.startedAt)
-    return renderDistance('Started', timestamp.startedAt, now)
+    return <span>Started {formatDate(timestamp.startedAt, now)} ago</span>
   }
 
   const [latestFinishedAt] = finished.sort((a, b) => b - a)
-  return renderDistance('Finished', latestFinishedAt, now)
+  return <span>Finished {formatDate(latestFinishedAt, now)} ago</span>
 }
 
 function getTimestamps(stages: Stage[]): {startedAt: number, finishedAt: number | null}[] {
@@ -33,11 +34,6 @@ function getTimestamps(stages: Stage[]): {startedAt: number, finishedAt: number 
       }
     })
     .filter((t): t is {startedAt: number, finishedAt: number | null} => t.startedAt !== null)
-}
-
-function renderDistance(predicate: string, timestamp: number, now: number) {
-  const distance = formatDate(timestamp, now)
-  return `${predicate} ${distance} ago`
 }
 
 function formatDate(timestamp: number, now: number) {
