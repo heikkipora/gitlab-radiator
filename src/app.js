@@ -4,13 +4,9 @@ import {config} from './config'
 import express from 'express'
 import {fetchOfflineRunners} from './gitlab/runners'
 import http from 'http'
-import lessMiddleware from 'less-middleware'
-import os from 'os'
-import path from 'path'
+import {serveLessAsCss} from './less'
 import socketIo from 'socket.io'
 import {update} from './gitlab'
-
-const cacheDir = path.join(os.tmpdir(), 'gitlab-radiator-css-cache')
 
 const app = express()
 const httpServer = http.Server(app)
@@ -23,20 +19,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.disable('x-powered-by')
-app.use(lessMiddleware(`${__dirname}/../public`, {
-    dest: cacheDir,
-    preprocess: {
-      less: (src) => {
-        let colorLess = ''
-        Object.keys(config.colors).forEach((stateName) => {
-          colorLess += `@${stateName}-color:${config.colors[stateName]};`
-        })
-        return src + colorLess
-      }
-    }
-  }
-))
-app.use(express.static(cacheDir))
+app.get('/client.css', serveLessAsCss)
 app.use(express.static(`${__dirname}/../public`))
 app.use(compression())
 app.use(basicAuth(config.auth))
