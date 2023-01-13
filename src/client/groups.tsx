@@ -1,6 +1,6 @@
 import type {Pipeline, Project} from './gitlab-types'
 import React from 'react'
-import {Timestamp} from './renderTimestamp'
+import {Timestamp} from './timestamp'
 
 export function Groups({groupedProjects, now, zoom, columns}: {groupedProjects: {[groupname: string]: Project[]}, now: number, zoom: number, columns: number}): JSX.Element {
   return <ol className="groups" style={zoomStyle(zoom)}>
