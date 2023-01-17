@@ -30,11 +30,11 @@ function renderProjectsGrouped(projects: Project[], projectsOrder: string[], zoo
 
 function renderProjects(projects: Project[], projectsOrder: string[], zoom: number, columns: number, now: number, screen: {id: number, total: number}) {
   return <Projects now={now} zoom={zoom} columns={columns}
-                    projects={projects || []} projectsOrder={projectsOrder}
+                    projects={projects} projectsOrder={projectsOrder}
                     screen={screen}/>
 }
 
 function renderGroupedProjects(groupedProjects: {[groupname: string]: Project[]}, zoom: number, columns: number, now: number) {
   return <Groups zoom={zoom} columns={columns} now={now}
-                    groupedProjects={groupedProjects || []} />
+                    groupedProjects={groupedProjects} />
 }
