@@ -12,16 +12,10 @@ export function GroupedProjects({projects, projectsOrder, groupSuccessfulProject
 }
 
 function renderProjectsGrouped(projects: Project[], projectsOrder: string[], zoom: number, columns: number, now: number, screen: {id: number, total: number}) {
-  const successfullProjects: Project[] = []
-  const otherProjects: Project[] = []
-  projects.forEach((project) => {
-    if (project.status === 'success') {
-      successfullProjects.push(project)
-    } else {
-      otherProjects.push(project)
-    }
-  })
+  const successfullProjects = projects.filter(({status}) => status === 'success')
+  const otherProjects= projects.filter(({status}) => status !== 'success')
   const groupedProjects = _.groupBy(successfullProjects, 'group')
+
   return <React.Fragment>
     {renderProjects(otherProjects, projectsOrder, zoom, columns, now, screen)}
     {renderGroupedProjects(groupedProjects, zoom, columns, now)}
