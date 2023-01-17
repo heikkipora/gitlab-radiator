@@ -8,7 +8,7 @@ export function GroupedProjects({projects, projectsOrder, groupSuccessfulProject
   if (groupSuccessfulProjects) {
     return renderProjectsGrouped(projects, projectsOrder, zoom, columns, now, screen)
   }
-  return renderProjects(projects, projectsOrder, zoom, columns, now, screen)
+  return <Projects now={now} zoom={zoom} columns={columns} projects={projects} projectsOrder={projectsOrder} screen={screen}/>
 }
 
 function renderProjectsGrouped(projects: Project[], projectsOrder: string[], zoom: number, columns: number, now: number, screen: {id: number, total: number}) {
@@ -17,15 +17,7 @@ function renderProjectsGrouped(projects: Project[], projectsOrder: string[], zoo
   const groupedProjects = _.groupBy(successfullProjects, 'group')
 
   return <React.Fragment>
-    {renderProjects(otherProjects, projectsOrder, zoom, columns, now, screen)}
-    {renderGroupedProjects(groupedProjects, zoom, columns, now)}
+    <Projects now={now} zoom={zoom} columns={columns} projects={otherProjects} projectsOrder={projectsOrder} screen={screen}/>
+    <Groups now={now} zoom={zoom} columns={columns} groupedProjects={groupedProjects}/>
   </React.Fragment>
-}
-
-function renderProjects(projects: Project[], projectsOrder: string[], zoom: number, columns: number, now: number, screen: {id: number, total: number}) {
-  return <Projects now={now} zoom={zoom} columns={columns} projects={projects} projectsOrder={projectsOrder} screen={screen}/>
-}
-
-function renderGroupedProjects(groupedProjects: {[groupname: string]: Project[]}, zoom: number, columns: number, now: number) {
-  return <Groups now={now} zoom={zoom} columns={columns} groupedProjects={groupedProjects}/>
 }
