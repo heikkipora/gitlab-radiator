@@ -4,6 +4,7 @@ import {config} from './config'
 import express from 'express'
 import {fetchOfflineRunners} from './gitlab/runners'
 import http from 'http'
+import path from 'path'
 import {serveLessAsCss} from './less'
 import socketIo from 'socket.io'
 import {update} from './gitlab'
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.disable('x-powered-by')
 app.get('/client.css', serveLessAsCss)
-app.use(express.static(`${__dirname}/../public`))
+app.use(express.static(path.join(__dirname, '..', 'public')))
 app.use(compression())
 app.use(basicAuth(config.auth))
 
