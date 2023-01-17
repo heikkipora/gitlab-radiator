@@ -1,6 +1,7 @@
 import type {Pipeline, Project} from './gitlab-types'
 import React from 'react'
 import {Timestamp} from './timestamp'
+import {style, zoomStyle} from './projects'
 
 export function Groups({groupedProjects, now, zoom, columns}: {groupedProjects: {[groupname: string]: Project[]}, now: number, zoom: number, columns: number}): JSX.Element {
   return <ol className="groups" style={zoomStyle(zoom)}>
@@ -43,17 +44,3 @@ function GroupInfoElement({now, pipeline}: {now: number, pipeline: (Pipeline & {
   </div>
 }
 
-function zoomStyle(zoom: number) {
-  const widthPercentage = Math.round(100 / zoom)
-  return {
-    transform: `scale(${zoom})`,
-    width: `${widthPercentage}vmax`
-  }
-}
-
-function style(columns: number) {
-  const widthPercentage = Math.round(90 / columns)
-  return {
-    width: `${widthPercentage}%`
-  }
-}

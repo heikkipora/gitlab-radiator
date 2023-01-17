@@ -33,7 +33,7 @@ function forScreen(screen: {id: number, total: number}, projectsCount: number) {
   return (_project: Project, projectIndex: number) => projectIndex >= first && projectIndex < last
 }
 
-function zoomStyle(zoom: number) {
+export function zoomStyle(zoom: number) {
   const widthPercentage = Math.round(100 / zoom)
   return {
     transform: `scale(${zoom})`,
@@ -41,7 +41,7 @@ function zoomStyle(zoom: number) {
   }
 }
 
-function style(columns: number) {
+export function style(columns: number) {
   const marginPx = 12
   const widthPercentage = Math.floor(100 / columns)
   return {
