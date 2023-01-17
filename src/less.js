@@ -1,8 +1,9 @@
 import {config} from './config'
 import fs from 'fs'
 import less from 'less'
+import path from 'path'
 
-const filename = 'public/client.less'
+const filename = path.join(__dirname, '..', 'public', 'client.less')
 
 export async function serveLessAsCss(req, res) {
   try {
