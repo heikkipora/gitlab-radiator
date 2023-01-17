@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import {fetchLatestPipelines} from './pipelines'
 import {fetchProjects} from './projects'
 
@@ -33,10 +32,10 @@ async function projectWithPipelines(project, config) {
 }
 
 function defaultBranchStatus(project, pipelines) {
-  return _(pipelines)
-    .filter({ref: project.default_branch})
-    .map('status')
-    .head()
+  const [head] = pipelines
+    .filter(({ref}) => ref === project.default_branch)
+    .map(({status}) => status)
+  return head
 }
 
 function filterOutEmpty(pipelines) {
