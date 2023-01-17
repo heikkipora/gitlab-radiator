@@ -1,12 +1,12 @@
-import _ from 'lodash'
 import {Info} from './info'
-import type {Project} from './gitlab-types'
 import React from 'react'
+import sortBy from 'lodash/sortBy'
 import {Stages} from './stages'
+import type {Project} from './gitlab-types'
 
 export function Projects({columns, now, projects, projectsOrder, screen, zoom}: {columns: number, now: number, projects: Project[], projectsOrder: string[], screen: {id: number, total: number}, zoom: number}): JSX.Element {
   return <ol className="projects" style={zoomStyle(zoom)}>
-    {_.sortBy(projects, projectsOrder)
+    {sortBy(projects, projectsOrder)
       .filter(forScreen(screen, projects.length))
       .map(project => <ProjectElement now={now} columns={columns} project={project} key={project.id}/>)
     }

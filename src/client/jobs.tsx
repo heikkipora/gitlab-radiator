@@ -1,6 +1,10 @@
-import type {Job, JobStatus} from './gitlab-types'
-import _ from 'lodash'
+import groupBy from 'lodash/groupBy'
+import mapValues from 'lodash/mapValues'
+import orderBy from 'lodash/orderBy'
+import partition from 'lodash/partition'
 import React from 'react'
+import toPairs from 'lodash/toPairs'
+import type {Job, JobStatus} from './gitlab-types'
 
 const NON_BREAKING_SPACE = '\xa0'
 
@@ -14,25 +18,22 @@ const JOB_STATES_IN_INTEREST_ORDER: JobStatus[] = [
 ]
 
 export function Jobs({jobs, maxNonFailedJobsVisible}: {jobs: Job[], maxNonFailedJobsVisible: number}): JSX.Element {
-  const [failedJobs, nonFailedJobs] = _.partition(jobs, {status: 'failed'})
+  const [failedJobs, nonFailedJobs] = partition(jobs, {status: 'failed'})
   const filteredJobs = sortByOriginalOrder(
     failedJobs.concat(
-      _.orderBy(nonFailedJobs, ({status}) => JOB_STATES_IN_INTEREST_ORDER.indexOf(status))
+      orderBy(nonFailedJobs, ({status}) => JOB_STATES_IN_INTEREST_ORDER.indexOf(status))
         .slice(0, Math.max(0, maxNonFailedJobsVisible - failedJobs.length))
     ),
     jobs
   )
 
   const hiddenJobs = jobs.filter(job => filteredJobs.indexOf(job) === -1)
-  const hiddenCountsByStatus = _.mapValues(
-    _.groupBy(hiddenJobs, 'status'),
+  const hiddenCountsByStatus = mapValues(
+    groupBy(hiddenJobs, 'status'),
     jobsForStatus => jobsForStatus.length
   )
 
-  const hiddenJobsText = _(hiddenCountsByStatus)
-    .toPairs()
-    .orderBy(([status]) => status)
-    .value()
+  const hiddenJobsText = orderBy(toPairs(hiddenCountsByStatus), ([status]) => status)
     .map(([status, count]) => `${count}${NON_BREAKING_SPACE}${status}`)
     .join(', ')
 
@@ -52,5 +53,5 @@ function JobElement({job}: {job: Job}) {
 }
 
 function sortByOriginalOrder(filteredJobs: Job[], jobs: Job[]) {
-  return _.orderBy(filteredJobs, (job: Job) => jobs.indexOf(job))
+  return orderBy(filteredJobs, (job: Job) => jobs.indexOf(job))
 }
