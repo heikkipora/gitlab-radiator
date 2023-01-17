@@ -32,18 +32,21 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
     socket.on('disconnect', this.onDisconnect.bind(this))
   }
 
-  render = () =>
-    <div>
+  render = () => {
+    const {screen} = this.args
+    const {now, zoom, columns, projects, projectsOrder, groupSuccessfulProjects} = this.state
+    return <div>
       {this.renderErrorMessage()}
       {this.renderProgressMessage()}
 
-      {this.state.projects &&
-        <GroupedProjects now={this.state.now} zoom={this.state.zoom} columns={this.state.columns}
-                        projects={this.state.projects} projectsOrder={this.state.projectsOrder}
-                        groupSuccessfulProjects={this.state.groupSuccessfulProjects}
-                        screen={this.args.screen}/>
+      {projects &&
+        <GroupedProjects now={now} zoom={zoom} columns={columns}
+                        projects={projects} projectsOrder={projectsOrder}
+                        groupSuccessfulProjects={groupSuccessfulProjects}
+                        screen={screen}/>
       }
     </div>
+  }
 
   renderErrorMessage = () =>
     this.state.error && <div className="error">{this.state.error}</div>
