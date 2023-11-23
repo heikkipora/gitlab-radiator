@@ -1,10 +1,12 @@
 {
   "env": {
-    "es6": true,
+    "es2022": true,
     "mocha": true,
     "node": true
   },
-  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "plugins": [
     "mocha",
     "react"
