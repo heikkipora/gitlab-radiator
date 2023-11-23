@@ -4,17 +4,19 @@ import {gitlabRequest} from './client'
 export async function fetchLatestPipelines(projectId, gitlab) {
   const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)
 
-  return Promise.all(pipelines.map(async ({id, ref, status}) => {
+  const pipelinesWithStages = []
+  for (const {id, ref, status} of pipelines) {
     const {commit, stages} = await fetchJobs(projectId, id, gitlab)
     const downstreamStages = await fetchDownstreamJobs(projectId, id, gitlab)
-    return {
+    pipelinesWithStages.push({
       id,
       ref,
       status,
       commit,
       stages: stages.concat(downstreamStages)
-    }
-  }))
+    })
+  }
+  return pipelinesWithStages
 }
 
 // eslint-disable-next-line max-statements
