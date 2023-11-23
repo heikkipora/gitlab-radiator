@@ -10,10 +10,12 @@ export async function update(config) {
 async function loadProjectsWithPipelines(config) {
   const allProjectsWithPipelines = []
   await Promise.all(config.gitlabs.map(async (gitlab) => {
-    const projects = await fetchProjects(gitlab)
-    projects.forEach((project) => {
-      project.maxNonFailedJobsVisible = gitlab.maxNonFailedJobsVisible
-    })
+    const projects = (await fetchProjects(gitlab))
+      .map(project => ({
+        ...project,
+        maxNonFailedJobsVisible: gitlab.maxNonFailedJobsVisible
+      }))
+
     const projectsWithPipelines = await Promise.all(projects.map(project => projectWithPipelines(project, gitlab)))
     allProjectsWithPipelines.push(...projectsWithPipelines)
   }))
