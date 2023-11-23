@@ -16,8 +16,9 @@ async function loadProjectsWithPipelines(config) {
         maxNonFailedJobsVisible: gitlab.maxNonFailedJobsVisible
       }))
 
-    const projectsWithPipelines = await Promise.all(projects.map(project => projectWithPipelines(project, gitlab)))
-    allProjectsWithPipelines.push(...projectsWithPipelines)
+    for (const project of projects) {
+      allProjectsWithPipelines.push(await projectWithPipelines(project, gitlab))
+    }
   }))
   return allProjectsWithPipelines
 }
