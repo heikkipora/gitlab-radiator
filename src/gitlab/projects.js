@@ -1,4 +1,4 @@
-import {gitlabRequest} from './client'
+import {gitlabRequest} from './client.js'
 
 export async function fetchProjects(gitlab) {
   const projects = await fetchOwnProjects(gitlab)

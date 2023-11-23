@@ -1,27 +1,28 @@
-import {basicAuth} from './auth'
+import {basicAuth} from './auth.js'
 import compression from 'compression'
-import {config} from './config'
+import {config} from './config.js'
 import express from 'express'
-import {fetchOfflineRunners} from './gitlab/runners'
+import fs from 'fs'
+import {fetchOfflineRunners} from './gitlab/runners.js'
 import http from 'http'
 import path from 'path'
-import {serveLessAsCss} from './less'
-import socketIo from 'socket.io'
-import {update} from './gitlab'
+import {serveLessAsCss} from './less.js'
+import {Server} from 'socket.io'
+import {update} from './gitlab/index.js'
 
 const app = express()
 const httpServer = http.Server(app)
-const socketIoServer = socketIo(httpServer)
+const socketIoServer = new Server(httpServer)
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && fs.existsSync('./src/dev-assets.js')) {
   // eslint-disable-next-line global-require
-  const {bindDevAssets} = require('./dev-assets')
+  const {bindDevAssets} = await import('./dev-assets.js')
   bindDevAssets(app)
 }
 
 app.disable('x-powered-by')
 app.get('/client.css', serveLessAsCss)
-app.use(express.static(path.join(__dirname, '..', 'public')))
+app.use(express.static('public'))
 app.use(compression())
 app.use(basicAuth(config.auth))
 

@@ -1,5 +1,5 @@
-import {fetchLatestPipelines} from './pipelines'
-import {fetchProjects} from './projects'
+import {fetchLatestPipelines} from './pipelines.js'
+import {fetchProjects} from './projects.js'
 
 export async function update(config) {
   const projectsWithPipelines = await loadProjectsWithPipelines(config)

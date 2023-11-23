@@ -1,4 +1,4 @@
-import {gitlabRequest} from './client'
+import {gitlabRequest} from './client.js'
 
 export async function fetchOfflineRunners(gitlab) {
   const runners = await fetchRunners(gitlab)

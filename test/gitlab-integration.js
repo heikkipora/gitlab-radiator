@@ -1,7 +1,7 @@
 import {expect} from 'chai'
-import {fetchLatestPipelines} from '../src/gitlab/pipelines'
-import {fetchProjects} from '../src/gitlab/projects'
-import {update} from '../src/gitlab'
+import {fetchLatestPipelines} from '../src/gitlab/pipelines.js'
+import {fetchProjects} from '../src/gitlab/projects.js'
+import {update} from '../src/gitlab/index.js'
 
 const gitlab = {
   url: 'https://gitlab.com',

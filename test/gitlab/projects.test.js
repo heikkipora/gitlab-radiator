@@ -1,6 +1,6 @@
-import * as clientMock from './../../src/gitlab/client'
+import * as clientMock from './../../src/gitlab/client.js'
 import {expect} from 'chai'
-import {fetchProjects} from './../../src/gitlab/projects'
+import {fetchProjects} from './../../src/gitlab/projects.js'
 import sinon from 'sinon'
 
 describe("projects", () => {

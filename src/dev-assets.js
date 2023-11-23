@@ -1,4 +1,4 @@
-import config from '../webpack.dev.js'
+import config from '../webpack.dev.cjs'
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'

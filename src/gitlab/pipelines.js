@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import {gitlabRequest} from './client'
+import {gitlabRequest} from './client.js'
 
 export async function fetchLatestPipelines(projectId, gitlab) {
   const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)

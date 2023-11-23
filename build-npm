@@ -14,8 +14,10 @@ cp LICENSE package.json README.md build
 # Copy bin script
 cp -r bin build
 
-# Bundle and minify client JS
-npx webpack --config webpack.prod.js
+# Copy server
+cp -r src build
+rm -fr build/src/client
+rm -f build/src/dev-assets.js
 
-# Transpile server
-node_modules/.bin/babel src --ignore **/client/*.js,**/dev-assets.js --out-dir build/src
+# Bundle and minify client JS
+npx webpack --config webpack.prod.cjs
