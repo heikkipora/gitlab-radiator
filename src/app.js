@@ -74,7 +74,7 @@ async function errorIfRunnerOffline() {
   return null
 }
 
-runUpdate()
+await runUpdate()
 
 function withDate(state) {
   return {
