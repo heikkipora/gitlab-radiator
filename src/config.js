@@ -11,6 +11,7 @@ config.interval = Number(config.interval || 10) * 1000
 config.port = Number(config.port || 3000)
 config.zoom = Number(config.zoom || 1.0)
 config.columns = Number(config.columns || 1)
+config.horizontal = config.horizontal || false
 config.groupSuccessfulProjects = config.groupSuccessfulProjects || false
 config.projectsOrder = config.projectsOrder || ['name']
 config.gitlabs = config.gitlabs.map((gitlab) => {
