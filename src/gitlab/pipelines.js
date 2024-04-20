@@ -60,7 +60,7 @@ async function fetchDownstreamJobs(projectId, pipelineId, config) {
 async function fetchJobs(projectId, pipelineId, config) {
   const {data: gitlabJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/jobs?include_retried=true`, {per_page: 100}, config)
   if (gitlabJobs.length === 0) {
-    return {}
+    return {commit: undefined, stages: []}
   }
 
   const commit = findCommit(gitlabJobs)
