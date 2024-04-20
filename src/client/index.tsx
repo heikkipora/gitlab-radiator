@@ -36,7 +36,7 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
   render = () => {
     const {screen} = this.args
     const {now, zoom, columns, projects, projectsOrder, groupSuccessfulProjects, horizontal} = this.state
-    return <div>
+    return <div className={horizontal ? 'horizontal': ''}>
       {this.renderErrorMessage()}
       {this.renderProgressMessage()}
 
@@ -44,7 +44,6 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
         <GroupedProjects now={now} zoom={zoom} columns={columns}
                         projects={projects} projectsOrder={projectsOrder}
                         groupSuccessfulProjects={groupSuccessfulProjects}
-                        horizontal={horizontal}
                         screen={screen}/>
       }
     </div>

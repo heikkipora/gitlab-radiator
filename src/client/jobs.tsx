@@ -17,7 +17,7 @@ const JOB_STATES_IN_INTEREST_ORDER: JobStatus[] = [
   'skipped'
 ]
 
-export function Jobs({jobs, maxNonFailedJobsVisible, horizontal}: {jobs: Job[], maxNonFailedJobsVisible: number, horizontal: boolean}): JSX.Element {
+export function Jobs({jobs, maxNonFailedJobsVisible}: {jobs: Job[], maxNonFailedJobsVisible: number}): JSX.Element {
   const [failedJobs, nonFailedJobs] = partition(jobs, {status: 'failed'})
   const filteredJobs = sortByOriginalOrder(
     failedJobs.concat(
@@ -37,9 +37,7 @@ export function Jobs({jobs, maxNonFailedJobsVisible, horizontal}: {jobs: Job[], 
     .map(([status, count]) => `${count}${NON_BREAKING_SPACE}${status}`)
     .join(', ')
 
-  const horizontalClass = horizontal ? ' horizontal' : ''
-
-  return <ol className={`jobs${horizontalClass}`}>
+  return <ol className="jobs">
     {filteredJobs.map(job => <JobElement job={job} key={job.id}/>)}
     {
       hiddenJobs.length > 0 ? <li className="hidden-jobs">+&nbsp;{hiddenJobsText}</li> : null
