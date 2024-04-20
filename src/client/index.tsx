@@ -16,6 +16,7 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
       columns: 1,
       error: null,
       groupSuccessfulProjects: false,
+      horizontal: false,
       projects: null,
       projectsOrder: [],
       now: 0,
@@ -34,7 +35,7 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
 
   render = () => {
     const {screen} = this.args
-    const {now, zoom, columns, projects, projectsOrder, groupSuccessfulProjects} = this.state
+    const {now, zoom, columns, projects, projectsOrder, groupSuccessfulProjects, horizontal} = this.state
     return <div>
       {this.renderErrorMessage()}
       {this.renderProgressMessage()}
@@ -43,6 +44,7 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
         <GroupedProjects now={now} zoom={zoom} columns={columns}
                         projects={projects} projectsOrder={projectsOrder}
                         groupSuccessfulProjects={groupSuccessfulProjects}
+                        horizontal={horizontal}
                         screen={screen}/>
       }
     </div>

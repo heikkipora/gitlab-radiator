@@ -3,6 +3,7 @@ export interface GlobalState {
   columns: number
   error: string | null
   groupSuccessfulProjects: boolean
+  horizontal: boolean
   projects: Project[] | null
   projectsOrder: string[]
   zoom: number

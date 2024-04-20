@@ -161,6 +161,22 @@ ol.stages {
       white-space: nowrap;
     }
   }
+
+  .stage.horizontal {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    flex-direction: row;
+
+    .name {
+      min-width: 170px;
+    }
+  }
+}
+
+ol.stages.horizontal {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex-grow: 1;
 }
 
 ol.jobs {
@@ -225,6 +241,19 @@ ol.jobs {
         darken(@running-background-color, 8%) 20px
       );
     }
+  }
+}
+
+ol.jobs.horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  li {
+    margin-right: 5px;
+  }
+
+  :last-child {
+    margin-bottom: 5px;
   }
 }
 

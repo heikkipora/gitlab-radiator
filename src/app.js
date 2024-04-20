@@ -36,6 +36,7 @@ const globalState = {
   zoom: config.zoom,
   projectsOrder: config.projectsOrder,
   columns: config.columns,
+  horizontal: config.horizontal,
   groupSuccessfulProjects: config.groupSuccessfulProjects
 }
 
