@@ -50,16 +50,16 @@ describe('Gitlab client', () => {
           author: 'Heikki Pora',
           title: '[ci skip] do nothing'
         },
-        id: 234495591,
+        id: 1261086942,
         ref: 'master',
         stages: [{
           jobs: [{
-            finishedAt: '2020-12-25T20:08:30.992Z',
-            id: 932219322,
+            finishedAt: '2024-04-20T08:24:58.581Z',
+            id: 6674648871,
             name: 'test',
-            startedAt: '2020-12-25T20:07:50.812Z',
+            startedAt: '2024-04-20T08:24:31.697Z',
             status: 'success',
-            url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/932219322'
+            url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/6674648871'
           }],
           name: 'test'
         }],
@@ -166,7 +166,7 @@ describe('Gitlab client', () => {
           url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project',
           pipelines: [
             {
-              id: 234495591,
+              id: 1261086942,
               status: 'success',
               commit: {
                 author: 'Heikki Pora',
@@ -175,12 +175,12 @@ describe('Gitlab client', () => {
               ref: 'master',
               stages: [{
                 jobs: [{
-                  finishedAt: '2020-12-25T20:08:30.992Z',
-                  id: 932219322,
+                  finishedAt: '2024-04-20T08:24:58.581Z',
+                  id: 6674648871,
                   name: 'test',
-                  startedAt: '2020-12-25T20:07:50.812Z',
+                  startedAt: '2024-04-20T08:24:31.697Z',
                   status: 'success',
-                  url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/932219322'
+                  url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/6674648871'
                 }],
                 name: 'test'
               }]
@@ -391,38 +391,48 @@ describe('Gitlab client', () => {
       [{
         commit: {
           author: 'Heikki Pora',
-          title: 'Initial commit'
+          title: 'Add job triggering another project'
         },
-        id: 644417453,
+        id: 1261086879,
         ref: 'master',
         stages: [{
           jobs: [{
-            finishedAt: '2022-09-19T16:59:07.394Z',
-            id: 3050180428,
+            finishedAt: '2024-04-20T08:24:30.130Z',
+            id: 6674648615,
             name: 'start-job',
-            startedAt: '2022-09-19T16:58:54.170Z',
+            startedAt: '2024-04-20T08:24:03.377Z',
             status: 'success',
-            url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/3050180428'
+            url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/6674648615'
           }],
           name: 'start'
         }, {
           jobs: [{
-            finishedAt: '2022-09-19T16:59:23.868Z',
-            id: 3050181208,
-            name: 'build',
-            startedAt: '2022-09-19T16:59:08.204Z',
+            finishedAt: '2024-04-20T08:24:58.581Z',
+            id: 6674648871,
+            name: 'test',
+            startedAt: '2024-04-20T08:24:31.697Z',
             status: 'success',
-            url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/3050181208'
+            url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project/-/jobs/6674648871'
+          }],
+          name: 'run-child:test'
+        }, {
+          jobs: [{
+            finishedAt: '2024-04-20T08:24:58.344Z',
+            id: 6674648869,
+            name: 'build',
+            startedAt: '2024-04-20T08:24:31.526Z',
+            status: 'success',
+            url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/6674648869'
           }],
           name: 'run-child:build'
         },{
           jobs: [{
-            finishedAt: '2022-09-19T16:59:36.918Z',
-            id: 3050181210,
+            finishedAt: '2024-04-20T08:25:26.496Z',
+            id: 6674648870,
             name: 'test',
-            startedAt: '2022-09-19T16:59:24.138Z',
+            startedAt: '2024-04-20T08:24:58.597Z',
             status: 'success',
-            url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/3050181210'
+            url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline/-/jobs/6674648870'
           }],
           name: 'run-child:test'
         }],
