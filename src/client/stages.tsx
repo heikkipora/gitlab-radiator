@@ -4,8 +4,8 @@ import type {Stage} from './gitlab-types'
 
 export function Stages({stages, maxNonFailedJobsVisible}: {stages: Stage[], maxNonFailedJobsVisible: number}): JSX.Element {
   return <ol className="stages">
-    {stages.map(stage =>
-      <StageElement stage={stage} maxNonFailedJobsVisible={maxNonFailedJobsVisible} key={stage.name}/>
+    {stages.map((stage, index) =>
+      <StageElement stage={stage} maxNonFailedJobsVisible={maxNonFailedJobsVisible} key={`${index}-${stage.name}`}/>
     )}
   </ol>
 }
