@@ -4,6 +4,8 @@ import sortBy from 'lodash/sortBy'
 import {Stages} from './stages'
 import type {Project} from './gitlab-types'
 
+let runningPipelineIndex: number[] = []
+
 export function Projects({columns, now, projects, projectsOrder, screen, zoom}: {columns: number, now: number, projects: Project[], projectsOrder: string[], screen: {id: number, total: number}, zoom: number}): JSX.Element {
   return <ol className="projects" style={zoomStyle(zoom)}>
     {sortBy(projects, projectsOrder)
@@ -14,11 +16,27 @@ export function Projects({columns, now, projects, projectsOrder, screen, zoom}: 
 }
 
 function ProjectElement({columns, now, project}: {columns: number, now: number, project: Project}) {
-  const [pipeline] = project.pipelines
+  let [pipeline] = project.pipelines
+
+  let txt = ''
+
+  if (project.rotateRunningPipelines) {
+    const running = project.pipelines.filter(runningPipeline => runningPipeline.running)
+
+    if (running.length > 1) {
+      if (runningPipelineIndex[project.id] === undefined) {
+        runningPipelineIndex[project.id] = 0
+      }
+
+      runningPipelineIndex[project.id] = ++runningPipelineIndex[project.id] % running.length
+      pipeline = running[runningPipelineIndex[project.id]]
+      txt = (runningPipelineIndex[project.id] + 1) + '/' + running.length + ' '
+    }
+  }
 
   return <li className={`project ${project.status}`} style={style(columns)}>
     <h2>
-      {project.url && <a href={`${project.url}/pipelines`} target="_blank" rel="noopener noreferrer">{project.name}</a>}
+      {project.url && <a href={`${project.url}/pipelines`} target="_blank" rel="noopener noreferrer">{txt} {project.name}</a>}
       {!project.url && project.name}
     </h2>
     <Stages stages={pipeline.stages} maxNonFailedJobsVisible={project.maxNonFailedJobsVisible}/>

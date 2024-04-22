@@ -16,6 +16,7 @@ class RadiatorApp extends React.Component<unknown, GlobalState> {
       columns: 1,
       error: null,
       groupSuccessfulProjects: false,
+      rotateRunningPipelines: false,
       horizontal: false,
       projects: null,
       projectsOrder: [],

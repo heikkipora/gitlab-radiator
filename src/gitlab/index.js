@@ -13,7 +13,8 @@ async function loadProjectsWithPipelines(config) {
     const projects = (await fetchProjects(gitlab))
       .map(project => ({
         ...project,
-        maxNonFailedJobsVisible: gitlab.maxNonFailedJobsVisible
+        maxNonFailedJobsVisible: gitlab.maxNonFailedJobsVisible,
+        rotateRunningPipelines: config.rotateRunningPipelines,
       }))
 
     for (const project of projects) {

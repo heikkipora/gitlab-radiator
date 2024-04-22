@@ -52,6 +52,7 @@ describe('Gitlab client', () => {
         },
         id: 1261086942,
         ref: 'master',
+        running: false,
         stages: [{
           jobs: [{
             finishedAt: '2024-04-20T08:24:58.581Z',
@@ -80,6 +81,7 @@ describe('Gitlab client', () => {
           author: 'Heikki Pora'
         },
         ref: 'feature/test-branch',
+        running: false,
         stages: [
           {
             name: 'test',
@@ -117,6 +119,7 @@ describe('Gitlab client', () => {
           title: 'Fail more'
         },
         ref: 'master',
+        running: false,
         stages: [
           {
             jobs: [
@@ -173,6 +176,7 @@ describe('Gitlab client', () => {
                 title: '[ci skip] do nothing'
               },
               ref: 'master',
+              running: false,
               stages: [{
                 jobs: [{
                   finishedAt: '2024-04-20T08:24:58.581Z',
@@ -207,6 +211,7 @@ describe('Gitlab client', () => {
               author: 'Heikki Pora'
             },
             ref: 'feature/test-branch',
+            running: false,
             stages: [
               {
                 name: 'test',
@@ -239,6 +244,7 @@ describe('Gitlab client', () => {
           {
             id: 234613296,
             ref: 'master',
+            running: false,
             status: 'failed',
             commit: {
               title: 'Fail more',
@@ -290,6 +296,7 @@ describe('Gitlab client', () => {
           {
             id: 234493901,
             ref: 'master',
+            running: false,
             status: 'success',
             commit: {
               title: 'Fail manual step',
@@ -395,6 +402,7 @@ describe('Gitlab client', () => {
         },
         id: 1261086879,
         ref: 'master',
+        running: false,
         stages: [{
           jobs: [{
             finishedAt: '2024-04-20T08:24:30.130Z',
