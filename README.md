@@ -84,6 +84,7 @@ Optional configuration properties:
 - `gitlabs / projects / exclude` - Regular expression for exclusion of projects. Default is to exclude no projects.
 - `gitlabs / projects / excludePipelineStatus` - Array of pipeline statuses, that should be excluded (i.e. hidden) (available statuses are `running, pending, success, failed, canceled, skipped`).
 - `gitlabs / maxNonFailedJobsVisible` - Number of non-failed jobs visible for a stage at maximum. Helps with highly concurrent project pipelines becoming uncomfortably high. Default values is unlimited.
+- `gitlabs / branch` - Define branch what to show. Default value is empty, meaning all branches are shown.
 - `gitlabs / caFile` - CA file location to be passed to the request library when accessing the gitlab instance.
 - `gitlabs / ignoreArchived` - Ignore archived projects. Default value is `true`
 - `groupSuccessfulProjects` - If set to `true` projects with successful pipeline status are grouped by namespace. Projects with other pipeline statuses are still rendered seperately. Default value is `false`.
