@@ -11,6 +11,7 @@ const gitlab = {
   branch: undefined,
   ca: undefined,
   offlineRunners: 'none' as const,
+  commitAsTitle: false,
   projects: undefined
 }
 
@@ -164,6 +165,7 @@ describe('Gitlab client', () => {
           default_branch: 'master',
           group: 'gitlab-radiator-test',
           id: 5385889,
+          commitAsTitle: false,
           maxNonFailedJobsVisible: 10,
           name: 'gitlab-radiator-test/ci-skip-test-project',
           nameWithoutNamespace: 'ci-skip-test-project',
@@ -198,6 +200,7 @@ describe('Gitlab client', () => {
         default_branch: 'master',
         group: 'gitlab-radiator-test',
         id: 5290928,
+        commitAsTitle: false,
         maxNonFailedJobsVisible: 10,
         name: 'gitlab-radiator-test/integration-test-project-2',
         nameWithoutNamespace: 'integration-test-project-2',
@@ -286,6 +289,7 @@ describe('Gitlab client', () => {
         default_branch: 'master',
         group: 'gitlab-radiator-test',
         id: 5290865,
+        commitAsTitle: false,
         maxNonFailedJobsVisible: 10,
         name: 'gitlab-radiator-test/integration-test-project-1',
         nameWithoutNamespace: 'integration-test-project-1',
