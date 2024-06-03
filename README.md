@@ -88,6 +88,7 @@ Optional configuration properties:
 - `gitlabs / ignoreArchived` - Ignore archived projects. Default value is `true`
 - `groupSuccessfulProjects` - If set to `true` projects with successful pipeline status are grouped by namespace. Projects with other pipeline statuses are still rendered seperately. Default value is `false`.
 - `horizontal` - If set to `true` jobs are ordered horizontally to stages. Default value is `false`.
+- `rotateRunningPipelines` - If set to `true` all currently running pipelines are rotated in view. Default value is `false`.
 - `auth / username` - Enables HTTP basic authentication with the defined username and password.
 - `auth / password` - Enables HTTP basic authentication with the defined username and password.
 - `projectsOrder` - Array of project attributes to use for sorting projects. Default value is `['name']` (available attributes are `status, name, id, nameWithoutNamespace, group`).
