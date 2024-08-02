@@ -11,7 +11,7 @@ const clients = new Map()
 function lazyClient(gitlab) {
   const gitlabUrl = gitlab.url
   if (gitlabUrl === undefined) {
-    // eslint-disable-next-line no-console
+     
     console.log('Got undefined url for ' + JSON.stringify(gitlab))
   }
   if (!clients.get(gitlabUrl)) {
