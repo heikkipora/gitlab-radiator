@@ -18,7 +18,7 @@
     "test": "mocha --timeout 20000 test/*.js test/**/*.js"
   },
   "engines": {
-    "node": ">=16.17.0"
+    "node": ">=18"
   },
   "repository": {
     "type": "git",
