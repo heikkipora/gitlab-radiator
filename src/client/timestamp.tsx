@@ -1,4 +1,4 @@
-import {formatDistance} from 'date-fns'
+import moment from 'moment'
 import React from 'react'
 import type {Stage} from './gitlab-types'
 
@@ -15,11 +15,11 @@ export function Timestamp({stages, now}: {stages: Stage[], now: number}) {
   const inProgress = timestamps.length > finished.length
   if (inProgress) {
     const [{startedAt}] = timestamps.sort((a, b) => a.startedAt - b.startedAt)
-    return <span>Started {formatDistance(startedAt, now)} ago</span>
+    return <span>Started {moment(startedAt).from(now)}</span>
   }
 
   const [latestFinishedAt] = finished.sort((a, b) => b - a)
-  return <span>Finished {formatDistance(latestFinishedAt, now)} ago</span>
+  return <span>Finished {moment(latestFinishedAt).from(now)}</span>
 }
 
 function getTimestamps(stages: Stage[]): {startedAt: number, finishedAt: number | null}[] {
