@@ -19,6 +19,7 @@ config.gitlabs = config.gitlabs.map((gitlab) => {
     url: gitlab.url,
     ignoreArchived: gitlab.ignoreArchived === undefined ? true : gitlab.ignoreArchived,
     maxNonFailedJobsVisible: Number(gitlab.maxNonFailedJobsVisible || 999999),
+    branch: gitlab.branch || '',
     ca: gitlab.caFile && fs.existsSync(gitlab.caFile, 'utf-8') ? fs.readFileSync(gitlab.caFile) : undefined,
     'access-token': gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN,
     projects: {
