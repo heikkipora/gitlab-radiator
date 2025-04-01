@@ -14,7 +14,7 @@ const httpServer = http.Server(app)
 const socketIoServer = new Server(httpServer)
 
 if (process.env.NODE_ENV !== 'production' && fs.existsSync('./src/dev-assets.js')) {
-  // eslint-disable-next-line global-require
+   
   const {bindDevAssets} = await import('./dev-assets.js')
   bindDevAssets(app)
 }
@@ -26,7 +26,7 @@ app.use(compression())
 app.use(basicAuth(config.auth))
 
 httpServer.listen(config.port, () => {
-  // eslint-disable-next-line no-console
+   
   console.log(`Listening on port *:${config.port}`)
 })
 
@@ -51,7 +51,7 @@ async function runUpdate() {
     globalState.error = await errorIfRunnerOffline()
     socketIoServer.emit('state', withDate(globalState))
   } catch (error) {
-    // eslint-disable-next-line no-console
+     
     console.error(error.message)
     globalState.error = `Failed to communicate with GitLab API: ${error.message}`
     socketIoServer.emit('state', withDate(globalState))
