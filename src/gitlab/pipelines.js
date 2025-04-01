@@ -19,7 +19,7 @@ export async function fetchLatestPipelines(projectId, gitlab) {
   return pipelinesWithStages
 }
 
-// eslint-disable-next-line max-statements
+ 
 async function fetchLatestAndMasterPipeline(projectId, config) {
   let options = {per_page: 100}
 
