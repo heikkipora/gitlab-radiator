@@ -15,7 +15,7 @@ async function fetchOwnProjects(gitlab) {
   const projects = []
   const SAFETY_MAX_PAGE = 10
   for (let page = 1; page <= SAFETY_MAX_PAGE; page += 1) {
-    // eslint-disable-next-line no-await-in-loop
+     
     const {data, headers} = await gitlabRequest('/projects', {page, per_page: 100, membership: true}, gitlab)
     projects.push(data)
     if (data.length === 0 || !headers['x-next-page']) {

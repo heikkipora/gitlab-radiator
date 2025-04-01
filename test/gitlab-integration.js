@@ -5,7 +5,7 @@ import {update} from '../src/gitlab/index.js'
 
 const gitlab = {
   url: 'https://gitlab.com',
-  'access-token': 'K34Nzm3_JA1rQMML6j5h',
+  'access-token': 'glpat-ueDVvYgWytPzCdHSmzbT',
   maxNonFailedJobsVisible: 10
 }
 
