@@ -13,7 +13,8 @@ export async function fetchLatestPipelines(projectId, gitlab) {
       ref,
       status,
       commit,
-      stages: stages.concat(downstreamStages)
+      stages: stages.concat(downstreamStages),
+      running: status === 'running'
     })
   }
   return pipelinesWithStages
@@ -25,6 +26,15 @@ async function fetchLatestAndMasterPipeline(projectId, config) {
   if (pipelines.length === 0) {
     return []
   }
+
+  if (config.rotateRunningPipelines) {
+    const runningPipelines = pipelines.filter(pipeline => pipeline.status === 'running')
+
+    if (runningPipelines.length > 0) {
+      return runningPipelines
+    }
+  }
+
   const latestPipeline = _.take(pipelines, 1)
   if (latestPipeline[0].ref === 'master') {
     return latestPipeline

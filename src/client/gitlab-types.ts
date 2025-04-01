@@ -3,6 +3,7 @@ export interface GlobalState {
   columns: number
   error: string | null
   groupSuccessfulProjects: boolean
+  rotateRunningPipelines: boolean
   horizontal: boolean
   projects: Project[] | null
   projectsOrder: string[]
@@ -21,6 +22,7 @@ export interface Project {
   default_branch: string
   pipelines: Pipeline[]
   maxNonFailedJobsVisible: number
+  rotateRunningPipelines: boolean
   status: 'success' | 'failed'
 }
 
@@ -30,6 +32,7 @@ export interface Pipeline {
   ref: string
   stages: Stage[]
   status: 'success' | 'failed'
+  running: boolean
 }
 
 export interface Commit {
