@@ -3,7 +3,7 @@ import React from 'react'
 import {Timestamp} from './timestamp'
 import {style, zoomStyle} from './projects'
 
-export function Groups({groupedProjects, now, zoom, columns}: {groupedProjects: {[groupname: string]: Project[]}, now: number, zoom: number, columns: number}): JSX.Element {
+export function Groups({groupedProjects, now, zoom, columns}: {groupedProjects: {[groupname: string]: Project[]}, now: number, zoom: number, columns: number}) {
   return <ol className="groups" style={zoomStyle(zoom)}>
     {Object
       .entries(groupedProjects)

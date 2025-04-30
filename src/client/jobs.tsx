@@ -17,7 +17,7 @@ const JOB_STATES_IN_INTEREST_ORDER: JobStatus[] = [
   'skipped'
 ]
 
-export function Jobs({jobs, maxNonFailedJobsVisible}: {jobs: Job[], maxNonFailedJobsVisible: number}): JSX.Element {
+export function Jobs({jobs, maxNonFailedJobsVisible}: {jobs: Job[], maxNonFailedJobsVisible: number}) {
   const [failedJobs, nonFailedJobs] = partition(jobs, {status: 'failed'})
   const filteredJobs = sortByOriginalOrder(
     failedJobs.concat(

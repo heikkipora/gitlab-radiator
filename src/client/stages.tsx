@@ -2,7 +2,7 @@ import {Jobs} from './jobs'
 import React from 'react'
 import type {Stage} from './gitlab-types'
 
-export function Stages({stages, maxNonFailedJobsVisible}: {stages: Stage[], maxNonFailedJobsVisible: number}): JSX.Element {
+export function Stages({stages, maxNonFailedJobsVisible}: {stages: Stage[], maxNonFailedJobsVisible: number}) {
   return <ol className="stages">
     {stages.map((stage, index) =>
       <StageElement stage={stage} maxNonFailedJobsVisible={maxNonFailedJobsVisible} key={`${index}-${stage.name}`}/>

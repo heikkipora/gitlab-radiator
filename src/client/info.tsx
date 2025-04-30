@@ -2,7 +2,7 @@ import type {Pipeline} from './gitlab-types'
 import React from 'react'
 import {Timestamp} from './timestamp'
 
-export function Info({pipeline, now}: {pipeline: Pipeline, now: number}): JSX.Element {
+export function Info({pipeline, now}: {pipeline: Pipeline, now: number}) {
   return <div className="pipeline-info">
     <div>
       <span>{pipeline.commit ? pipeline.commit.author : '-'}</span>
