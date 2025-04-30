@@ -4,7 +4,7 @@ import {Projects} from './projects'
 import React from 'react'
 import type {Project} from './gitlab-types'
 
-export function GroupedProjects({projects, projectsOrder, groupSuccessfulProjects, zoom, columns, now, screen}: {projects: Project[], projectsOrder: string[], groupSuccessfulProjects: boolean, zoom: number, columns: number, now: number, screen: {id: number, total: number}}): JSX.Element {
+export function GroupedProjects({projects, projectsOrder, groupSuccessfulProjects, zoom, columns, now, screen}: {projects: Project[], projectsOrder: string[], groupSuccessfulProjects: boolean, zoom: number, columns: number, now: number, screen: {id: number, total: number}}) {
   if (groupSuccessfulProjects) {
     return renderProjectsGrouped(projects, projectsOrder, zoom, columns, now, screen)
   }

@@ -4,7 +4,7 @@ import sortBy from 'lodash/sortBy'
 import {Stages} from './stages'
 import type {Project} from './gitlab-types'
 
-export function Projects({columns, now, projects, projectsOrder, screen, zoom}: {columns: number, now: number, projects: Project[], projectsOrder: string[], screen: {id: number, total: number}, zoom: number}): JSX.Element {
+export function Projects({columns, now, projects, projectsOrder, screen, zoom}: {columns: number, now: number, projects: Project[], projectsOrder: string[], screen: {id: number, total: number}, zoom: number}) {
   return <ol className="projects" style={zoomStyle(zoom)}>
     {sortBy(projects, projectsOrder)
       .filter(forScreen(screen, projects.length))
