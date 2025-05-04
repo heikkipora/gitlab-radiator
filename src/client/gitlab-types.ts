@@ -21,6 +21,7 @@ export interface Project {
   default_branch: string
   pipelines: Pipeline[]
   maxNonFailedJobsVisible: number
+  branch: string
   status: 'success' | 'failed'
 }
 
