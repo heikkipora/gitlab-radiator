@@ -36,6 +36,7 @@ Safe edit guidance for agents
 - Small, isolated changes preferred. When changing data shapes emitted as `state`, update `src/client/*` in the same PR to keep runtime compatibility.
 - Preserve environment-driven behavior: `GITLAB_ACCESS_TOKEN`, `GITLAB_RADIATOR_CONFIG`, and `NODE_TLS_REJECT_UNAUTHORIZED` are intentionally supported; prefer config changes over hardcoding tokens.
 - When adding new dependencies, ensure they are added to `package.json` and usage fits ESM. Use exact versions as per existing dependencies.
+- Keep `package.json` sorted alphabetically in `dependencies` and `devDependencies`.
 - Follow existing style: minimal new inline comments, keep utility functions small, and do not rework CI/test harnesses unless requested.
 
 Debugging notes

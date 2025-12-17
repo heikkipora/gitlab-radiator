@@ -6,6 +6,7 @@ import {argumentsFromDocumentUrl} from './arguments'
 import {createRoot} from 'react-dom/client'
 import {GroupedProjects} from './groupedProjects'
 import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import {io, Socket} from 'socket.io-client'
 
 function RadiatorApp() {
   const args = useMemo(() => argumentsFromDocumentUrl(), [])
@@ -32,13 +33,13 @@ function RadiatorApp() {
   const onDisconnect = useCallback(() => setState(prev => ({...prev, error: 'gitlab-radiator server is offline'})), [])
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const socket = (window as any).io()
+    const socket: Socket = io()
     socket.on('state', onServerStateUpdated)
     socket.on('disconnect', onDisconnect)
     return () => {
       socket.off('state', onServerStateUpdated)
       socket.off('disconnect', onDisconnect)
+      socket.close()
     }
   }, [onServerStateUpdated, onDisconnect])
 
