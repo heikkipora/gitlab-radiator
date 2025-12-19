@@ -1,7 +1,7 @@
 import {expect} from 'chai'
-import {fetchLatestPipelines} from '../src/gitlab/pipelines.js'
-import {fetchProjects} from '../src/gitlab/projects.js'
-import {update} from '../src/gitlab/index.js'
+import {fetchLatestPipelines} from '../src/gitlab/pipelines.ts'
+import {fetchProjects} from '../src/gitlab/projects.ts'
+import {update} from '../src/gitlab/index.ts'
 
 const gitlab = {
   url: 'https://gitlab.com',
@@ -149,7 +149,7 @@ describe('Gitlab client', () => {
     )
   })
 
-  it('Should find two projects with two pipelines for the first and one for the second (and exclude projects without pipelines)', async() => {
+  it('Should find two projects with two pipelines for the first and one for the second (and exclude projects without pipelines)', async () => {
     const config = {gitlabs: [{...gitlab, projects: {exclude: '.*-with-child-pipeline'}}]}
     const projects = await update(config)
     expect(projects).to.deep.equal(

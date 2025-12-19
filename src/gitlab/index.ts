@@ -1,17 +1,17 @@
-import {fetchLatestPipelines} from './pipelines.js'
-import {fetchProjects} from './projects.js'
+import {fetchLatestPipelines} from './pipelines.ts'
+import {fetchProjects} from './projects.ts'
 
-export async function update(config) {
+export async function update(config: any) {
   const projectsWithPipelines = await loadProjectsWithPipelines(config)
   return projectsWithPipelines
-    .filter(project => project.pipelines.length > 0)
+    .filter((project: any) => project.pipelines.length > 0)
 }
 
-async function loadProjectsWithPipelines(config) {
-  const allProjectsWithPipelines = []
-  await Promise.all(config.gitlabs.map(async (gitlab) => {
+async function loadProjectsWithPipelines(config: any) {
+  const allProjectsWithPipelines: any[] = []
+  await Promise.all(config.gitlabs.map(async (gitlab: any) => {
     const projects = (await fetchProjects(gitlab))
-      .map(project => ({
+      .map((project: any) => ({
         ...project,
         maxNonFailedJobsVisible: gitlab.maxNonFailedJobsVisible
       }))
@@ -23,7 +23,7 @@ async function loadProjectsWithPipelines(config) {
   return allProjectsWithPipelines
 }
 
-async function projectWithPipelines(project, config) {
+async function projectWithPipelines(project: any, config: any) {
   const pipelines = filterOutEmpty(await fetchLatestPipelines(project.id, config))
     .filter(excludePipelineStatusFilter(config))
   const status = defaultBranchStatus(project, pipelines)
@@ -34,19 +34,19 @@ async function projectWithPipelines(project, config) {
   }
 }
 
-function defaultBranchStatus(project, pipelines) {
+function defaultBranchStatus(project: any, pipelines: any[]) {
   const [head] = pipelines
     .filter(({ref}) => ref === project.default_branch)
     .map(({status}) => status)
   return head
 }
 
-function filterOutEmpty(pipelines) {
+function filterOutEmpty(pipelines: any[]) {
   return pipelines.filter(pipeline => pipeline.stages)
 }
 
-function excludePipelineStatusFilter(config) {
-  return pipeline => {
+function excludePipelineStatusFilter(config: any) {
+  return (pipeline: any) => {
     if (config.projects && config.projects.excludePipelineStatus) {
       return !config.projects.excludePipelineStatus.includes(pipeline.status)
     }

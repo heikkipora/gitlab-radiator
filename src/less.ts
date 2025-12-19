@@ -1,11 +1,11 @@
-import {config} from './config.js'
+import {config} from './config.ts'
 import fs from 'fs'
 import less from 'less'
 import path from 'path'
 
 const filename = path.join('public', 'client.less')
 
-export async function serveLessAsCss(req, res) {
+export async function serveLessAsCss(req: any, res: any) {
   try {
     const source = await fs.promises.readFile(filename, 'utf-8')
     const {css} = await less.render(withColorOverrides(source), {filename})
@@ -17,7 +17,7 @@ export async function serveLessAsCss(req, res) {
   }
 }
 
-function withColorOverrides(source) {
+function withColorOverrides(source: string) {
   let colorLess = ''
   Object.keys(config.colors).forEach((stateName) => {
     colorLess += `@${stateName}-color:${config.colors[stateName]};`

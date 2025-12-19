@@ -13,9 +13,9 @@
   },
   "scripts": {
     "build": "./build-npm",
-    "start": "node src/app.js",
+    "start": "node src/app.ts",
     "eslint": "eslint --fix src/* bin/* test/*",
-    "test": "mocha --timeout 20000 test/*.js test/**/*.js"
+    "test": "mocha --timeout 20000 test/*.ts"
   },
   "engines": {
     "node": ">=22.18.0"
@@ -54,7 +54,13 @@
   "devDependencies": {
     "@eslint/eslintrc": "3.3.3",
     "@eslint/js": "9.39.2",
+    "@types/basic-auth": "1.1.8",
+    "@types/chai": "5.2.3",
+    "@types/compression": "1.8.1",
+    "@types/express": "5.0.6",
+    "@types/less": "3.0.8",
     "@types/lodash": "4.17.21",
+    "@types/mocha": "10.0.10",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@types/webpack-env": "1.18.8",
