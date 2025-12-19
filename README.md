@@ -12,7 +12,7 @@
 
 ## Pre-requisites
 
-- Node.js v18 or newer
+- Node.js v22.18.0 or newer
 - An account in https://gitlab.com or an onsite installation of the [GitLab software package](https://about.gitlab.com/products).
 
 ## Installation
