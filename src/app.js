@@ -20,13 +20,12 @@ if (process.env.NODE_ENV !== 'production' && fs.existsSync('./src/dev-assets.js'
 }
 
 app.disable('x-powered-by')
+app.use(compression())
 app.get('/client.css', serveLessAsCss)
 app.use(express.static('public'))
-app.use(compression())
 app.use(basicAuth(config.auth))
 
 httpServer.listen(config.port, () => {
-   
   console.log(`Listening on port *:${config.port}`)
 })
 
