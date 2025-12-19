@@ -1,28 +1,27 @@
-import {basicAuth} from './auth.js'
+import {basicAuth} from './auth.ts'
 import compression from 'compression'
-import {config} from './config.js'
+import {config} from './config.ts'
 import express from 'express'
 import fs from 'fs'
-import {fetchOfflineRunners} from './gitlab/runners.js'
+import {fetchOfflineRunners} from './gitlab/runners.ts'
 import http from 'http'
-import {serveLessAsCss} from './less.js'
+import {serveLessAsCss} from './less.ts'
 import {Server} from 'socket.io'
-import {update} from './gitlab/index.js'
+import {update} from './gitlab/index.ts'
 
 const app = express()
-const httpServer = http.Server(app)
+const httpServer = new http.Server(app)
 const socketIoServer = new Server(httpServer)
 
-if (process.env.NODE_ENV !== 'production' && fs.existsSync('./src/dev-assets.js')) {
-   
-  const {bindDevAssets} = await import('./dev-assets.js')
+if (process.env.NODE_ENV !== 'production' && fs.existsSync('./src/dev-assets.ts')) {
+  const {bindDevAssets} = await import('./dev-assets.ts')
   bindDevAssets(app)
 }
 
 app.disable('x-powered-by')
-app.use(compression())
 app.get('/client.css', serveLessAsCss)
 app.use(express.static('public'))
+app.use(compression())
 app.use(basicAuth(config.auth))
 
 httpServer.listen(config.port, () => {
@@ -48,8 +47,7 @@ async function runUpdate() {
     globalState.projects = await update(config)
     globalState.error = await errorIfRunnerOffline()
     socketIoServer.emit('state', withDate(globalState))
-  } catch (error) {
-     
+  } catch (error: any) {
     console.error(error.message)
     globalState.error = `Failed to communicate with GitLab API: ${error.message}`
     socketIoServer.emit('state', withDate(globalState))
@@ -64,7 +62,7 @@ async function errorIfRunnerOffline() {
       offline: acc.offline.concat(runner.offline),
       totalCount: acc.totalCount + runner.totalCount
     }
-  }, {offline: [], totalCount: 0})
+  }, {offline: [], totalCount: 0 as number})
 
   if (offline.length > 0) {
     const names = offline.map(r => r.name).sort().join(', ')
@@ -76,7 +74,7 @@ async function errorIfRunnerOffline() {
 
 await runUpdate()
 
-function withDate(state) {
+function withDate(state: any) {
   return {
     ...state,
     now: Date.now()

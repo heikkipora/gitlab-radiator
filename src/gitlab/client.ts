@@ -2,16 +2,15 @@ import axios from 'axios'
 import https from 'https'
 import url from 'url'
 
-export function gitlabRequest(path, params, gitlab) {
-  return lazyClient(gitlab).get(path, {params})
+export function gitlabRequest(pathStr: string, params: any, gitlab: any) {
+  return lazyClient(gitlab).get(pathStr, {params})
 }
 
-const clients = new Map()
+const clients = new Map<string, any>()
 
-function lazyClient(gitlab) {
+function lazyClient(gitlab: any) {
   const gitlabUrl = gitlab.url
   if (gitlabUrl === undefined) {
-     
     console.log('Got undefined url for ' + JSON.stringify(gitlab))
   }
   if (!clients.get(gitlabUrl)) {

@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import {gitlabRequest} from './client.js'
+import {gitlabRequest} from './client.ts'
 
-export async function fetchLatestPipelines(projectId, gitlab) {
+export async function fetchLatestPipelines(projectId: any, gitlab: any) {
   const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)
 
-  const pipelinesWithStages = []
+  const pipelinesWithStages: any[] = []
   for (const {id, ref, status} of pipelines) {
     const {commit, stages} = await fetchJobs(projectId, id, gitlab)
     const downstreamStages = await fetchDownstreamJobs(projectId, id, gitlab)
@@ -19,8 +19,7 @@ export async function fetchLatestPipelines(projectId, gitlab) {
   return pipelinesWithStages
 }
 
- 
-async function fetchLatestAndMasterPipeline(projectId, config) {
+async function fetchLatestAndMasterPipeline(projectId: any, config: any) {
   const pipelines = await fetchPipelines(projectId, config, {per_page: 100})
   if (pipelines.length === 0) {
     return []
@@ -37,19 +36,19 @@ async function fetchLatestAndMasterPipeline(projectId, config) {
   return latestPipeline.concat(_.take(masterPipelines, 1))
 }
 
-async function fetchPipelines(projectId, config, options) {
+async function fetchPipelines(projectId: any, config: any, options: any) {
   const {data: pipelines} = await gitlabRequest(`/projects/${projectId}/pipelines`, options, config)
-  return pipelines.filter(pipeline => pipeline.status !== 'skipped')
+  return pipelines.filter((pipeline: any) => pipeline.status !== 'skipped')
 }
 
-async function fetchDownstreamJobs(projectId, pipelineId, config) {
+async function fetchDownstreamJobs(projectId: any, pipelineId: any, config: any) {
   const {data: gitlabBridgeJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/bridges`, {per_page: 100}, config)
-  const childPipelines = gitlabBridgeJobs.filter(bridge => bridge.downstream_pipeline !== null && bridge.downstream_pipeline.status !== 'skipped')
+  const childPipelines = gitlabBridgeJobs.filter((bridge: any) => bridge.downstream_pipeline !== null && bridge.downstream_pipeline.status !== 'skipped')
 
-  const downstreamStages = []
+  const downstreamStages: any[] = []
   for(const childPipeline of childPipelines) {
     const {stages} = await fetchJobs(childPipeline.downstream_pipeline.project_id, childPipeline.downstream_pipeline.id, config)
-    downstreamStages.push(stages.map(stage => ({
+    downstreamStages.push(stages.map((stage: any) => ({
       ...stage,
       name: `${childPipeline.stage}:${stage.name}`
     })))
@@ -57,7 +56,7 @@ async function fetchDownstreamJobs(projectId, pipelineId, config) {
   return downstreamStages.flat()
 }
 
-async function fetchJobs(projectId, pipelineId, config) {
+async function fetchJobs(projectId: any, pipelineId: any, config: any) {
   const {data: gitlabJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/jobs?include_retried=true`, {per_page: 100}, config)
   if (gitlabJobs.length === 0) {
     return {commit: undefined, stages: []}
@@ -65,7 +64,7 @@ async function fetchJobs(projectId, pipelineId, config) {
 
   const commit = findCommit(gitlabJobs)
   const stages = _(gitlabJobs)
-    .map(job => ({
+    .map((job: any) => ({
       id: job.id,
       status: job.status,
       stage: job.stage,
@@ -79,7 +78,7 @@ async function fetchJobs(projectId, pipelineId, config) {
     .mapValues(mergeRetriedJobs)
     .mapValues(cleanup)
     .toPairs()
-    .map(([name, jobs]) => ({name, jobs: _.sortBy(jobs, 'name')}))
+    .map(([name, jobs]) => ({name, jobs: _.sortBy(jobs as any[], 'name')}))
     .value()
 
   return {
@@ -88,7 +87,7 @@ async function fetchJobs(projectId, pipelineId, config) {
   }
 }
 
-function findCommit(jobs) {
+function findCommit(jobs: any[]) {
   const [job] = jobs.filter(j => j.commit)
   if (!job) {
     return null
@@ -99,8 +98,8 @@ function findCommit(jobs) {
   }
 }
 
-function mergeRetriedJobs(jobs) {
-  return jobs.reduce((mergedJobs, job) => {
+function mergeRetriedJobs(jobs: any[]) {
+  return jobs.reduce((mergedJobs: any[], job: any) => {
     const index = mergedJobs.findIndex(mergedJob => mergedJob.name === job.name)
     if (index >= 0) {
       mergedJobs[index] = job
@@ -111,7 +110,7 @@ function mergeRetriedJobs(jobs) {
   }, [])
 }
 
-function cleanup(jobs) {
+function cleanup(jobs: any[]) {
   return _(jobs)
     .map(job => _.omitBy(job, _.isNull))
     .map(job => _.omit(job, 'stage'))
