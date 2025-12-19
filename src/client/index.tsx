@@ -5,96 +5,73 @@ import type {GlobalState, Project} from './gitlab-types'
 import {argumentsFromDocumentUrl} from './arguments'
 import {createRoot} from 'react-dom/client'
 import {GroupedProjects} from './groupedProjects'
-import React from 'react'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import {io, Socket} from 'socket.io-client'
 
-class RadiatorApp extends React.Component<unknown, GlobalState> {
-  public args: {override: {columns?: number, zoom?: number}, includedTags: string[] | null, screen: {id: number, total: number}}
+function RadiatorApp() {
+  const args = useMemo(() => argumentsFromDocumentUrl(), [])
+  const [state, setState] = useState<GlobalState>({
+    columns: 1,
+    error: null,
+    groupSuccessfulProjects: false,
+    horizontal: false,
+    projects: null,
+    projectsOrder: [],
+    now: 0,
+    zoom: 1
+  })
+  const {now, zoom, columns, projects, projectsOrder, groupSuccessfulProjects, horizontal} = state
+  const projectsByTags = filterProjectsByTags(projects, args.includedTags)
 
-  constructor(props: unknown) {
-    super(props)
-    this.state = {
-      columns: 1,
-      error: null,
-      groupSuccessfulProjects: false,
-      horizontal: false,
-      projects: null,
-      projectsOrder: [],
-      now: 0,
-      zoom: 1
+  const onServerStateUpdated = useCallback((serverState: GlobalState) => {
+    setState(() => ({
+      ...serverState,
+      ...args.override
+    }))
+  }, [args.override])
+
+  const onDisconnect = useCallback(() => setState(prev => ({...prev, error: 'gitlab-radiator server is offline'})), [])
+
+  useEffect(() => {
+    const socket: Socket = io()
+    socket.on('state', onServerStateUpdated)
+    socket.on('disconnect', onDisconnect)
+    return () => {
+      socket.off('state', onServerStateUpdated)
+      socket.off('disconnect', onDisconnect)
+      socket.close()
     }
+  }, [onServerStateUpdated, onDisconnect])
 
-    this.args = argumentsFromDocumentUrl()
-  }
+  return <div className={horizontal ? 'horizontal' : ''}>
+    {state.error && <div className="error">{state.error}</div>}
+    {!state.projects && <h2 className="loading">Fetching projects and CI pipelines from GitLab...</h2>}
+    {state.projects?.length === 0 && <h2 className="loading">No projects with CI pipelines found.</h2>}
 
-  componentDidMount = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const socket = (window as any).io()
-    socket.on('state', this.onServerStateUpdated.bind(this))
-    socket.on('disconnect', this.onDisconnect.bind(this))
-  }
-
-  render = () => {
-    const {screen} = this.args
-    const {now, zoom, columns, projects, projectsOrder, groupSuccessfulProjects, horizontal} = this.state
-    return <div className={horizontal ? 'horizontal': ''}>
-      {this.renderErrorMessage()}
-      {this.renderProgressMessage()}
-
-      {projects &&
-        <GroupedProjects now={now} zoom={zoom} columns={columns}
-                        projects={projects} projectsOrder={projectsOrder}
-                        groupSuccessfulProjects={groupSuccessfulProjects}
-                        screen={screen}/>
-      }
-    </div>
-  }
-
-  renderErrorMessage = () =>
-    this.state.error && <div className="error">{this.state.error}</div>
-
-  renderProgressMessage = () => {
-    if (!this.state.projects) {
-      return <h2 className="loading">Fetching projects and CI pipelines from GitLab...</h2>
-    } else if (this.state.projects.length === 0) {
-      return <h2 className="loading">No projects with CI pipelines found.</h2>
+    {projectsByTags &&
+      <GroupedProjects now={now} zoom={zoom} columns={columns}
+                      projects={projectsByTags} projectsOrder={projectsOrder}
+                      groupSuccessfulProjects={groupSuccessfulProjects}
+                      screen={args.screen}/>
     }
+  </div>
+}
+
+function filterProjectsByTags(projects: Project[] | null, includedTags: string[] | null) {
+  if (projects === null) {
     return null
   }
-
-  onServerStateUpdated = (state: GlobalState) => {
-    this.setState({
-      ...state,
-      ...this.args.override,
-      projects: this.filterProjectsByTags(state.projects)
-    })
+  if (!includedTags) {
+    return projects
   }
-
-  onDisconnect = () => this.setState({error: 'gitlab-radiator server is offline'})
-
-  filterProjectsByTags = (projects: Project[] | null) => {
-    if (projects === null) {
-      return null
-    }
-
-    // No tag list specified, include all projects
-    if (!this.args.includedTags) {
-      return projects
-    }
-    // Empty tag list specified, include projects without tags
-    if (this.args.includedTags.length === 0) {
-      return projects.filter(project =>
-        project.tags.length === 0
-      )
-    }
-    // Tag list specified, include projects which have at least one of them
-    return projects.filter(project =>
-      project.tags.some(tag => this.args.includedTags?.includes(tag))
-    )
+  if (includedTags.length === 0) {
+    return projects.filter(p => p.tags.length === 0)
   }
+  return projects.filter(project => project.tags.some(tag => includedTags?.includes(tag)))
 }
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = createRoot(document.getElementById('app')!)
-root.render(<RadiatorApp/>);
+root.render(<RadiatorApp/>)
 
 module.hot?.accept()
