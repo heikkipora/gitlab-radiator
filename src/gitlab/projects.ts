@@ -4,11 +4,22 @@ import type {Project} from '../common/gitlab-types.d.ts'
 
 export type PartialProject = Omit<Project, 'pipelines' | 'maxNonFailedJobsVisible' | 'status'>
 
+interface GitlabProjectResponse {
+  id: number
+  path: string
+  path_with_namespace: string
+  archived: boolean
+  default_branch: string | null
+  web_url: string
+  tag_list?: string[]
+  jobs_enabled: boolean
+}
+
 export async function fetchProjects(gitlab: Gitlab): Promise<PartialProject[]> {
   const projects = await fetchOwnProjects(gitlab)
   return projects
     // Ignore projects for which CI/CD is not enabled
-    .filter((project: any) => project.jobs_enabled)
+    .filter(project => project.jobs_enabled)
     .map(projectMapper)
     .filter(includeRegexFilter(gitlab))
     .filter(excludeRegexFilter(gitlab))
@@ -16,19 +27,19 @@ export async function fetchProjects(gitlab: Gitlab): Promise<PartialProject[]> {
 }
 
 async function fetchOwnProjects(gitlab: Gitlab) {
-  const projects: any[] = []
+  const projects: GitlabProjectResponse[] = []
   const SAFETY_MAX_PAGE = 10
   for (let page = 1; page <= SAFETY_MAX_PAGE; page += 1) {
-    const {data, headers} = await gitlabRequest('/projects', {page, per_page: 100, membership: true}, gitlab)
-    projects.push(data)
+    const {data, headers} = await gitlabRequest<GitlabProjectResponse[]>('/projects', {page, per_page: 100, membership: true}, gitlab)
+    projects.push(...data)
     if (data.length === 0 || !headers['x-next-page']) {
       break
     }
   }
-  return projects.flat()
+  return projects
 }
 
-function projectMapper(project: any): PartialProject {
+function projectMapper(project: GitlabProjectResponse): PartialProject {
   return {
     id: project.id,
     name: project.path_with_namespace,
@@ -41,7 +52,7 @@ function projectMapper(project: any): PartialProject {
   }
 }
 
-function getGroupName(project: any) {
+function getGroupName(project: GitlabProjectResponse) {
   const pathWithNameSpace = project.path_with_namespace
   return pathWithNameSpace.split('/')[0]
 }

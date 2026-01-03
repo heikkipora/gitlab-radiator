@@ -10,7 +10,7 @@ export interface GlobalState {
 }
 
 export interface Project {
-  archived: false
+  archived: boolean
   group: string
   id: number
   name: string
