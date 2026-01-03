@@ -17,7 +17,7 @@ cp -r bin build
 # Copy server
 cp -r src build
 rm -fr build/src/client
-rm -f build/src/dev-assets.js
+rm -f build/src/dev-assets.ts
 
 # Bundle and minify client JS
 npx webpack --config webpack.prod.cjs
