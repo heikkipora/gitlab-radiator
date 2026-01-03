@@ -50,13 +50,15 @@
     "lodash": "4.17.21",
     "moment": "2.30.1",
     "regenerator-runtime": "0.14.1",
-    "socket.io": "4.8.3"
+    "socket.io": "4.8.3",
+    "zod": "4.3.4"
   },
   "devDependencies": {
     "@types/basic-auth": "1.1.8",
     "@types/chai": "5.2.3",
     "@types/compression": "1.8.1",
     "@types/express": "5.0.6",
+    "@types/js-yaml": "4.0.9",
     "@types/less": "3.0.8",
     "@types/lodash": "4.17.21",
     "@types/mocha": "10.0.10",

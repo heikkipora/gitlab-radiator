@@ -1,6 +1,7 @@
 import {gitlabRequest} from './client.ts'
+import type {Gitlab} from '../config.ts'
 
-export async function fetchOfflineRunners(gitlab: any) {
+export async function fetchOfflineRunners(gitlab: Gitlab) {
   const runners = await fetchRunners(gitlab)
   const offline = runners.filter((r: any) => r.status === 'offline')
   return {
@@ -9,7 +10,7 @@ export async function fetchOfflineRunners(gitlab: any) {
   }
 }
 
-async function fetchRunners(gitlab: any) {
+async function fetchRunners(gitlab: Gitlab) {
   const {data: runners} = await gitlabRequest('/runners', {}, gitlab)
   return runners.map((r: any) => ({
     name: r.description || r.id,

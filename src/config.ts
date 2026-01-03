@@ -1,44 +1,85 @@
-import assert from 'assert'
 import fs from 'fs'
 import os from 'os'
 import yaml from 'js-yaml'
+import {z} from 'zod'
 
 function expandTilde(path: string) {
   return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)
 }
 
-const configFile = expandTilde(process.env.GITLAB_RADIATOR_CONFIG || '~/.gitlab-radiator.yml')
-const yamlContent = fs.readFileSync(configFile, 'utf8')
-export const config: any = validate(yaml.load(yamlContent))
+const GitlabSchema = z.strictObject({
+  url: z.string().min(1, 'Mandatory gitlab url missing from configuration file'),
+  'access-token': z.string().min(1).optional(),
+  ignoreArchived: z.boolean().default(true),
+  maxNonFailedJobsVisible: z.coerce.number().default(999999),
+  caFile: z.string().optional(),
+  projects: z.strictObject({
+    excludePipelineStatus: z.array(z.string()).default([]),
+    include: z.string().default(''),
+    exclude: z.string().default('')
+  }).default({excludePipelineStatus: [], include: '', exclude: ''})
+}).transform((gitlab) => {
+  const accessToken = gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN
+  if (!accessToken) {
+    throw new Error('Mandatory gitlab access token missing from configuration (and none present at GITLAB_ACCESS_TOKEN env variable)')
+  }
 
-config.interval = Number(config.interval || 10) * 1000
-config.port = Number(config.port || 3000)
-config.zoom = Number(config.zoom || 1.0)
-config.columns = Number(config.columns || 1)
-config.horizontal = config.horizontal || false
-config.groupSuccessfulProjects = config.groupSuccessfulProjects || false
-config.projectsOrder = config.projectsOrder || ['name']
-config.gitlabs = config.gitlabs.map((gitlab: any) => {
+  const {url, ignoreArchived, maxNonFailedJobsVisible, caFile, projects} = gitlab
+  const ca = caFile && fs.existsSync(caFile) ? fs.readFileSync(caFile, 'utf-8') : undefined
+
   return {
-    url: gitlab.url,
-    ignoreArchived: gitlab.ignoreArchived === undefined ? true : gitlab.ignoreArchived,
-    maxNonFailedJobsVisible: Number(gitlab.maxNonFailedJobsVisible || 999999),
-    ca: gitlab.caFile && fs.existsSync(gitlab.caFile, 'utf-8') ? fs.readFileSync(gitlab.caFile) : undefined,
-    'access-token': gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN,
-    projects: {
-      excludePipelineStatus: (gitlab.projects || {}).excludePipelineStatus || [],
-      include: (gitlab.projects || {}).include || '',
-      exclude: (gitlab.projects || {}).exclude || ''
-    }
+    url,
+    ignoreArchived,
+    maxNonFailedJobsVisible,
+    ca,
+    'access-token': accessToken,
+    projects
   }
 })
-config.colors = config.colors || {}
 
-function validate(cfg: any) {
-  assert.ok(cfg.gitlabs, 'Mandatory gitlab properties missing from configuration file')
-  cfg.gitlabs.forEach((gitlab: any) => {
-    assert.ok(gitlab.url, 'Mandatory gitlab url missing from configuration file')
-    assert.ok(gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN, 'Mandatory gitlab access token missing from configuration (and none present at GITLAB_ACCESS_TOKEN env variable)')
-  })
-  return cfg
-}
+export type Gitlab = z.infer<typeof GitlabSchema>
+
+const ColorSchema = z.literal([
+  'background',
+  'created-background',
+  'created-text',
+  'dark-text',
+  'error-message-background',
+  'error-message-text',
+  'failed-background',
+  'failed-text',
+  'group-background',
+  'light-text',
+  'pending-background',
+  'pending-text',
+  'project-background',
+  'running-background',
+  'running-text',
+  'skipped-background',
+  'skipped-text',
+  'success-background',
+  'success-text'
+])
+
+const ConfigSchema = z.strictObject({
+  interval: z.coerce.number().default(10).transform(sec => sec * 1000),
+  port: z.coerce.number().default(3000),
+  zoom: z.coerce.number().default(1.0),
+  columns: z.coerce.number().default(1),
+  horizontal: z.boolean().default(false),
+  groupSuccessfulProjects: z.boolean().default(false),
+  projectsOrder: z.array(z.string()).default(['name']),
+  gitlabs: z.array(GitlabSchema).min(1, {message: 'Mandatory gitlab properties missing from configuration file'}),
+  colors: z.record(ColorSchema, z.string()).optional(),
+  auth: z.strictObject({
+    username: z.string(),
+    password: z.string()
+  }).optional()
+})
+
+export type Config = z.infer<typeof ConfigSchema>
+
+const configFile = expandTilde(process.env.GITLAB_RADIATOR_CONFIG || '~/.gitlab-radiator.yml')
+const yamlContent = fs.readFileSync(configFile, 'utf8')
+const rawConfig = yaml.load(yamlContent)
+export const config = ConfigSchema.parse(rawConfig)

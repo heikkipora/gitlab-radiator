@@ -1,17 +1,18 @@
 import {fetchLatestPipelines} from './pipelines.ts'
 import {fetchProjects} from './projects.ts'
+import type {Config, Gitlab} from '../config.ts'
 import type {PartialProject} from './projects.ts'
 import type {Pipeline, Project} from '../common/gitlab-types.d.ts'
 
-export async function update(config: any): Promise<Project[]> {
+export async function update(config: Config): Promise<Project[]> {
   const projectsWithPipelines = await loadProjectsWithPipelines(config)
   return projectsWithPipelines
     .filter((project: Project) => project.pipelines.length > 0)
 }
 
-async function loadProjectsWithPipelines(config: any): Promise<Project[]> {
+async function loadProjectsWithPipelines(config: Config): Promise<Project[]> {
   const allProjectsWithPipelines: Project[] = []
-  await Promise.all(config.gitlabs.map(async (gitlab: any) => {
+  await Promise.all(config.gitlabs.map(async gitlab => {
     const projects = (await fetchProjects(gitlab))
       .map(project => ({
         ...project,
@@ -25,7 +26,7 @@ async function loadProjectsWithPipelines(config: any): Promise<Project[]> {
   return allProjectsWithPipelines
 }
 
-async function projectWithPipelines(project: PartialProject, gitlab: any): Promise<Project> {
+async function projectWithPipelines(project: PartialProject, gitlab: Gitlab): Promise<Project> {
   const pipelines = filterOutEmpty(await fetchLatestPipelines(project.id, gitlab))
     .filter(excludePipelineStatusFilter(gitlab))
   const status = defaultBranchStatus(project, pipelines)
@@ -48,10 +49,10 @@ function filterOutEmpty(pipelines: Pipeline[]): Pipeline[] {
   return pipelines.filter(pipeline => pipeline.stages)
 }
 
-function excludePipelineStatusFilter(config: any): (pipeline: Pipeline) => boolean {
+function excludePipelineStatusFilter(gitlab: Gitlab): (pipeline: Pipeline) => boolean {
   return (pipeline: Pipeline) => {
-    if (config.projects && config.projects.excludePipelineStatus) {
-      return !config.projects.excludePipelineStatus.includes(pipeline.status)
+    if (gitlab.projects && gitlab.projects.excludePipelineStatus) {
+      return !gitlab.projects.excludePipelineStatus.includes(pipeline.status)
     }
     return true
   }

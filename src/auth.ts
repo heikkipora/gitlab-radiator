@@ -1,10 +1,8 @@
 import authenticate from 'basic-auth'
 import type {NextFunction, Request, Response} from 'express'
 
-type AuthConfig = { username?: string; password?: string } | undefined
-
-export function basicAuth(auth: AuthConfig) {
-  if (!auth || !auth.username || !auth.password) {
+export function basicAuth(auth: {username: string; password: string } | undefined) {
+  if (!auth) {
     console.log('No authentication configured')
     return (req: Request, res: Response, next: NextFunction) => next()
   }

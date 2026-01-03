@@ -1,9 +1,10 @@
 import {gitlabRequest} from './client.ts'
+import type {Gitlab} from '../config.ts'
 import type {Project} from '../common/gitlab-types.d.ts'
 
 export type PartialProject = Omit<Project, 'pipelines' | 'maxNonFailedJobsVisible' | 'status'>
 
-export async function fetchProjects(gitlab: any): Promise<PartialProject[]> {
+export async function fetchProjects(gitlab: Gitlab): Promise<PartialProject[]> {
   const projects = await fetchOwnProjects(gitlab)
   return projects
     // Ignore projects for which CI/CD is not enabled
@@ -14,7 +15,7 @@ export async function fetchProjects(gitlab: any): Promise<PartialProject[]> {
     .filter(archivedFilter(gitlab))
 }
 
-async function fetchOwnProjects(gitlab: any) {
+async function fetchOwnProjects(gitlab: Gitlab) {
   const projects: any[] = []
   const SAFETY_MAX_PAGE = 10
   for (let page = 1; page <= SAFETY_MAX_PAGE; page += 1) {
@@ -45,29 +46,29 @@ function getGroupName(project: any) {
   return pathWithNameSpace.split('/')[0]
 }
 
-function includeRegexFilter(config: any) {
+function includeRegexFilter(gitlab: Gitlab) {
   return (project: PartialProject) => {
-    if (config.projects && config.projects.include) {
-      const includeRegex = new RegExp(config.projects.include, "i")
+    if (gitlab.projects && gitlab.projects.include) {
+      const includeRegex = new RegExp(gitlab.projects.include, "i")
       return includeRegex.test(project.name)
     }
     return true
   }
 }
 
-function excludeRegexFilter(config: any) {
+function excludeRegexFilter(gitlab: Gitlab) {
   return (project: PartialProject) => {
-    if (config.projects && config.projects.exclude) {
-      const excludeRegex = new RegExp(config.projects.exclude, "i")
+    if (gitlab.projects && gitlab.projects.exclude) {
+      const excludeRegex = new RegExp(gitlab.projects.exclude, "i")
       return !excludeRegex.test(project.name)
     }
     return true
   }
 }
 
-function archivedFilter(config: any) {
+function archivedFilter(gitlab: Gitlab) {
   return (project: PartialProject) => {
-    if (config.ignoreArchived) {
+    if (gitlab.ignoreArchived) {
       return !project.archived
     }
     return true
