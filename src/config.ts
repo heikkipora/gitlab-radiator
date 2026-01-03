@@ -7,7 +7,7 @@ function expandTilde(path: string) {
   return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)
 }
 
-const JobStatusSchema = z.literal(['running', 'pending', 'success', 'failed', 'canceled', 'skipped'])
+const JobStatusSchema = z.literal(['canceled', 'created', 'failed', 'manual', 'pending', 'running', 'skipped', 'success'])
 export type JobStatus = z.infer<typeof JobStatusSchema>
 
 const GitlabSchema = z.strictObject({

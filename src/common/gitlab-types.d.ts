@@ -20,7 +20,7 @@ export interface Project {
   default_branch: string
   pipelines: Pipeline[]
   maxNonFailedJobsVisible: number
-  status: 'success' | 'failed'
+  status: JobStatus
 }
 
 export interface Pipeline {
@@ -28,7 +28,7 @@ export interface Pipeline {
   id: number
   ref: string
   stages: Stage[]
-  status: 'success' | 'failed'
+  status: JobStatus
 }
 
 export interface Commit {
@@ -51,4 +51,4 @@ export interface Job {
   url: string
 }
 
-export type JobStatus = 'created' | 'failed' | 'manual' | 'pending' | 'running' | 'skipped' | 'success'
+export type JobStatus = 'canceled' | 'created' | 'failed' | 'manual' | 'pending' | 'running' | 'skipped' | 'success'
