@@ -1,6 +1,6 @@
 import {Jobs} from './jobs'
 import React from 'react'
-import type {Stage} from './gitlab-types'
+import type {Stage} from '../common/gitlab-types'
 
 export function Stages({stages, maxNonFailedJobsVisible}: {stages: Stage[], maxNonFailedJobsVisible: number}) {
   return <ol className="stages">

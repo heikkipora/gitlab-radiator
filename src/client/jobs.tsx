@@ -4,7 +4,7 @@ import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import React from 'react'
 import toPairs from 'lodash/toPairs'
-import type {Job, JobStatus} from './gitlab-types'
+import type {Job, JobStatus} from '../common/gitlab-types'
 
 const NON_BREAKING_SPACE = '\xa0'
 

@@ -1,12 +1,12 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
-import type {GlobalState, Project} from './gitlab-types'
 import {argumentsFromDocumentUrl} from './arguments'
 import {createRoot} from 'react-dom/client'
 import {GroupedProjects} from './groupedProjects'
 import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import {io, Socket} from 'socket.io-client'
+import type {GlobalState, Project} from '../common/gitlab-types'
 
 function RadiatorApp() {
   const args = useMemo(() => argumentsFromDocumentUrl(), [])

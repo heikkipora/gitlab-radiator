@@ -1,4 +1,3 @@
-
 export interface GlobalState {
   columns: number
   error: string | null

@@ -2,7 +2,7 @@ import {Groups} from './groups'
 import groupBy from 'lodash/groupBy'
 import {Projects} from './projects'
 import React from 'react'
-import type {Project} from './gitlab-types'
+import type {Project} from '../common/gitlab-types'
 
 export function GroupedProjects({projects, projectsOrder, groupSuccessfulProjects, zoom, columns, now, screen}: {projects: Project[], projectsOrder: string[], groupSuccessfulProjects: boolean, zoom: number, columns: number, now: number, screen: {id: number, total: number}}) {
   if (groupSuccessfulProjects) {

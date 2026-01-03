@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React from 'react'
-import type {Stage} from './gitlab-types'
+import type {Stage} from '../common/gitlab-types'
 
 export function Timestamp({stages, now}: {stages: Stage[], now: number}) {
   const timestamps = getTimestamps(stages)
