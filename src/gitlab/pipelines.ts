@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import {gitlabRequest} from './client.ts'
 import type {Commit, Pipeline, Stage} from '../common/gitlab-types.d.ts'
-import type {PartialGitlab} from './client.ts'
+import type {GitlabRequestParams, PartialGitlab} from './client.ts'
 
 export async function fetchLatestPipelines(projectId: number, gitlab: PartialGitlab): Promise<Pipeline[]> {
   const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)
@@ -38,8 +38,8 @@ async function fetchLatestAndMasterPipeline(projectId: number, gitlab: PartialGi
   return latestPipeline.concat(_.take(masterPipelines, 1))
 }
 
-async function fetchPipelines(projectId: number, gitlab: PartialGitlab, options: any) {
-  const {data: pipelines} = await gitlabRequest(`/projects/${projectId}/pipelines`, options, gitlab)
+async function fetchPipelines(projectId: number, gitlab: PartialGitlab, params: GitlabRequestParams) {
+  const {data: pipelines} = await gitlabRequest(`/projects/${projectId}/pipelines`, params, gitlab)
   return pipelines.filter((pipeline: any) => pipeline.status !== 'skipped') as any[]
 }
 

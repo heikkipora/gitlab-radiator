@@ -3,10 +3,11 @@ import less from 'less'
 import path from 'path'
 import {config} from './config.ts'
 import type {Config} from './config.ts'
+import type {Request, Response} from 'express'
 
 const filename = path.join('public', 'client.less')
 
-export async function serveLessAsCss(req: any, res: any) {
+export async function serveLessAsCss(_req: Request, res: Response) {
   try {
     const source = await fs.promises.readFile(filename, 'utf-8')
     const {css} = await less.render(withColorOverrides(source), {filename})

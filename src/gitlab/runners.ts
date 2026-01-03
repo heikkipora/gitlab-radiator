@@ -11,7 +11,7 @@ export async function fetchOfflineRunners(gitlab: Gitlab): Promise<{offline: {na
 }
 
 async function fetchRunners(gitlab: Gitlab) {
-  const {data: runners} = await gitlabRequest('/runners', {}, gitlab)
+  const {data: runners} = await gitlabRequest('/runners', null, gitlab)
   return runners.map((r: any) => ({
     name: r.description || r.id,
     status: r.status as GitlabRunnerStatus

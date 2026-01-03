@@ -5,8 +5,15 @@ import type {Gitlab} from '../config'
 
 export type PartialGitlab = Pick<Gitlab, 'url' | 'access-token' | 'ca'>
 
-export function gitlabRequest(pathStr: string, params: any, gitlab: PartialGitlab) {
-  return lazyClient(gitlab).get(pathStr, {params})
+export interface GitlabRequestParams {
+  page?: number
+  per_page?: number
+  membership?: boolean
+  ref?: string
+}
+
+export function gitlabRequest(pathStr: string, params: GitlabRequestParams | null, gitlab: PartialGitlab) {
+  return lazyClient(gitlab).get(pathStr, {params: params || {}})
 }
 
 const clients = new Map<string, any>()
