@@ -7,8 +7,8 @@ function expandTilde(path: string) {
   return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)
 }
 
-const StatusSchema = z.literal(['running', 'pending', 'success', 'failed', 'canceled', 'skipped'])
-export type GitlabRunnerStatus = z.infer<typeof StatusSchema>
+const JobStatusSchema = z.literal(['running', 'pending', 'success', 'failed', 'canceled', 'skipped'])
+export type JobStatus = z.infer<typeof JobStatusSchema>
 
 const GitlabSchema = z.strictObject({
   url: z.string().min(1, 'Mandatory gitlab url missing from configuration file'),
@@ -17,7 +17,7 @@ const GitlabSchema = z.strictObject({
   maxNonFailedJobsVisible: z.coerce.number().default(999999),
   caFile: z.string().optional(),
   projects: z.strictObject({
-    excludePipelineStatus: z.array(StatusSchema).optional(),
+    excludePipelineStatus: z.array(JobStatusSchema).optional(),
     include: z.string().min(1).optional(),
     exclude: z.string().min(1).optional()
   }).optional()

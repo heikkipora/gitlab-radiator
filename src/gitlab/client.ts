@@ -1,7 +1,7 @@
 import axios from 'axios'
 import https from 'https'
 import url from 'url'
-import type {AxiosInstance} from 'axios'
+import type {AxiosInstance, AxiosResponse} from 'axios'
 import type {Gitlab} from '../config'
 
 export type PartialGitlab = Pick<Gitlab, 'url' | 'access-token' | 'ca'>
@@ -13,8 +13,8 @@ export interface GitlabRequestParams {
   ref?: string
 }
 
-export function gitlabRequest(pathStr: string, params: GitlabRequestParams | null, gitlab: PartialGitlab) {
-  return lazyClient(gitlab).get(pathStr, {params: params || {}})
+export function gitlabRequest<T = any>(pathStr: string, params: GitlabRequestParams | null, gitlab: PartialGitlab) {
+  return lazyClient(gitlab).get<any, AxiosResponse<T>>(pathStr, {params: params || {}})
 }
 
 const clients = new Map<string, AxiosInstance>()

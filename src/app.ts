@@ -8,7 +8,6 @@ import http from 'http'
 import {serveLessAsCss} from './less.ts'
 import {Server} from 'socket.io'
 import {update} from './gitlab/index.ts'
-import type {GitlabRunnerStatus} from './config.ts'
 import type {GlobalState} from './common/gitlab-types.d.ts'
 
 const app = express()
@@ -58,14 +57,13 @@ async function runUpdate() {
 }
 
 async function errorIfRunnerOffline() {
-  // : Promise<{offline: {name: string, status: GitlabRunnerStatus}[], totalCount: number}> 
   const offlineRunnersPerGitlab = await Promise.all(config.gitlabs.map(fetchOfflineRunners))
   const {offline, totalCount} = offlineRunnersPerGitlab.reduce((acc, runner) => {
     return {
       offline: acc.offline.concat(runner.offline),
       totalCount: acc.totalCount + runner.totalCount
     }
-  }, {offline: [], totalCount: 0} satisfies {offline: {name: string, status: GitlabRunnerStatus}[], totalCount: number})
+  }, {offline: [], totalCount: 0})
 
   if (offline.length > 0) {
     const names = offline.map(r => r.name).sort().join(', ')
