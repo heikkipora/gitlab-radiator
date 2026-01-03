@@ -1,6 +1,9 @@
 import {gitlabRequest} from './client.ts'
+import type {Project} from '../common/gitlab-types.d.ts'
 
-export async function fetchProjects(gitlab: any) {
+export type PartialProject = Omit<Project, 'pipelines' | 'maxNonFailedJobsVisible' | 'status'>
+
+export async function fetchProjects(gitlab: any): Promise<PartialProject[]> {
   const projects = await fetchOwnProjects(gitlab)
   return projects
     // Ignore projects for which CI/CD is not enabled
@@ -24,7 +27,7 @@ async function fetchOwnProjects(gitlab: any) {
   return projects.flat()
 }
 
-function projectMapper(project: any) {
+function projectMapper(project: any): PartialProject {
   return {
     id: project.id,
     name: project.path_with_namespace,
@@ -43,7 +46,7 @@ function getGroupName(project: any) {
 }
 
 function includeRegexFilter(config: any) {
-  return (project: any) => {
+  return (project: PartialProject) => {
     if (config.projects && config.projects.include) {
       const includeRegex = new RegExp(config.projects.include, "i")
       return includeRegex.test(project.name)
@@ -53,7 +56,7 @@ function includeRegexFilter(config: any) {
 }
 
 function excludeRegexFilter(config: any) {
-  return (project: any) => {
+  return (project: PartialProject) => {
     if (config.projects && config.projects.exclude) {
       const excludeRegex = new RegExp(config.projects.exclude, "i")
       return !excludeRegex.test(project.name)
@@ -63,7 +66,7 @@ function excludeRegexFilter(config: any) {
 }
 
 function archivedFilter(config: any) {
-  return (project: any) => {
+  return (project: PartialProject) => {
     if (config.ignoreArchived) {
       return !project.archived
     }

@@ -1,10 +1,11 @@
 import _ from 'lodash'
 import {gitlabRequest} from './client.ts'
+import type {Commit, Pipeline, Stage} from '../common/gitlab-types.d.ts'
 
-export async function fetchLatestPipelines(projectId: any, gitlab: any) {
+export async function fetchLatestPipelines(projectId: number, gitlab: any): Promise<Pipeline[]> {
   const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)
 
-  const pipelinesWithStages: any[] = []
+  const pipelinesWithStages: Pipeline[] = []
   for (const {id, ref, status} of pipelines) {
     const {commit, stages} = await fetchJobs(projectId, id, gitlab)
     const downstreamStages = await fetchDownstreamJobs(projectId, id, gitlab)
@@ -19,7 +20,7 @@ export async function fetchLatestPipelines(projectId: any, gitlab: any) {
   return pipelinesWithStages
 }
 
-async function fetchLatestAndMasterPipeline(projectId: any, config: any) {
+async function fetchLatestAndMasterPipeline(projectId: number, config: any): Promise<any[]> {
   const pipelines = await fetchPipelines(projectId, config, {per_page: 100})
   if (pipelines.length === 0) {
     return []
@@ -36,19 +37,19 @@ async function fetchLatestAndMasterPipeline(projectId: any, config: any) {
   return latestPipeline.concat(_.take(masterPipelines, 1))
 }
 
-async function fetchPipelines(projectId: any, config: any, options: any) {
+async function fetchPipelines(projectId: number, config: any, options: any) {
   const {data: pipelines} = await gitlabRequest(`/projects/${projectId}/pipelines`, options, config)
-  return pipelines.filter((pipeline: any) => pipeline.status !== 'skipped')
+  return pipelines.filter((pipeline: any) => pipeline.status !== 'skipped') as any[]
 }
 
-async function fetchDownstreamJobs(projectId: any, pipelineId: any, config: any) {
+async function fetchDownstreamJobs(projectId: number, pipelineId: number, config: any): Promise<Stage[]> {
   const {data: gitlabBridgeJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/bridges`, {per_page: 100}, config)
   const childPipelines = gitlabBridgeJobs.filter((bridge: any) => bridge.downstream_pipeline !== null && bridge.downstream_pipeline.status !== 'skipped')
 
-  const downstreamStages: any[] = []
+  const downstreamStages: Stage[][] = []
   for(const childPipeline of childPipelines) {
     const {stages} = await fetchJobs(childPipeline.downstream_pipeline.project_id, childPipeline.downstream_pipeline.id, config)
-    downstreamStages.push(stages.map((stage: any) => ({
+    downstreamStages.push(stages.map((stage: Stage) => ({
       ...stage,
       name: `${childPipeline.stage}:${stage.name}`
     })))
@@ -56,10 +57,10 @@ async function fetchDownstreamJobs(projectId: any, pipelineId: any, config: any)
   return downstreamStages.flat()
 }
 
-async function fetchJobs(projectId: any, pipelineId: any, config: any) {
+async function fetchJobs(projectId: number, pipelineId: number, config: any): Promise<{commit: Commit | null, stages: Stage[]}> {
   const {data: gitlabJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/jobs?include_retried=true`, {per_page: 100}, config)
   if (gitlabJobs.length === 0) {
-    return {commit: undefined, stages: []}
+    return {commit: null, stages: []}
   }
 
   const commit = findCommit(gitlabJobs)
@@ -87,7 +88,7 @@ async function fetchJobs(projectId: any, pipelineId: any, config: any) {
   }
 }
 
-function findCommit(jobs: any[]) {
+function findCommit(jobs: any[]): Commit | null {
   const [job] = jobs.filter(j => j.commit)
   if (!job) {
     return null
