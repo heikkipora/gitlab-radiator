@@ -8,6 +8,7 @@ import http from 'http'
 import {serveLessAsCss} from './less.ts'
 import {Server} from 'socket.io'
 import {update} from './gitlab/index.ts'
+import type {GlobalState} from './common/gitlab-types.d.ts'
 
 const app = express()
 const httpServer = new http.Server(app)
@@ -28,7 +29,7 @@ httpServer.listen(config.port, () => {
   console.log(`Listening on port *:${config.port}`)
 })
 
-const globalState = {
+const globalState: Omit<GlobalState, 'now'> = {
   projects: null,
   error: null,
   zoom: config.zoom,
@@ -74,7 +75,7 @@ async function errorIfRunnerOffline() {
 
 await runUpdate()
 
-function withDate(state: any) {
+function withDate(state: Omit<GlobalState, 'now'>): GlobalState {
   return {
     ...state,
     now: Date.now()
