@@ -13,9 +13,10 @@
   },
   "scripts": {
     "build": "./build-npm",
-    "start": "node src/app.js",
-    "eslint": "eslint --fix src/* bin/* test/*",
-    "test": "mocha --timeout 20000 test/*.js test/**/*.js"
+    "start": "node src/app.ts",
+    "eslint": "eslint src bin test",
+    "fix-eslint": "eslint --fix src bin test",
+    "test": "mocha --timeout 20000 test/*.ts"
   },
   "engines": {
     "node": ">=22.18.0"
@@ -52,14 +53,16 @@
     "socket.io": "4.8.3"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "3.3.3",
-    "@eslint/js": "9.39.2",
+    "@types/basic-auth": "1.1.8",
+    "@types/chai": "5.2.3",
+    "@types/compression": "1.8.1",
+    "@types/express": "5.0.6",
+    "@types/less": "3.0.8",
     "@types/lodash": "4.17.21",
+    "@types/mocha": "10.0.10",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@types/webpack-env": "1.18.8",
-    "@typescript-eslint/eslint-plugin": "8.51.0",
-    "@typescript-eslint/parser": "8.51.0",
     "chai": "6.2.2",
     "core-js": "3.47.0",
     "css-loader": "7.1.2",
@@ -76,6 +79,7 @@
     "style-loader": "4.0.0",
     "ts-loader": "9.5.4",
     "typescript": "5.9.3",
+    "typescript-eslint": "8.51.0",
     "webpack": "5.104.1",
     "webpack-cli": "6.0.1",
     "webpack-dev-middleware": "7.4.5",

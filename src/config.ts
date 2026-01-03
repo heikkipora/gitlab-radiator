@@ -3,9 +3,13 @@ import fs from 'fs'
 import os from 'os'
 import yaml from 'js-yaml'
 
+function expandTilde(path: string) {
+  return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)
+}
+
 const configFile = expandTilde(process.env.GITLAB_RADIATOR_CONFIG || '~/.gitlab-radiator.yml')
 const yamlContent = fs.readFileSync(configFile, 'utf8')
-export const config = validate(yaml.load(yamlContent))
+export const config: any = validate(yaml.load(yamlContent))
 
 config.interval = Number(config.interval || 10) * 1000
 config.port = Number(config.port || 3000)
@@ -14,7 +18,7 @@ config.columns = Number(config.columns || 1)
 config.horizontal = config.horizontal || false
 config.groupSuccessfulProjects = config.groupSuccessfulProjects || false
 config.projectsOrder = config.projectsOrder || ['name']
-config.gitlabs = config.gitlabs.map((gitlab) => {
+config.gitlabs = config.gitlabs.map((gitlab: any) => {
   return {
     url: gitlab.url,
     ignoreArchived: gitlab.ignoreArchived === undefined ? true : gitlab.ignoreArchived,
@@ -30,13 +34,9 @@ config.gitlabs = config.gitlabs.map((gitlab) => {
 })
 config.colors = config.colors || {}
 
-function expandTilde(path) {
-  return path.replace(/^~($|\/|\\)/, `${os.homedir()}$1`)
-}
-
-function validate(cfg) {
+function validate(cfg: any) {
   assert.ok(cfg.gitlabs, 'Mandatory gitlab properties missing from configuration file')
-  cfg.gitlabs.forEach((gitlab) => {
+  cfg.gitlabs.forEach((gitlab: any) => {
     assert.ok(gitlab.url, 'Mandatory gitlab url missing from configuration file')
     assert.ok(gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN, 'Mandatory gitlab access token missing from configuration (and none present at GITLAB_ACCESS_TOKEN env variable)')
   })

@@ -27,10 +27,11 @@ Build / run / test commands (exact)
 
 Project conventions and patterns
 - ESM modules: `package.json` has `"type": "module"` — use `import`/`export` style and avoid CommonJS `require` unless very deliberate.
-- Config-first: almost all behavior is driven by `~/.gitlab-radiator.yml`. `src/config.js` maps YAML values to normalized runtime values (note: `interval` is converted to milliseconds).
+- All code is in TypeScript (`.ts`/`.tsx`), but runtime type checks are not enforced; treat types as documentation and IDE assistance. No need to transpile or use ts-node for backend code.
+- Config-first: almost all behavior is driven by `~/.gitlab-radiator.yml`. `src/config.ts` maps YAML values to normalized runtime values (note: `interval` is converted to milliseconds).
 - Socket contract is stable: server emits `state` (object with `projects`, `now`, `error`, `zoom`, `columns`, `projectsOrder`, `horizontal`, `groupSuccessfulProjects`); the client expects that shape. Changing the contract requires coordinated server+client changes.
-- GitLab clients are cached by URL in `src/gitlab/client.js`; create clients via `lazyClient(gitlab)` to reuse keep-alive connections.
-- CA handling: `config.gitlabs[].caFile` is read in `src/config.js` and passed as `ca` to axios `https.Agent` in `client.js`.
+- GitLab clients are cached by URL in `src/gitlab/client.ts`; create clients via `lazyClient(gitlab)` to reuse keep-alive connections.
+- CA handling: `config.gitlabs[].caFile` is read in `src/config.ts` and passed as `ca` to axios `https.Agent` in `client.js`.
 
 Safe edit guidance for agents
 - Small, isolated changes preferred. When changing data shapes emitted as `state`, update `src/client/*` in the same PR to keep runtime compatibility.
@@ -41,12 +42,12 @@ Safe edit guidance for agents
 
 Debugging notes
 - To reproduce the runtime locally, create a `~/.gitlab-radiator.yml` with at least one `gitlabs` entry with `url` and `access-token` (or set `GITLAB_ACCESS_TOKEN`).
-- Logs and errors are printed on the server console; network timeouts are 30s in `src/gitlab/client.js`.
-- Dev mode: `src/dev-assets.js` is loaded when `NODE_ENV !== 'production'` and `./src/dev-assets.js` exists — use it to bind webpack dev middleware for frontend HMR.
+- Logs and errors are printed on the server console; network timeouts are 30s in `src/gitlab/client.ts`.
+- Dev mode: `src/dev-assets.ts` is loaded when `NODE_ENV !== 'production'` and `./src/dev-assets.ts` exists — use it to bind webpack dev middleware for frontend HMR.
 
 When to ask for human guidance
 - Any change that modifies the `state` emitted to clients, the YAML config schema, or the HTTP endpoints should be flagged for review.
 - Changes touching authentication flows or handling of GitLab tokens/CA files should be reviewed for security implications.
 
 References
-- See `src/app.js`, `src/config.js`, `src/gitlab/*`, and `src/client/*` as primary examples of the runtime and data flow.
+- See `src/app.ts`, `src/config.ts`, `src/gitlab/*`, and `src/client/*` as primary examples of the runtime and data flow.
