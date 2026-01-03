@@ -48,7 +48,7 @@ function getGroupName(project: any) {
 
 function includeRegexFilter(gitlab: Gitlab) {
   return (project: PartialProject) => {
-    if (gitlab.projects && gitlab.projects.include) {
+    if (gitlab.projects?.include) {
       const includeRegex = new RegExp(gitlab.projects.include, "i")
       return includeRegex.test(project.name)
     }
@@ -58,7 +58,7 @@ function includeRegexFilter(gitlab: Gitlab) {
 
 function excludeRegexFilter(gitlab: Gitlab) {
   return (project: PartialProject) => {
-    if (gitlab.projects && gitlab.projects.exclude) {
+    if (gitlab.projects?.exclude) {
       const excludeRegex = new RegExp(gitlab.projects.exclude, "i")
       return !excludeRegex.test(project.name)
     }

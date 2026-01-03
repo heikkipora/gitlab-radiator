@@ -1,14 +1,17 @@
 import axios from 'axios'
 import https from 'https'
 import url from 'url'
+import type {Gitlab} from '../config'
 
-export function gitlabRequest(pathStr: string, params: any, gitlab: any) {
+export type PartialGitlab = Pick<Gitlab, 'url' | 'access-token' | 'ca'>
+
+export function gitlabRequest(pathStr: string, params: any, gitlab: PartialGitlab) {
   return lazyClient(gitlab).get(pathStr, {params})
 }
 
 const clients = new Map<string, any>()
 
-function lazyClient(gitlab: any) {
+function lazyClient(gitlab: PartialGitlab) {
   const gitlabUrl = gitlab.url
   if (gitlabUrl === undefined) {
     console.log('Got undefined url for ' + JSON.stringify(gitlab))

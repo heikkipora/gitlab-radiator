@@ -1,18 +1,18 @@
 import {fetchLatestPipelines} from './pipelines.ts'
 import {fetchProjects} from './projects.ts'
-import type {Config, Gitlab} from '../config.ts'
+import type {Gitlab} from '../config.ts'
 import type {PartialProject} from './projects.ts'
 import type {Pipeline, Project} from '../common/gitlab-types.d.ts'
 
-export async function update(config: Config): Promise<Project[]> {
-  const projectsWithPipelines = await loadProjectsWithPipelines(config)
+export async function update(gitlabs: Gitlab[]): Promise<Project[]> {
+  const projectsWithPipelines = await loadProjectsWithPipelines(gitlabs)
   return projectsWithPipelines
     .filter((project: Project) => project.pipelines.length > 0)
 }
 
-async function loadProjectsWithPipelines(config: Config): Promise<Project[]> {
+async function loadProjectsWithPipelines(gitlabs: Gitlab[]): Promise<Project[]> {
   const allProjectsWithPipelines: Project[] = []
-  await Promise.all(config.gitlabs.map(async gitlab => {
+  await Promise.all(gitlabs.map(async gitlab => {
     const projects = (await fetchProjects(gitlab))
       .map(project => ({
         ...project,
@@ -51,7 +51,7 @@ function filterOutEmpty(pipelines: Pipeline[]): Pipeline[] {
 
 function excludePipelineStatusFilter(gitlab: Gitlab): (pipeline: Pipeline) => boolean {
   return (pipeline: Pipeline) => {
-    if (gitlab.projects && gitlab.projects.excludePipelineStatus) {
+    if (gitlab.projects?.excludePipelineStatus) {
       return !gitlab.projects.excludePipelineStatus.includes(pipeline.status)
     }
     return true

@@ -1,8 +1,9 @@
 import _ from 'lodash'
 import {gitlabRequest} from './client.ts'
 import type {Commit, Pipeline, Stage} from '../common/gitlab-types.d.ts'
+import type {PartialGitlab} from './client.ts'
 
-export async function fetchLatestPipelines(projectId: number, gitlab: any): Promise<Pipeline[]> {
+export async function fetchLatestPipelines(projectId: number, gitlab: PartialGitlab): Promise<Pipeline[]> {
   const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)
 
   const pipelinesWithStages: Pipeline[] = []
@@ -20,7 +21,7 @@ export async function fetchLatestPipelines(projectId: number, gitlab: any): Prom
   return pipelinesWithStages
 }
 
-async function fetchLatestAndMasterPipeline(projectId: number, gitlab: any): Promise<any[]> {
+async function fetchLatestAndMasterPipeline(projectId: number, gitlab: PartialGitlab): Promise<any[]> {
   const pipelines = await fetchPipelines(projectId, gitlab, {per_page: 100})
   if (pipelines.length === 0) {
     return []
@@ -37,12 +38,12 @@ async function fetchLatestAndMasterPipeline(projectId: number, gitlab: any): Pro
   return latestPipeline.concat(_.take(masterPipelines, 1))
 }
 
-async function fetchPipelines(projectId: number, gitlab: any, options: any) {
+async function fetchPipelines(projectId: number, gitlab: PartialGitlab, options: any) {
   const {data: pipelines} = await gitlabRequest(`/projects/${projectId}/pipelines`, options, gitlab)
   return pipelines.filter((pipeline: any) => pipeline.status !== 'skipped') as any[]
 }
 
-async function fetchDownstreamJobs(projectId: number, pipelineId: number, gitlab: any): Promise<Stage[]> {
+async function fetchDownstreamJobs(projectId: number, pipelineId: number, gitlab: PartialGitlab): Promise<Stage[]> {
   const {data: gitlabBridgeJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/bridges`, {per_page: 100}, gitlab)
   const childPipelines = gitlabBridgeJobs.filter((bridge: any) => bridge.downstream_pipeline !== null && bridge.downstream_pipeline.status !== 'skipped')
 
@@ -57,7 +58,7 @@ async function fetchDownstreamJobs(projectId: number, pipelineId: number, gitlab
   return downstreamStages.flat()
 }
 
-async function fetchJobs(projectId: number, pipelineId: number, gitlab: any): Promise<{commit: Commit | null, stages: Stage[]}> {
+async function fetchJobs(projectId: number, pipelineId: number, gitlab: PartialGitlab): Promise<{commit: Commit | null, stages: Stage[]}> {
   const {data: gitlabJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/jobs?include_retried=true`, {per_page: 100}, gitlab)
   if (gitlabJobs.length === 0) {
     return {commit: null, stages: []}

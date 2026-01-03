@@ -6,7 +6,10 @@ import {update} from '../src/gitlab/index.ts'
 const gitlab = {
   url: 'https://gitlab.com',
   'access-token': 'glpat-kC8nLT6EZqYfbcv6WHqg',
-  maxNonFailedJobsVisible: 10
+  maxNonFailedJobsVisible: 10,
+  ignoreArchived: true,
+  ca: undefined,
+  projects: undefined
 }
 
 describe('Gitlab client', () => {
@@ -150,8 +153,8 @@ describe('Gitlab client', () => {
   })
 
   it('Should find two projects with two pipelines for the first and one for the second (and exclude projects without pipelines)', async () => {
-    const config = {gitlabs: [{...gitlab, projects: {exclude: '.*-with-child-pipeline'}}]}
-    const projects = await update(config)
+    const gitlabs = [{...gitlab, projects: {exclude: '.*-with-child-pipeline'}}]
+    const projects = await update(gitlabs)
     expect(projects).to.deep.equal(
       [
         {
