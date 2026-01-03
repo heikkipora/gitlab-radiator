@@ -70,7 +70,7 @@ function filterProjectsByTags(projects: Project[] | null, includedTags: string[]
   return projects.filter(project => project.tags.some(tag => includedTags?.includes(tag)))
 }
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+ 
 const root = createRoot(document.getElementById('app')!)
 root.render(<RadiatorApp/>)
 
