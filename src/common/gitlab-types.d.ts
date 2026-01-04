@@ -1,10 +1,12 @@
+export type ProjectsOrder = 'status' | 'name' | 'id' | 'nameWithoutNamespace' | 'group'
+
 export interface GlobalState {
   columns: number
   error: string | null
   groupSuccessfulProjects: boolean
   horizontal: boolean
   projects: Project[] | null
-  projectsOrder: string[]
+  projectsOrder: Array<ProjectsOrder>
   zoom: number
   now: number
 }

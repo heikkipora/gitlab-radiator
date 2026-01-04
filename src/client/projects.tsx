@@ -2,9 +2,9 @@ import {Info} from './info'
 import React from 'react'
 import sortBy from 'lodash/sortBy'
 import {Stages} from './stages'
-import type {Project} from '../common/gitlab-types'
+import type {Project, ProjectsOrder} from '../common/gitlab-types'
 
-export function Projects({columns, now, projects, projectsOrder, screen, zoom}: {columns: number, now: number, projects: Project[], projectsOrder: string[], screen: {id: number, total: number}, zoom: number}) {
+export function Projects({columns, now, projects, projectsOrder, screen, zoom}: {columns: number, now: number, projects: Project[], projectsOrder: ProjectsOrder[], screen: {id: number, total: number}, zoom: number}) {
   return <ol className="projects" style={zoomStyle(zoom)}>
     {sortBy(projects, projectsOrder)
       .filter(forScreen(screen, projects.length))

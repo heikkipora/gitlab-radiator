@@ -64,6 +64,8 @@ const ColorSchema = z.literal([
   'success-text'
 ])
 
+const OrderSchema = z.literal(['status', 'name', 'id', 'nameWithoutNamespace', 'group'])
+
 const ConfigSchema = z.strictObject({
   interval: z.coerce.number().default(10).transform(sec => sec * 1000),
   port: z.coerce.number().default(3000),
@@ -71,7 +73,7 @@ const ConfigSchema = z.strictObject({
   columns: z.coerce.number().default(1),
   horizontal: z.boolean().default(false),
   groupSuccessfulProjects: z.boolean().default(false),
-  projectsOrder: z.array(z.string()).default(['name']),
+  projectsOrder: z.array(OrderSchema).default(['name']),
   gitlabs: z.array(GitlabSchema).min(1, {message: 'Mandatory gitlab properties missing from configuration file'}),
   colors: z.record(ColorSchema, z.string()).optional(),
   auth: z.strictObject({
