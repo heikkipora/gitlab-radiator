@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import {gitlabRequest} from './client.ts'
 import type {Commit, Job, JobStatus, Pipeline, Stage} from '../common/gitlab-types.d.ts'
 import type {GitlabRequestParams, PartialGitlab} from './client.ts'
@@ -58,16 +57,16 @@ async function fetchLatestAndMasterPipeline(projectId: number, gitlab: PartialGi
   if (pipelines.length === 0) {
     return []
   }
-  const latestPipeline = _.take(pipelines, 1)
+  const latestPipeline = pipelines.slice(0, 1)
   if (latestPipeline[0].ref === 'master') {
     return latestPipeline
   }
-  const latestMasterPipeline = _(pipelines).filter({ref: 'master'}).take(1).value()
+  const latestMasterPipeline = pipelines.filter(p => p.ref === 'master').slice(0, 1)
   if (latestMasterPipeline.length > 0) {
     return latestPipeline.concat(latestMasterPipeline)
   }
   const masterPipelines = await fetchPipelines(projectId, gitlab, {per_page: 50, ref: 'master'})
-  return latestPipeline.concat(_.take(masterPipelines, 1))
+  return latestPipeline.concat(masterPipelines.slice(0, 1))
 }
 
 async function fetchPipelines(projectId: number, gitlab: PartialGitlab, params: GitlabRequestParams) {
@@ -99,7 +98,9 @@ async function fetchJobs(projectId: number, pipelineId: number, gitlab: PartialG
   }
 
   const commit = findCommit(gitlabJobs)
-  const stages = _(gitlabJobs)
+
+  // Map jobs and sort by id
+  const mappedJobs = gitlabJobs
     .map(job => ({
       id: job.id,
       status: job.status,
@@ -109,18 +110,30 @@ async function fetchJobs(projectId: number, pipelineId: number, gitlab: PartialG
       finishedAt: job.finished_at,
       url: job.web_url
     } satisfies Job & {stage: string}))
-    .orderBy('id')
-    .groupBy('stage')
-    .mapValues(removeStageProperty)
-    .mapValues(mergeRetriedJobs)
-    .toPairs()
-    .map(([name, jobs]) => ({name, jobs: _.sortBy(jobs, 'name')}))
-    .value()
+    .sort((a, b) => a.id - b.id)
+
+  // Group by stage
+  const jobsByStage = new Map<string, Array<Job & {stage: string}>>()
+  for (const job of mappedJobs) {
+    const stageJobs = jobsByStage.get(job.stage) || []
+    stageJobs.push(job)
+    jobsByStage.set(job.stage, stageJobs)
+  }
+
+  // Convert to stages array
+  const stages = Array.from(jobsByStage.entries()).map(([name, jobs]) => ({
+    name,
+    jobs: mergeRetriedJobs(removeStageProperty(jobs)).sort(byName)
+  }))
 
   return {
     commit,
     stages
   }
+}
+
+function byName(a: Job, b: Job): number {
+  return a.name.localeCompare(b.name)
 }
 
 function findCommit(jobs: GitlabJobResponse[]): Commit | null {
