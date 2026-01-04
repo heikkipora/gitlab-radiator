@@ -135,3 +135,4 @@ Tests are run automatically for pull requests by Github Actions against a test p
 
 - Antti Oittinen ([codegeneralist](https://github.com/codegeneralist))
 - Christian Wagner ([wagner-ch](https://github.com/wagner-ch/))
+- Sakari Laine ([sakarikl](https://github.com/sakarikl))
