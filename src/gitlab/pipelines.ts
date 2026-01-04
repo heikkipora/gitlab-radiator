@@ -1,4 +1,3 @@
-import {config} from '../config.ts'
 import {gitlabRequest} from './client.ts'
 import type {Commit, Job, JobStatus, Pipeline, Stage} from '../common/gitlab-types.d.ts'
 import type {GitlabRequestParams, PartialGitlab} from './client.ts'
@@ -35,8 +34,8 @@ interface GitlabJobResponse {
   } | null
 }
 
-export async function fetchLatestPipelines(projectId: number, gitlab: PartialGitlab): Promise<Pipeline[]> {
-  const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)
+export async function fetchLatestPipelines(projectId: number, gitlab: PartialGitlab, prioritizeRunningPipelines: boolean): Promise<Pipeline[]> {
+  const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab, prioritizeRunningPipelines)
 
   const pipelinesWithStages: Pipeline[] = []
   for (const {id, ref, status} of pipelines) {
@@ -53,7 +52,7 @@ export async function fetchLatestPipelines(projectId: number, gitlab: PartialGit
   return pipelinesWithStages
 }
 
-async function fetchLatestAndMasterPipeline(projectId: number, gitlab: PartialGitlab): Promise<GitlabPipelineResponse[]> {
+async function fetchLatestAndMasterPipeline(projectId: number, gitlab: PartialGitlab, prioritizeRunningPipelines: boolean): Promise<GitlabPipelineResponse[]> {
   const options = {
     per_page: 100,
     ...(gitlab.branch ? {ref: gitlab.branch} : {})
@@ -64,7 +63,7 @@ async function fetchLatestAndMasterPipeline(projectId: number, gitlab: PartialGi
   }
 
   const runningPipelines = pipelines.filter(pipeline => pipeline.status === 'running')
-  if (runningPipelines.length > 1 && config.rotateRunningPipelines > 0) {
+  if (runningPipelines.length > 1 && prioritizeRunningPipelines) {
     return runningPipelines
   }
 

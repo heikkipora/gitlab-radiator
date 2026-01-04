@@ -48,7 +48,7 @@ describe('Gitlab client', () => {
 
   it('Should find latest non-skipped pipeline for project', async () => {
     const config = {...gitlab}
-    const pipelines = await fetchLatestPipelines(5385889, config)
+    const pipelines = await fetchLatestPipelines(5385889, config, false)
     expect(pipelines).to.deep.equal(
       [{
         commit: {
@@ -75,7 +75,7 @@ describe('Gitlab client', () => {
 
   it('Should find latest pipelines for project (feature branch + master) with stages and retried jobs merged to one entry', async () => {
     const config = {...gitlab}
-    const pipelines = await fetchLatestPipelines(5290928, config)
+    const pipelines = await fetchLatestPipelines(5290928, config, false)
     expect(pipelines).to.deep.equal(
       [{
         id: 234613306,
@@ -156,7 +156,7 @@ describe('Gitlab client', () => {
 
   it('Should find two projects with two pipelines for the first and one for the second (and exclude projects without pipelines)', async () => {
     const gitlabs = [{...gitlab, projects: {exclude: '.*-with-child-pipeline'}}]
-    const projects = await update(gitlabs)
+    const projects = await update(gitlabs, false)
     expect(projects).to.deep.equal(
       [
         {
@@ -395,7 +395,7 @@ describe('Gitlab client', () => {
 
   it('Should include triggered child pipeline for project', async () => {
     const config = {...gitlab}
-    const pipelines = await fetchLatestPipelines(39541352, config)
+    const pipelines = await fetchLatestPipelines(39541352, config, false)
     expect(pipelines).to.deep.equal(
       [{
         commit: {

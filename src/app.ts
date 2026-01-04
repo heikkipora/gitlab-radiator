@@ -46,7 +46,7 @@ socketIoServer.on('connection', (socket) => {
 
 async function runUpdate() {
   try {
-    globalState.projects = await update(config.gitlabs)
+    globalState.projects = await update(config.gitlabs, config.rotateRunningPipelines > 0)
     globalState.error = await errorIfRunnerOffline()
     socketIoServer.emit('state', withDate(globalState))
   } catch (error: unknown) {
