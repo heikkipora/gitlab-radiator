@@ -1,18 +1,18 @@
-export function argumentsFromDocumentUrl(): {override: {columns?: number, zoom?: number}, includedTags: string[] | null, screen: {id: number, total: number}} {
+export function argumentsFromDocumentUrl(): {override: {columns?: number, zoom?: number}, includedTopics: string[] | null, screen: {id: number, total: number}} {
   const params = new URLSearchParams(document.location.search)
   return {
     override: overrideArguments(params),
-    includedTags: tagArguments(params),
+    includedTopics: topicArguments(params),
     screen: screenArguments(params)
   }
 }
 
-function tagArguments(params: URLSearchParams): string[] | null {
-  const tags = params.get('tags')
-  if (tags === null) {
+function topicArguments(params: URLSearchParams): string[] | null {
+  const topics = params.get('topics')
+  if (topics === null) {
     return null
   }
-  return tags
+  return topics
     .split(',')
     .map(t => t.toLowerCase().trim())
     .filter(t => t)

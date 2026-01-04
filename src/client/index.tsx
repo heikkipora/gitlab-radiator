@@ -21,7 +21,7 @@ function RadiatorApp() {
     zoom: 1
   })
   const {now, zoom, columns, projects, projectsOrder, groupSuccessfulProjects, horizontal} = state
-  const projectsByTags = filterProjectsByTags(projects, args.includedTags)
+  const projectsByTags = filterProjectsByTopics(projects, args.includedTopics)
 
   const onServerStateUpdated = useCallback((serverState: GlobalState) => {
     setState(() => ({
@@ -57,17 +57,17 @@ function RadiatorApp() {
   </div>
 }
 
-function filterProjectsByTags(projects: Project[] | null, includedTags: string[] | null) {
+function filterProjectsByTopics(projects: Project[] | null, includedTopics: string[] | null) {
   if (projects === null) {
     return null
   }
-  if (!includedTags) {
+  if (!includedTopics) {
     return projects
   }
-  if (includedTags.length === 0) {
-    return projects.filter(p => p.tags.length === 0)
+  if (includedTopics.length === 0) {
+    return projects.filter(p => p.topics.length === 0)
   }
-  return projects.filter(project => project.tags.some(tag => includedTags?.includes(tag)))
+  return projects.filter(project => project.topics.some(tag => includedTopics?.includes(tag)))
 }
 
  

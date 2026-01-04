@@ -11,7 +11,7 @@ interface GitlabProjectResponse {
   archived: boolean
   default_branch: string | null
   web_url: string
-  tag_list?: string[]
+  topics?: string[]
   jobs_enabled: boolean
 }
 
@@ -48,7 +48,7 @@ function projectMapper(project: GitlabProjectResponse): PartialProject {
     archived: project.archived,
     default_branch: project.default_branch || 'master',
     url: project.web_url,
-    tags: (project.tag_list || []).map((t: string) => t.toLowerCase())
+    topics: (project.topics || []).map((t: string) => t.toLowerCase())
   }
 }
 

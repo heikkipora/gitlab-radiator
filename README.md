@@ -50,13 +50,13 @@ Want to display a radiator view on your own display with different layout from t
 
 Example: `http://localhost:3000/?columns=2&zoom=0.8`
 
-### Selecting projects to display based on GitLab Project Tags
+### Selecting projects to display based on GitLab Project Topics
 
-Tags can be used, for example, to only include a specific set of projects for a specific display on your wall. Multiple tags can be specified by separating them with a comma.
+Topics can be used, for example, to only include a specific set of projects for a specific display on your wall. Multiple topics can be specified by separating them with a comma.
 
-Example: `http://localhost:3000/?tags=old,useful`
+Example: `http://localhost:3000/?topics=old,useful`
 
-Specifying an empty tag list `http://localhost:3000/?tags=` selects all projects which do not have any tags. This can be handily used to select "rest of the projects" that have not been tagged to a specific display, for example.
+Specifying an empty tag list `http://localhost:3000/?topics=` selects all projects which do not have any topics. This can be handily used to select "rest of the projects" that have not been selected to a specific display, for example.
 
 ## Configuration
 

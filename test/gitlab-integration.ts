@@ -17,11 +17,11 @@ describe('Gitlab client', () => {
     const config = {...gitlab}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 39541352, name: 'gitlab-radiator-test/project-with-child-pipeline', nameWithoutNamespace: 'project-with-child-pipeline', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline'},
-      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},
-      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5304923, name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/empty-test'},
-      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2'},
-      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1', tags: ['display-1'], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1'}
+      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 39541352, name: 'gitlab-radiator-test/project-with-child-pipeline', nameWithoutNamespace: 'project-with-child-pipeline', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline'},
+      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},
+      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5304923, name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/empty-test'},
+      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5290928, name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2'},
+      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5290865, name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1', topics: ['display-1'], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1'}
     ])
   })
 
@@ -29,7 +29,7 @@ describe('Gitlab client', () => {
     const config = {...gitlab, projects: {include: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {archived: false, default_branch: 'master', id: 5290865, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1', tags: ['display-1'], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1'}
+      {archived: false, default_branch: 'master', id: 5290865, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1', topics: ['display-1'], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1'}
     ])
   })
 
@@ -37,10 +37,10 @@ describe('Gitlab client', () => {
     const config = {...gitlab, projects: {exclude: '.*project-1'}}
     const projects = await fetchProjects(config)
     expect(projects).to.deep.equal([
-      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 39541352, name: 'gitlab-radiator-test/project-with-child-pipeline', nameWithoutNamespace: 'project-with-child-pipeline', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline'},
-      {archived: false, default_branch: 'master', id: 5385889, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},
-      {archived: false, default_branch: 'master', id: 5304923, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/empty-test'},
-      {archived: false, default_branch: 'master', id: 5290928, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2', tags: [], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2'}
+      {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 39541352, name: 'gitlab-radiator-test/project-with-child-pipeline', nameWithoutNamespace: 'project-with-child-pipeline', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline'},
+      {archived: false, default_branch: 'master', id: 5385889, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},
+      {archived: false, default_branch: 'master', id: 5304923, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/empty-test'},
+      {archived: false, default_branch: 'master', id: 5290928, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-2', nameWithoutNamespace: 'integration-test-project-2', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2'}
     ])
   })
 
@@ -165,7 +165,7 @@ describe('Gitlab client', () => {
           maxNonFailedJobsVisible: 10,
           name: 'gitlab-radiator-test/ci-skip-test-project',
           nameWithoutNamespace: 'ci-skip-test-project',
-          tags: [],
+          topics: [],
           url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project',
           pipelines: [
             {
@@ -200,7 +200,7 @@ describe('Gitlab client', () => {
         name: 'gitlab-radiator-test/integration-test-project-2',
         nameWithoutNamespace: 'integration-test-project-2',
         url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-2',
-        tags: [],
+        topics: [],
         pipelines: [
           {
             id: 234613306,
@@ -288,7 +288,7 @@ describe('Gitlab client', () => {
         name: 'gitlab-radiator-test/integration-test-project-1',
         nameWithoutNamespace: 'integration-test-project-1',
         url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1',
-        tags: ['display-1'],
+        topics: ['display-1'],
         pipelines: [
           {
             id: 234493901,

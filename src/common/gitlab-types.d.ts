@@ -15,7 +15,7 @@ export interface Project {
   id: number
   name: string
   nameWithoutNamespace: string
-  tags: string[]
+  topics: string[]
   url: string
   default_branch: string
   pipelines: Pipeline[]
