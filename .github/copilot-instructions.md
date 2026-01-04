@@ -19,9 +19,11 @@ Key files (examples)
 - CLI / installable binary: `bin/gitlab-radiator.js` (installed via npm `bin` in `package.json`)
 
 Build / run / test commands (exact)
+- Use `nvm use` always first to select correct Node.js version as per `.nvmrc`.
 - Start server in dev/prod: `npm start` (runs `node src/app.js`).
 - Build distribution: `npm run build` (invokes `./build-npm` wrapper in the repo root).
 - Lint and auto-fix: `npm run eslint`.
+- Typecheck: `npm run typecheck`.
 - Run tests: `npm test` (Mocha, timeout 20s). Tests live under `test/*.js`.
 - When talking to an on-prem GitLab with self-signed certs, either set `gitlabs[].caFile` in config or run: `NODE_TLS_REJECT_UNAUTHORIZED=0 gitlab-radiator`.
 
