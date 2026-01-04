@@ -1,36 +1,34 @@
-interface ParsedQueryString {
-  [key: string]: string | undefined
-}
-
 export function argumentsFromDocumentUrl(): {override: {columns?: number, zoom?: number}, includedTags: string[] | null, screen: {id: number, total: number}} {
-  const args = parseQueryString(document.location.search)
+  const params = new URLSearchParams(document.location.search)
   return {
-    override: overrideArguments(args),
-    includedTags: tagArguments(args),
-    screen: screenArguments(args)
+    override: overrideArguments(params),
+    includedTags: tagArguments(params),
+    screen: screenArguments(params)
   }
 }
 
-function tagArguments(args: ParsedQueryString): string[] | null {
-  if (args.tags === undefined) {
+function tagArguments(params: URLSearchParams): string[] | null {
+  const tags = params.get('tags')
+  if (tags === null) {
     return null
   }
-  return args.tags
+  return tags
     .split(',')
     .map(t => t.toLowerCase().trim())
     .filter(t => t)
 }
 
-function overrideArguments(args: ParsedQueryString): {columns?: number, zoom?: number} {
+function overrideArguments(params: URLSearchParams): {columns?: number, zoom?: number} {
   return {
-    ...parseColumns(args),
-    ...parseZoom(args)
+    ...parseColumns(params),
+    ...parseZoom(params)
   }
 }
 
-function parseColumns(args: ParsedQueryString) {
-  if (args.columns) {
-    const columns = Number(args.columns)
+function parseColumns(params: URLSearchParams) {
+  const columnsStr = params.get('columns')
+  if (columnsStr) {
+    const columns = Number(columnsStr)
     if (columns > 0 && columns <= 10) {
       return {columns}
     }
@@ -38,10 +36,10 @@ function parseColumns(args: ParsedQueryString) {
   return {}
 }
 
-
-function parseZoom(args: ParsedQueryString) {
-  if (args.zoom) {
-    const zoom = Number(args.zoom)
+function parseZoom(params: URLSearchParams) {
+  const zoomStr = params.get('zoom')
+  if (zoomStr) {
+    const zoom = Number(zoomStr)
     if (zoom > 0 && zoom <= 2) {
       return {zoom}
     }
@@ -49,8 +47,8 @@ function parseZoom(args: ParsedQueryString) {
   return {}
 }
 
-function screenArguments(args: ParsedQueryString): {id: number, total: number} {
-  const matches = (/(\d)of(\d)/).exec(args.screen || '')
+function screenArguments(params: URLSearchParams): {id: number, total: number} {
+  const matches = (/(\d)of(\d)/).exec(params.get('screen') || '')
   let id = matches ? Number(matches[1]) : 1
   const total = matches ? Number(matches[2]) : 1
   if (id > total) {
@@ -60,16 +58,4 @@ function screenArguments(args: ParsedQueryString): {id: number, total: number} {
     id,
     total
   }
-}
-
-function parseQueryString(search: string): ParsedQueryString {
-  const entries = search
-    .slice(1)
-    .split('&')
-    .filter(parameter => parameter)
-    .map((parameter: string): [string, string | undefined] => {
-      const [key, value] = parameter.split('=')
-      return [key, value]
-    })
-  return Object.fromEntries(entries)
 }
