@@ -53,7 +53,11 @@ export async function fetchLatestPipelines(projectId: number, gitlab: PartialGit
 }
 
 async function fetchLatestAndMasterPipeline(projectId: number, gitlab: PartialGitlab): Promise<GitlabPipelineResponse[]> {
-  const pipelines = await fetchPipelines(projectId, gitlab, {per_page: 100})
+  const options = {
+    per_page: 100,
+    ...(gitlab.branch ? {ref: gitlab.branch} : {})
+  }
+  const pipelines = await fetchPipelines(projectId, gitlab, options)
   if (pipelines.length === 0) {
     return []
   }

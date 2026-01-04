@@ -4,7 +4,7 @@ import url from 'url'
 import type {AxiosInstance} from 'axios'
 import type {Gitlab} from '../config'
 
-export type PartialGitlab = Pick<Gitlab, 'url' | 'access-token' | 'ca'>
+export type PartialGitlab = Pick<Gitlab, 'url' | 'access-token' | 'ca' | 'branch'>
 
 export interface GitlabRequestParams {
   page?: number

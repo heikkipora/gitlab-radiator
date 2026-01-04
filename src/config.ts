@@ -15,6 +15,7 @@ const GitlabSchema = z.strictObject({
   'access-token': z.string().min(1).optional(),
   ignoreArchived: z.boolean().default(true),
   maxNonFailedJobsVisible: z.coerce.number().default(999999),
+  branch: z.string().min(1).optional(),
   caFile: z.string().optional(),
   offlineRunners: z.literal(['all', 'default', 'none']).default('default'),
   projects: z.strictObject({
@@ -28,13 +29,14 @@ const GitlabSchema = z.strictObject({
     throw new Error('Mandatory gitlab access token missing from configuration (and none present at GITLAB_ACCESS_TOKEN env variable)')
   }
 
-  const {url, ignoreArchived, maxNonFailedJobsVisible, caFile, offlineRunners, projects} = gitlab
+  const {url, ignoreArchived, maxNonFailedJobsVisible, caFile, branch,offlineRunners, projects} = gitlab
   const ca = caFile && fs.existsSync(caFile) ? fs.readFileSync(caFile, 'utf-8') : undefined
 
   return {
     url,
     ignoreArchived,
     maxNonFailedJobsVisible,
+    branch,
     ca,
     offlineRunners,
     'access-token': accessToken,

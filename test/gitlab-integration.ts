@@ -8,6 +8,7 @@ const gitlab = {
   'access-token': 'glpat-kC8nLT6EZqYfbcv6WHqg',
   maxNonFailedJobsVisible: 10,
   ignoreArchived: true,
+  branch: undefined,
   ca: undefined,
   offlineRunners: 'none' as const,
   projects: undefined

@@ -83,6 +83,7 @@ Optional configuration properties:
 - `gitlabs / projects / exclude` - Regular expression for exclusion of projects. Default is to exclude no projects.
 - `gitlabs / projects / excludePipelineStatus` - Array of pipeline statuses, that should be excluded (i.e. hidden) (available statuses are `running, pending, success, failed, canceled, skipped`).
 - `gitlabs / maxNonFailedJobsVisible` - Number of non-failed jobs visible for a stage at maximum. Helps with highly concurrent project pipelines becoming uncomfortably high. Default values is unlimited.
+- `gitlabs / branch` - Explicitly select the git branch to show pipelines for. Default value is empty, meaning pipelines for any branch are shown.
 - `gitlabs / caFile` - CA file location to be passed to the request library when accessing the gitlab instance.
 - `gitlabs / ignoreArchived` - Ignore archived projects. Default value is `true`
 - `gitlabs / offlineRunners` - Report any offline CI runners. Set to `all` to include shared runners (requires administrator or auditor access), or `none` to ignore runner status completely. Set to `default` or leave out to report only on group / project runners available to the user.
