@@ -71,6 +71,7 @@
     "eslint": "9.39.2",
     "eslint-plugin-mocha": "11.2.0",
     "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.0.1",
     "globals": "17.0.0",
     "less-loader": "12.3.0",
     "mocha": "11.7.5",
