@@ -15,12 +15,13 @@ function RadiatorApp() {
     error: null,
     groupSuccessfulProjects: false,
     horizontal: false,
+    rotateRunningPipelines: 0,
     projects: null,
     projectsOrder: [],
     now: 0,
     zoom: 1
   })
-  const {now, zoom, columns, projects, projectsOrder, groupSuccessfulProjects, horizontal} = state
+  const {now, zoom, columns, projects, projectsOrder, groupSuccessfulProjects, horizontal, rotateRunningPipelines} = state
   const projectsByTags = filterProjectsByTopics(projects, args.includedTopics)
 
   const onServerStateUpdated = useCallback((serverState: GlobalState) => {
@@ -52,7 +53,8 @@ function RadiatorApp() {
       <GroupedProjects now={now} zoom={zoom} columns={columns}
                       projects={projectsByTags} projectsOrder={projectsOrder}
                       groupSuccessfulProjects={groupSuccessfulProjects}
-                      screen={args.screen}/>
+                      screen={args.screen}
+                      rotateRunningPipelines={rotateRunningPipelines}/>
     }
   </div>
 }

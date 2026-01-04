@@ -1,3 +1,4 @@
+import {config} from '../config.ts'
 import {gitlabRequest} from './client.ts'
 import type {Commit, Job, JobStatus, Pipeline, Stage} from '../common/gitlab-types.d.ts'
 import type {GitlabRequestParams, PartialGitlab} from './client.ts'
@@ -61,6 +62,12 @@ async function fetchLatestAndMasterPipeline(projectId: number, gitlab: PartialGi
   if (pipelines.length === 0) {
     return []
   }
+
+  const runningPipelines = pipelines.filter(pipeline => pipeline.status === 'running')
+  if (runningPipelines.length > 1 && config.rotateRunningPipelines > 0) {
+    return runningPipelines
+  }
+
   const latestPipeline = pipelines.slice(0, 1)
   if (latestPipeline[0].ref === 'master') {
     return latestPipeline

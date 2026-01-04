@@ -76,6 +76,7 @@ const ConfigSchema = z.strictObject({
   zoom: z.coerce.number().default(1.0),
   columns: z.coerce.number().default(1),
   horizontal: z.boolean().default(false),
+  rotateRunningPipelines: z.coerce.number().min(0).default(0).transform(sec => sec * 1000),
   groupSuccessfulProjects: z.boolean().default(false),
   projectsOrder: z.array(OrderSchema).default(['name']),
   gitlabs: z.array(GitlabSchema).min(1, {message: 'Mandatory gitlab properties missing from configuration file'}),

@@ -3,6 +3,7 @@ export interface GlobalState {
   error: string | null
   groupSuccessfulProjects: boolean
   horizontal: boolean
+  rotateRunningPipelines: number
   projects: Project[] | null
   projectsOrder: Array<ProjectsOrder>
   zoom: number

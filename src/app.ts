@@ -36,6 +36,7 @@ const globalState: Omit<GlobalState, 'now'> = {
   projectsOrder: config.projectsOrder,
   columns: config.columns,
   horizontal: config.horizontal,
+  rotateRunningPipelines: config.rotateRunningPipelines,
   groupSuccessfulProjects: config.groupSuccessfulProjects
 }
 

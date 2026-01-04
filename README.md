@@ -89,10 +89,11 @@ Optional configuration properties:
 - `gitlabs / offlineRunners` - Report any offline CI runners. Set to `all` to include shared runners (requires administrator or auditor access), or `none` to ignore runner status completely. Set to `default` or leave out to report only on group / project runners available to the user.
 - `groupSuccessfulProjects` - If set to `true` projects with successful pipeline status are grouped by namespace. Projects with other pipeline statuses are still rendered seperately. Default value is `false`.
 - `horizontal` - If set to `true` jobs are ordered horizontally to stages. Default value is `false`.
+- `rotateRunningPipelines` - Number of seconds between rotating through all currently running pipelines of a project (whenever there are more than one). Default value is 0 (rotation disabled).
 - `auth / username` - Enables HTTP basic authentication with the defined username and password.
 - `auth / password` - Enables HTTP basic authentication with the defined username and password.
 - `projectsOrder` - Array of project attributes to use for sorting projects. Default value is `['name']` (available attributes are `status, name, id, nameWithoutNamespace, group`).
-- `interval` - Number of seconds between updateing projects and pipelines from GitLabs. Default value is 10 seconds.
+- `interval` - Number of seconds between updating projects and pipelines from GitLab instances. Default value is 10 seconds.
 - `port` - HTTP port to listen on. Default value is 3000.
 - `zoom` - View zoom factor (to make your projects fit a display nicely). Default value is 1.0
 - `columns` - Number of columns to display (to fit more projects on screen). Default value is 1

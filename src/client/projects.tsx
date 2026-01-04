@@ -1,13 +1,13 @@
 import {Info} from './info'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {Stages} from './stages'
 import type {Project, ProjectsOrder} from '../common/gitlab-types'
 
-export function Projects({columns, now, projects, projectsOrder, screen, zoom}: {columns: number, now: number, projects: Project[], projectsOrder: ProjectsOrder[], screen: {id: number, total: number}, zoom: number}) {
+export function Projects({columns, now, projects, projectsOrder, screen, zoom, rotateRunningPipelines}: {columns: number, now: number, projects: Project[], projectsOrder: ProjectsOrder[], screen: {id: number, total: number}, zoom: number, rotateRunningPipelines: number}) {
   return <ol className="projects" style={zoomStyle(zoom)}>
     {sortByMultipleKeys(projects, projectsOrder)
       .filter(forScreen(screen, projects.length))
-      .map(project => <ProjectElement now={now} columns={columns} project={project} key={project.id}/>)
+      .map(project => <ProjectElement now={now} columns={columns} rotateRunningPipelines={rotateRunningPipelines} project={project} key={project.id}/>)
     }
   </ol>
 }
@@ -27,12 +27,27 @@ function sortByMultipleKeys(projects: Project[], keys: ProjectsOrder[]): Project
   })
 }
 
-function ProjectElement({columns, now, project}: {columns: number, now: number, project: Project}) {
-  const [pipeline] = project.pipelines
+function ProjectElement({columns, now, project, rotateRunningPipelines}: {columns: number, now: number, rotateRunningPipelines: number, project: Project}) {
+  const [counter, setCounter] = useState<number>(0)
+  const runningCount = project.pipelines.filter(p => p.status === 'running').length
+  const isRotating = rotateRunningPipelines > 0 && runningCount > 1
+
+  useEffect(() => {
+    if (!isRotating) {
+      return
+    }
+
+    const timer = setInterval(() => setCounter(previous => previous + 1), rotateRunningPipelines)
+    return () => clearInterval(timer)
+  }, [isRotating, rotateRunningPipelines, setCounter])
+
+  const pipelineIndex = isRotating ? (counter % runningCount) : 0
+  const indexLabel = isRotating ? `${pipelineIndex + 1}/${runningCount} `: ''
+  const pipeline = project.pipelines[pipelineIndex]
 
   return <li className={`project ${project.status}`} style={style(columns)}>
     <h2>
-      {project.url && <a href={`${project.url}/pipelines`} target="_blank" rel="noopener noreferrer">{project.name}</a>}
+      {project.url && <a href={`${project.url}/pipelines`} target="_blank" rel="noopener noreferrer">{indexLabel}{project.name}</a>}
       {!project.url && project.name}
     </h2>
     <Stages stages={pipeline.stages} maxNonFailedJobsVisible={project.maxNonFailedJobsVisible}/>

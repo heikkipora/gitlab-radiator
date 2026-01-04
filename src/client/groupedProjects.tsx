@@ -3,16 +3,16 @@ import {Projects} from './projects'
 import React from 'react'
 import type {Project, ProjectsOrder} from '../common/gitlab-types'
 
-export function GroupedProjects({projects, projectsOrder, groupSuccessfulProjects, zoom, columns, now, screen}: {projects: Project[], projectsOrder: ProjectsOrder[], groupSuccessfulProjects: boolean, zoom: number, columns: number, now: number, screen: {id: number, total: number}}) {
+export function GroupedProjects({projects, projectsOrder, groupSuccessfulProjects, zoom, columns, now, screen, rotateRunningPipelines}: {projects: Project[], projectsOrder: ProjectsOrder[], groupSuccessfulProjects: boolean, zoom: number, columns: number, now: number, screen: {id: number, total: number}, rotateRunningPipelines: number}) {
   if (groupSuccessfulProjects) {
     const successfullProjects = projects.filter(p => p.status === 'success')
     const otherProjects= projects.filter(p => p.status !== 'success')
     const groupedProjects = Object.groupBy(successfullProjects, p => p.group)
 
     return <React.Fragment>
-      <Projects now={now} zoom={zoom} columns={columns} projects={otherProjects} projectsOrder={projectsOrder} screen={screen}/>
+      <Projects now={now} zoom={zoom} columns={columns} projects={otherProjects} projectsOrder={projectsOrder} screen={screen} rotateRunningPipelines={rotateRunningPipelines}/>
       <Groups now={now} zoom={zoom} columns={columns} groupedProjects={groupedProjects}/>
     </React.Fragment>
   }
-  return <Projects now={now} zoom={zoom} columns={columns} projects={projects} projectsOrder={projectsOrder} screen={screen}/>
+  return <Projects now={now} zoom={zoom} columns={columns} projects={projects} projectsOrder={projectsOrder} screen={screen} rotateRunningPipelines={rotateRunningPipelines}/>
 }
