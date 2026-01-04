@@ -9,6 +9,18 @@ interface GitlabPipelineResponse {
   status: JobStatus
 }
 
+// project_id is undocumented by docs.gitlab.com but is present in the API response
+interface GitlabDownstreamPipeline {
+  id: number
+  project_id: number
+  status: JobStatus
+}
+
+interface GitlabPipelineTriggerResponse {
+  stage: string
+  downstream_pipeline: GitlabDownstreamPipeline | null
+}
+
 export async function fetchLatestPipelines(projectId: number, gitlab: PartialGitlab): Promise<Pipeline[]> {
   const pipelines = await fetchLatestAndMasterPipeline(projectId, gitlab)
 
@@ -50,8 +62,10 @@ async function fetchPipelines(projectId: number, gitlab: PartialGitlab, params: 
 }
 
 async function fetchDownstreamJobs(projectId: number, pipelineId: number, gitlab: PartialGitlab): Promise<Stage[]> {
-  const {data: gitlabBridgeJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/bridges`, {per_page: 100}, gitlab)
-  const childPipelines = gitlabBridgeJobs.filter((bridge: any) => bridge.downstream_pipeline !== null && bridge.downstream_pipeline.status !== 'skipped')
+  const {data: gitlabBridgeJobs} = await gitlabRequest<GitlabPipelineTriggerResponse[]>(`/projects/${projectId}/pipelines/${pipelineId}/bridges`, {per_page: 100}, gitlab)
+  const childPipelines = gitlabBridgeJobs.filter((bridge): bridge is GitlabPipelineTriggerResponse & {downstream_pipeline: GitlabDownstreamPipeline} =>
+    bridge.downstream_pipeline !== null && bridge.downstream_pipeline.status !== 'skipped'
+  )
 
   const downstreamStages: Stage[][] = []
   for(const childPipeline of childPipelines) {
