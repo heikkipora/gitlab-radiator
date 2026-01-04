@@ -14,7 +14,7 @@ const GitlabSchema = z.strictObject({
   url: z.string().min(1, 'Mandatory gitlab url missing from configuration file'),
   'access-token': z.string().min(1).optional(),
   ignoreArchived: z.boolean().default(true),
-  maxNonFailedJobsVisible: z.coerce.number().default(999999),
+  maxNonFailedJobsVisible: z.coerce.number().int().default(999999),
   branch: z.string().min(1).optional(),
   caFile: z.string().optional(),
   offlineRunners: z.literal(['all', 'default', 'none']).default('default'),
@@ -72,9 +72,9 @@ const OrderSchema = z.literal(['status', 'name', 'id', 'nameWithoutNamespace', '
 
 const ConfigSchema = z.strictObject({
   interval: z.coerce.number().default(10).transform(sec => sec * 1000),
-  port: z.coerce.number().default(3000),
+  port: z.coerce.number().int().default(3000),
   zoom: z.coerce.number().default(1.0),
-  columns: z.coerce.number().default(1),
+  columns: z.coerce.number().int().default(1),
   horizontal: z.boolean().default(false),
   rotateRunningPipelines: z.coerce.number().min(0).default(0).transform(sec => sec * 1000),
   groupSuccessfulProjects: z.boolean().default(false),
