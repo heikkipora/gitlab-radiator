@@ -48,9 +48,10 @@ async function runUpdate() {
     globalState.projects = await update(config.gitlabs)
     globalState.error = await errorIfRunnerOffline()
     socketIoServer.emit('state', withDate(globalState))
-  } catch (error: any) {
-    console.error(error.message)
-    globalState.error = `Failed to communicate with GitLab API: ${error.message}`
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error)
+    console.error(message)
+    globalState.error = `Failed to communicate with GitLab API: ${message}`
     socketIoServer.emit('state', withDate(globalState))
   }
   setTimeout(runUpdate, config.interval)

@@ -9,7 +9,6 @@ export default [
   react.configs.flat.recommended,
   {
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
       'mocha/no-mocha-arrows': 'off'
     }
   },
