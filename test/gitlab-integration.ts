@@ -369,12 +369,16 @@ describe('Gitlab client', () => {
                     id: 932213325,
                     status: 'manual',
                     name: 'manual_step-1',
+                    finishedAt: null,
+                    startedAt: null,
                     url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213325'
                   },
                   {
                     id: 932213326,
                     status: 'manual',
                     name: 'manual_step-2',
+                    finishedAt: null,
+                    startedAt: null,
                     url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213326'
                   }
                 ]

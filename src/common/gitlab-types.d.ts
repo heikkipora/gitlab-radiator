@@ -45,7 +45,6 @@ export interface Job {
   finishedAt: string | null
   id: number
   name: string
-  stage: string
   startedAt: string | null
   status: JobStatus
   url: string

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import {gitlabRequest} from './client.ts'
-import type {Commit, JobStatus, Pipeline, Stage} from '../common/gitlab-types.d.ts'
+import type {Commit, Job, JobStatus, Pipeline, Stage} from '../common/gitlab-types.d.ts'
 import type {GitlabRequestParams, PartialGitlab} from './client.ts'
 
 interface GitlabPipelineResponse {
@@ -19,6 +19,20 @@ interface GitlabDownstreamPipeline {
 interface GitlabPipelineTriggerResponse {
   stage: string
   downstream_pipeline: GitlabDownstreamPipeline | null
+}
+
+interface GitlabJobResponse {
+  id: number
+  name: string
+  stage: string
+  status: JobStatus
+  started_at: string | null
+  finished_at: string | null
+  web_url: string
+  commit: {
+    title: string
+    author_name: string
+  } | null
 }
 
 export async function fetchLatestPipelines(projectId: number, gitlab: PartialGitlab): Promise<Pipeline[]> {
@@ -79,14 +93,14 @@ async function fetchDownstreamJobs(projectId: number, pipelineId: number, gitlab
 }
 
 async function fetchJobs(projectId: number, pipelineId: number, gitlab: PartialGitlab): Promise<{commit: Commit | null, stages: Stage[]}> {
-  const {data: gitlabJobs} = await gitlabRequest(`/projects/${projectId}/pipelines/${pipelineId}/jobs?include_retried=true`, {per_page: 100}, gitlab)
+  const {data: gitlabJobs} = await gitlabRequest<GitlabJobResponse[]>(`/projects/${projectId}/pipelines/${pipelineId}/jobs?include_retried=true`, {per_page: 100}, gitlab)
   if (gitlabJobs.length === 0) {
     return {commit: null, stages: []}
   }
 
   const commit = findCommit(gitlabJobs)
   const stages = _(gitlabJobs)
-    .map((job: any) => ({
+    .map(job => ({
       id: job.id,
       status: job.status,
       stage: job.stage,
@@ -94,13 +108,13 @@ async function fetchJobs(projectId: number, pipelineId: number, gitlab: PartialG
       startedAt: job.started_at,
       finishedAt: job.finished_at,
       url: job.web_url
-    }))
+    } satisfies Job & {stage: string}))
     .orderBy('id')
     .groupBy('stage')
+    .mapValues(removeStageProperty)
     .mapValues(mergeRetriedJobs)
-    .mapValues(cleanup)
     .toPairs()
-    .map(([name, jobs]) => ({name, jobs: _.sortBy(jobs as any[], 'name')}))
+    .map(([name, jobs]) => ({name, jobs: _.sortBy(jobs, 'name')}))
     .value()
 
   return {
@@ -109,9 +123,9 @@ async function fetchJobs(projectId: number, pipelineId: number, gitlab: PartialG
   }
 }
 
-function findCommit(jobs: any[]): Commit | null {
+function findCommit(jobs: GitlabJobResponse[]): Commit | null {
   const [job] = jobs.filter(j => j.commit)
-  if (!job) {
+  if (!job || !job.commit) {
     return null
   }
   return {
@@ -120,8 +134,8 @@ function findCommit(jobs: any[]): Commit | null {
   }
 }
 
-function mergeRetriedJobs(jobs: any[]) {
-  return jobs.reduce((mergedJobs: any[], job: any) => {
+function mergeRetriedJobs(jobs: Job[]): Job[] {
+  return jobs.reduce((mergedJobs: Job[], job: Job) => {
     const index = mergedJobs.findIndex(mergedJob => mergedJob.name === job.name)
     if (index >= 0) {
       mergedJobs[index] = job
@@ -132,9 +146,10 @@ function mergeRetriedJobs(jobs: any[]) {
   }, [])
 }
 
-function cleanup(jobs: any[]) {
-  return _(jobs)
-    .map(job => _.omitBy(job, _.isNull))
-    .map(job => _.omit(job, 'stage'))
-    .value()
+function removeStageProperty(jobs: Array<Job & {stage: string}>): Job[] {
+  return jobs.map(job => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {stage, ...rest} = job
+    return rest
+  })
 }
