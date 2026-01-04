@@ -23,7 +23,7 @@ const GitlabSchema = z.strictObject({
     include: z.string().min(1).optional(),
     exclude: z.string().min(1).optional()
   }).optional()
-}).transform((gitlab) => {
+}).transform(gitlab => {
   const accessToken = gitlab['access-token'] || process.env.GITLAB_ACCESS_TOKEN
   if (!accessToken) {
     throw new Error('Mandatory gitlab access token missing from configuration (and none present at GITLAB_ACCESS_TOKEN env variable)')
