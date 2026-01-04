@@ -1,5 +1,3 @@
-export type ProjectsOrder = 'status' | 'name' | 'id' | 'nameWithoutNamespace' | 'group'
-
 export interface GlobalState {
   columns: number
   error: string | null
@@ -24,6 +22,9 @@ export interface Project {
   maxNonFailedJobsVisible: number
   status: JobStatus
 }
+
+// Keys that represent either string or number values, and can be compared with < and >
+export type ProjectsOrder = keyof Pick<Project, 'status' | 'name' | 'id' | 'nameWithoutNamespace' | 'group'>
 
 export interface Pipeline {
   commit: Commit | null

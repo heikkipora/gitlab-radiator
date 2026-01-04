@@ -1,16 +1,30 @@
 import {Info} from './info'
 import React from 'react'
-import sortBy from 'lodash/sortBy'
 import {Stages} from './stages'
 import type {Project, ProjectsOrder} from '../common/gitlab-types'
 
 export function Projects({columns, now, projects, projectsOrder, screen, zoom}: {columns: number, now: number, projects: Project[], projectsOrder: ProjectsOrder[], screen: {id: number, total: number}, zoom: number}) {
   return <ol className="projects" style={zoomStyle(zoom)}>
-    {sortBy(projects, projectsOrder)
+    {sortByMultipleKeys(projects, projectsOrder)
       .filter(forScreen(screen, projects.length))
       .map(project => <ProjectElement now={now} columns={columns} project={project} key={project.id}/>)
     }
   </ol>
+}
+
+function sortByMultipleKeys(projects: Project[], keys: ProjectsOrder[]): Project[] {
+  return [...projects].sort((a, b) => {
+    for (const key of keys) {
+      const result = key === 'id'
+        ? a[key] - b[key]
+        : a[key].localeCompare(b[key])
+
+      if (result !== 0) {
+        return result
+      }
+    }
+    return 0
+  })
 }
 
 function ProjectElement({columns, now, project}: {columns: number, now: number, project: Project}) {
