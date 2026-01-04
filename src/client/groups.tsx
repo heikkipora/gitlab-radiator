@@ -3,7 +3,7 @@ import {Timestamp} from './timestamp'
 import {style, zoomStyle} from './projects'
 import type {Pipeline, Project} from '../common/gitlab-types'
 
-export function Groups({groupedProjects, now, zoom, columns}: {groupedProjects: {[groupname: string]: Project[]}, now: number, zoom: number, columns: number}) {
+export function Groups({groupedProjects, now, zoom, columns}: {groupedProjects: Partial<Record<string, Project[]>>, now: number, zoom: number, columns: number}) {
   return <ol className="groups" style={zoomStyle(zoom)}>
     {Object
       .entries(groupedProjects)
@@ -13,7 +13,11 @@ export function Groups({groupedProjects, now, zoom, columns}: {groupedProjects: 
   </ol>
 }
 
-function GroupElement({groupName, projects, now, columns}: {groupName: string, projects: Project[], now: number, columns: number}) {
+function GroupElement({groupName, projects, now, columns}: {groupName: string, projects: Project[] | undefined, now: number, columns: number}) {
+  if (!projects) {
+    return null
+  }
+
   const pipelines: (Pipeline & {project: string})[] = []
   projects.forEach((project) => {
       project.pipelines.forEach((pipeline) => {

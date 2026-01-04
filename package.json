@@ -17,7 +17,7 @@
     "eslint": "eslint src bin test",
     "fix-eslint": "eslint --fix src bin test",
     "test": "mocha --timeout 20000 test/*.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc"
   },
   "engines": {
     "node": ">=22.18.0"

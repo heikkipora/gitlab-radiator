@@ -1,5 +1,4 @@
 import {Groups} from './groups'
-import groupBy from 'lodash/groupBy'
 import {Projects} from './projects'
 import React from 'react'
 import type {Project} from '../common/gitlab-types'
@@ -14,7 +13,7 @@ export function GroupedProjects({projects, projectsOrder, groupSuccessfulProject
 function renderProjectsGrouped(projects: Project[], projectsOrder: string[], zoom: number, columns: number, now: number, screen: {id: number, total: number}) {
   const successfullProjects = projects.filter(({status}) => status === 'success')
   const otherProjects= projects.filter(({status}) => status !== 'success')
-  const groupedProjects = groupBy(successfullProjects, 'group')
+  const groupedProjects = Object.groupBy(successfullProjects, p => p.group)
 
   return <React.Fragment>
     <Projects now={now} zoom={zoom} columns={columns} projects={otherProjects} projectsOrder={projectsOrder} screen={screen}/>
