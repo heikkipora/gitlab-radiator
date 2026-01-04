@@ -4,6 +4,13 @@ import type {Gitlab} from '../config.ts'
 type RunnerStatus = 'online' | 'offline' | 'stale' | 'never_contacted'
 
 export async function fetchOfflineRunners(gitlab: Gitlab): Promise<{offline: {name: string, status: RunnerStatus}[], totalCount: number}> {
+  if (gitlab.offlineRunners === 'none') {
+    return {
+      offline: [],
+      totalCount: 0
+    }
+  }
+
   const runners = await fetchRunners(gitlab)
   const offline = runners.filter(r => r.status === 'offline')
   return {
@@ -19,7 +26,8 @@ interface GitlabRunnerResponse {
 }
 
 async function fetchRunners(gitlab: Gitlab) {
-  const {data: runners} = await gitlabRequest<GitlabRunnerResponse[]>('/runners', null, gitlab)
+  const runnersApi = gitlab.offlineRunners === 'all' ? '/runners/all' : '/runners'
+  const {data: runners} = await gitlabRequest<GitlabRunnerResponse[]>(runnersApi, null, gitlab)
   return runners.map(r => ({
     name: r.description || r.id.toString(),
     status: r.status

@@ -9,6 +9,7 @@ const gitlab = {
   maxNonFailedJobsVisible: 10,
   ignoreArchived: true,
   ca: undefined,
+  offlineRunners: 'none' as const,
   projects: undefined
 }
 

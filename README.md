@@ -85,6 +85,7 @@ Optional configuration properties:
 - `gitlabs / maxNonFailedJobsVisible` - Number of non-failed jobs visible for a stage at maximum. Helps with highly concurrent project pipelines becoming uncomfortably high. Default values is unlimited.
 - `gitlabs / caFile` - CA file location to be passed to the request library when accessing the gitlab instance.
 - `gitlabs / ignoreArchived` - Ignore archived projects. Default value is `true`
+- `gitlabs / offlineRunners` - Report any offline CI runners. Set to `all` to include shared runners (requires administrator or auditor access), or `none` to ignore runner status completely. Set to `default` or leave out to report only on group / project runners available to the user.
 - `groupSuccessfulProjects` - If set to `true` projects with successful pipeline status are grouped by namespace. Projects with other pipeline statuses are still rendered seperately. Default value is `false`.
 - `horizontal` - If set to `true` jobs are ordered horizontally to stages. Default value is `false`.
 - `auth / username` - Enables HTTP basic authentication with the defined username and password.
@@ -107,6 +108,7 @@ gitlabs:
       exclude: .*/.*-inactive-project
       excludePipelineStatus: ['canceled', 'pending']
     maxNonFailedJobsVisible: 3
+    offlineRunners: none
 projectsOrder: ['status', 'name']
 auth:
   username: 'radiator'
