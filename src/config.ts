@@ -46,28 +46,6 @@ const GitlabSchema = z.strictObject({
 
 export type Gitlab = z.infer<typeof GitlabSchema>
 
-const ColorSchema = z.literal([
-  'background',
-  'created-background',
-  'created-text',
-  'dark-text',
-  'error-message-background',
-  'error-message-text',
-  'failed-background',
-  'failed-text',
-  'group-background',
-  'light-text',
-  'pending-background',
-  'pending-text',
-  'project-background',
-  'running-background',
-  'running-text',
-  'skipped-background',
-  'skipped-text',
-  'success-background',
-  'success-text'
-])
-
 const OrderSchema = z.literal(['status', 'name', 'id', 'nameWithoutNamespace', 'group'])
 
 const ConfigSchema = z.strictObject({
@@ -80,7 +58,27 @@ const ConfigSchema = z.strictObject({
   groupSuccessfulProjects: z.boolean().default(false),
   projectsOrder: z.array(OrderSchema).default(['name']),
   gitlabs: z.array(GitlabSchema).min(1, {message: 'Mandatory gitlab properties missing from configuration file'}),
-  colors: z.record(ColorSchema, z.string()).optional(),
+  colors: z.strictObject({
+      background: z.string(),
+      'created-background': z.string(),
+      'created-text': z.string(),
+      'dark-text': z.string(),
+      'error-message-background': z.string(),
+      'error-message-text': z.string(),
+      'failed-background': z.string(),
+      'failed-text': z.string(),
+      'group-background': z.string(),
+      'light-text': z.string(),
+      'pending-background': z.string(),
+      'pending-text': z.string(),
+      'project-background': z.string(),
+      'running-background': z.string(),
+      'running-text': z.string(),
+      'skipped-background': z.string(),
+      'skipped-text': z.string(),
+      'success-background': z.string(),
+      'success-text': z.string()
+    }).partial().optional(),
   auth: z.strictObject({
     username: z.string(),
     password: z.string()
