@@ -14,9 +14,8 @@ cp LICENSE package.json README.md build
 # Copy bin script
 cp -r bin build
 
-# Copy server
-cp -r src build
-rm -fr build/src/client
+# Transpile server
+tsc --build tsconfig.build.json
 rm -f build/src/dev-assets.ts
 
 # Bundle and minify client JS
