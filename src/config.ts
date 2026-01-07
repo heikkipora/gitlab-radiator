@@ -29,7 +29,7 @@ const GitlabSchema = z.strictObject({
     throw new Error('Mandatory gitlab access token missing from configuration (and none present at GITLAB_ACCESS_TOKEN env variable)')
   }
 
-  const {url, ignoreArchived, maxNonFailedJobsVisible, caFile, branch,offlineRunners, projects} = gitlab
+  const {url, ignoreArchived, maxNonFailedJobsVisible, caFile, branch, offlineRunners, projects} = gitlab
   const ca = caFile && fs.existsSync(caFile) ? fs.readFileSync(caFile, 'utf-8') : undefined
 
   return {
@@ -59,26 +59,26 @@ const ConfigSchema = z.strictObject({
   projectsOrder: z.array(OrderSchema).default(['name']),
   gitlabs: z.array(GitlabSchema).min(1, {message: 'Mandatory gitlab properties missing from configuration file'}),
   colors: z.strictObject({
-      background: z.string(),
-      'created-background': z.string(),
-      'created-text': z.string(),
-      'dark-text': z.string(),
-      'error-message-background': z.string(),
-      'error-message-text': z.string(),
-      'failed-background': z.string(),
-      'failed-text': z.string(),
-      'group-background': z.string(),
-      'light-text': z.string(),
-      'pending-background': z.string(),
-      'pending-text': z.string(),
-      'project-background': z.string(),
-      'running-background': z.string(),
-      'running-text': z.string(),
-      'skipped-background': z.string(),
-      'skipped-text': z.string(),
-      'success-background': z.string(),
-      'success-text': z.string()
-    }).partial().optional(),
+    background: z.string(),
+    'created-background': z.string(),
+    'created-text': z.string(),
+    'dark-text': z.string(),
+    'error-message-background': z.string(),
+    'error-message-text': z.string(),
+    'failed-background': z.string(),
+    'failed-text': z.string(),
+    'group-background': z.string(),
+    'light-text': z.string(),
+    'pending-background': z.string(),
+    'pending-text': z.string(),
+    'project-background': z.string(),
+    'running-background': z.string(),
+    'running-text': z.string(),
+    'skipped-background': z.string(),
+    'skipped-text': z.string(),
+    'success-background': z.string(),
+    'success-text': z.string()
+  }).partial().optional(),
   auth: z.strictObject({
     username: z.string(),
     password: z.string()
