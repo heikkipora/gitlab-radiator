@@ -2,7 +2,7 @@ import axios from 'axios'
 import https from 'https'
 import url from 'url'
 import type {AxiosInstance} from 'axios'
-import type {Gitlab} from '../config'
+import type {Gitlab} from '../config.ts'
 
 export type PartialGitlab = Pick<Gitlab, 'url' | 'access-token' | 'ca' | 'branch'>
 
