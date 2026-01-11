@@ -19,6 +19,7 @@ export interface Project {
   topics: string[]
   url: string
   default_branch: string
+  commitAsTitle: boolean
   pipelines: Pipeline[]
   maxNonFailedJobsVisible: number
   status: JobStatus

@@ -45,13 +45,15 @@ function ProjectElement({columns, now, project, rotateRunningPipelines}: {column
   const indexLabel = isRotating ? `${pipelineIndex + 1}/${runningCount} `: ''
   const pipeline = project.pipelines[pipelineIndex]
 
+  const h2Class = project.commitAsTitle ? 'commit_title' : ''
+
   return <li className={`project ${project.status}`} style={style(columns)}>
-    <h2>
-      {project.url && <a href={`${project.url}/pipelines`} target="_blank" rel="noopener noreferrer">{indexLabel}{project.name}</a>}
+    <h2 className={`${h2Class}`}>
+      {project.url && <a href={`${project.url}/pipelines`} target="_blank" rel="noopener noreferrer">{indexLabel}{project.commitAsTitle ? (pipeline.commit ? pipeline.commit.title : '-') : project.name}</a>}
       {!project.url && project.name}
     </h2>
     <Stages stages={pipeline.stages} maxNonFailedJobsVisible={project.maxNonFailedJobsVisible}/>
-    <Info now={now} pipeline={pipeline}/>
+    <Info now={now} pipeline={pipeline} commitAsTitle={project.commitAsTitle}/>
   </li>
 }
 

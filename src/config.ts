@@ -18,6 +18,7 @@ const GitlabSchema = z.strictObject({
   branch: z.string().min(1).optional(),
   caFile: z.string().optional(),
   offlineRunners: z.literal(['all', 'default', 'none']).default('default'),
+  commitAsTitle: z.boolean().default(false),
   projects: z.strictObject({
     excludePipelineStatus: z.array(JobStatusSchema).optional(),
     include: z.string().min(1).optional(),
@@ -29,7 +30,7 @@ const GitlabSchema = z.strictObject({
     throw new Error('Mandatory gitlab access token missing from configuration (and none present at GITLAB_ACCESS_TOKEN env variable)')
   }
 
-  const {url, ignoreArchived, maxNonFailedJobsVisible, caFile, branch, offlineRunners, projects} = gitlab
+  const {url, ignoreArchived, maxNonFailedJobsVisible, caFile, branch, offlineRunners, commitAsTitle, projects} = gitlab
   const ca = caFile && fs.existsSync(caFile) ? fs.readFileSync(caFile, 'utf-8') : undefined
 
   return {
@@ -40,6 +41,7 @@ const GitlabSchema = z.strictObject({
     ca,
     offlineRunners,
     'access-token': accessToken,
+    commitAsTitle,
     projects
   }
 })

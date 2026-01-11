@@ -33,6 +33,7 @@ async function projectWithPipelines(project: PartialProject, gitlab: Gitlab, pri
   return {
     ...project,
     maxNonFailedJobsVisible: gitlab.maxNonFailedJobsVisible,
+    commitAsTitle: gitlab.commitAsTitle,
     pipelines,
     status
   }

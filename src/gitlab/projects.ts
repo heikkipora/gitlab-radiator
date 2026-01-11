@@ -2,7 +2,7 @@ import {gitlabRequest} from './client.ts'
 import type {Gitlab} from '../config.ts'
 import type {Project} from '../common/gitlab-types.d.ts'
 
-export type PartialProject = Omit<Project, 'pipelines' | 'maxNonFailedJobsVisible' | 'status'>
+export type PartialProject = Omit<Project, 'pipelines' | 'maxNonFailedJobsVisible' | 'commitAsTitle' | 'status'>
 
 interface GitlabProjectResponse {
   id: number
