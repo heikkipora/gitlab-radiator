@@ -18,13 +18,10 @@ function fromErrorEvent(event: ErrorEvent): BrowserError {
   return {
     message: event.message,
     stack: event.error?.stack,
-    timestamp: Date.now(),
+    timestamp: new Date().toISOString(),
     url: window.location.href,
     userAgent: navigator.userAgent,
-    type: 'error',
-    line: event.lineno,
-    column: event.colno,
-    source: event.filename
+    type: 'error'
   }
 }
 
@@ -32,7 +29,7 @@ function fromRejectionEvent(event: PromiseRejectionEvent): BrowserError {
   return {
     message: event.reason?.message || String(event.reason),
     stack: event.reason?.stack,
-    timestamp: Date.now(),
+    timestamp: new Date().toISOString(),
     url: window.location.href,
     userAgent: navigator.userAgent,
     type: 'unhandledRejection'
