@@ -8,6 +8,19 @@ module.exports = merge(common, {
     './src/client/index.tsx',
     'webpack-hot-middleware/client'
   ],
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx|ts|tsx)$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.(ttf|html)$/i,
+        type: 'asset/resource'
+      }
+    ]
+  },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   devtool: 'inline-source-map'
 })
