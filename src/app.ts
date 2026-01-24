@@ -42,6 +42,10 @@ const globalState: Omit<GlobalState, 'now'> = {
 
 socketIoServer.on('connection', (socket) => {
   socket.emit('state', withDate(globalState))
+
+  socket.on('browserError', (errorData) => {
+    console.error('Browser Error:', JSON.stringify(errorData, null, 2))
+  })
 })
 
 async function runUpdate() {
