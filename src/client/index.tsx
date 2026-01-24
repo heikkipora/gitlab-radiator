@@ -4,8 +4,9 @@ import 'regenerator-runtime/runtime'
 import {argumentsFromDocumentUrl} from './arguments'
 import {createRoot} from 'react-dom/client'
 import {GroupedProjects} from './groupedProjects'
-import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import {io, Socket} from 'socket.io-client'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import {setupErrorLogger} from './browser-error'
 import type {GlobalState, Project} from '../common/gitlab-types'
 
 function RadiatorApp() {
@@ -37,10 +38,12 @@ function RadiatorApp() {
     const socket: Socket = io()
     socket.on('state', onServerStateUpdated)
     socket.on('disconnect', onDisconnect)
+    const unregisterLogger = setupErrorLogger(socket)
     return () => {
       socket.off('state', onServerStateUpdated)
       socket.off('disconnect', onDisconnect)
       socket.close()
+      unregisterLogger()
     }
   }, [onServerStateUpdated, onDisconnect])
 
