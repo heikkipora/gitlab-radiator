@@ -69,6 +69,8 @@ const ConfigSchema = z.strictObject({
     'error-message-text': z.string(),
     'failed-background': z.string(),
     'failed-text': z.string(),
+    'failed-allowed-background': z.string(),
+    'failed-allowed-text': z.string(),
     'group-background': z.string(),
     'light-text': z.string(),
     'pending-background': z.string(),

@@ -60,6 +60,7 @@ describe('Gitlab client', () => {
         ref: 'master',
         stages: [{
           jobs: [{
+            allowFailure: false,
             finishedAt: '2024-04-20T08:24:58.581Z',
             id: 6674648871,
             name: 'test',
@@ -91,6 +92,7 @@ describe('Gitlab client', () => {
             name: 'test',
             jobs: [
               {
+                allowFailure: false,
                 id: 932599898,
                 status: 'success',
                 name: 'fail_randomly_long_name',
@@ -104,6 +106,7 @@ describe('Gitlab client', () => {
             name: 'build',
             jobs: [
               {
+                allowFailure: false,
                 id: 932599715,
                 status: 'success',
                 name: 'build_my_stuff',
@@ -127,6 +130,7 @@ describe('Gitlab client', () => {
           {
             jobs: [
               {
+                allowFailure: false,
                 finishedAt: '2020-12-26T14:01:11.815Z',
                 id: 932600811,
                 name: 'fail_randomly_long_name',
@@ -140,6 +144,7 @@ describe('Gitlab client', () => {
           {
             jobs: [
               {
+                allowFailure: false,
                 finishedAt: '2020-12-26T13:59:28.050Z',
                 id: 932599688,
                 name: 'build_my_stuff',
@@ -182,6 +187,7 @@ describe('Gitlab client', () => {
               ref: 'master',
               stages: [{
                 jobs: [{
+                  allowFailure: false,
                   finishedAt: '2024-04-20T08:24:58.581Z',
                   id: 6674648871,
                   name: 'test',
@@ -220,6 +226,7 @@ describe('Gitlab client', () => {
                 name: 'test',
                 jobs: [
                   {
+                    allowFailure: false,
                     id: 932599898,
                     status: 'success',
                     name: 'fail_randomly_long_name',
@@ -233,6 +240,7 @@ describe('Gitlab client', () => {
                 name: 'build',
                 jobs: [
                   {
+                    allowFailure: false,
                     id: 932599715,
                     status: 'success',
                     name: 'build_my_stuff',
@@ -257,6 +265,7 @@ describe('Gitlab client', () => {
                 name: 'test',
                 jobs: [
                   {
+                    allowFailure: false,
                     id: 932600811,
                     status: 'failed',
                     name: 'fail_randomly_long_name',
@@ -270,6 +279,7 @@ describe('Gitlab client', () => {
                 name: 'build',
                 jobs: [
                   {
+                    allowFailure: false,
                     id: 932599688,
                     status: 'success',
                     name: 'build_my_stuff',
@@ -309,6 +319,7 @@ describe('Gitlab client', () => {
                 name: 'test',
                 jobs: [
                   {
+                    allowFailure: false,
                     id: 932213321,
                     status: 'success',
                     name: 'api-test',
@@ -317,6 +328,7 @@ describe('Gitlab client', () => {
                     url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213321'
                   },
                   {
+                    allowFailure: false,
                     id: 932213322,
                     status: 'success',
                     name: 'browser-test',
@@ -325,6 +337,7 @@ describe('Gitlab client', () => {
                     url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213322'
                   },
                   {
+                    allowFailure: false,
                     id: 932213319,
                     status: 'success',
                     name: 'eslint',
@@ -333,6 +346,7 @@ describe('Gitlab client', () => {
                     url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213319'
                   },
                   {
+                    allowFailure: false,
                     id: 932213320,
                     status: 'success',
                     name: 'verify',
@@ -346,6 +360,7 @@ describe('Gitlab client', () => {
                 name: 'build',
                 jobs: [
                   {
+                    allowFailure: false,
                     id: 932213323,
                     status: 'success',
                     name: 'package-my-stuff',
@@ -359,6 +374,7 @@ describe('Gitlab client', () => {
                 name: 'deploy',
                 jobs: [
                   {
+                    allowFailure: false,
                     id: 932213324,
                     status: 'success',
                     name: 'deploy-my-awesome-stuff',
@@ -372,6 +388,7 @@ describe('Gitlab client', () => {
                 name: 'finnish',
                 jobs: [
                   {
+                    allowFailure: true,
                     id: 932213325,
                     status: 'manual',
                     name: 'manual_step-1',
@@ -380,6 +397,7 @@ describe('Gitlab client', () => {
                     url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1/-/jobs/932213325'
                   },
                   {
+                    allowFailure: true,
                     id: 932213326,
                     status: 'manual',
                     name: 'manual_step-2',
@@ -410,6 +428,7 @@ describe('Gitlab client', () => {
         ref: 'master',
         stages: [{
           jobs: [{
+            allowFailure: false,
             finishedAt: '2024-04-20T08:24:30.130Z',
             id: 6674648615,
             name: 'start-job',
@@ -420,6 +439,7 @@ describe('Gitlab client', () => {
           name: 'start'
         }, {
           jobs: [{
+            allowFailure: false,
             finishedAt: '2024-04-20T08:24:58.581Z',
             id: 6674648871,
             name: 'test',
@@ -430,6 +450,7 @@ describe('Gitlab client', () => {
           name: 'run-child:test'
         }, {
           jobs: [{
+            allowFailure: false,
             finishedAt: '2024-04-20T08:24:58.344Z',
             id: 6674648869,
             name: 'build',
@@ -440,6 +461,7 @@ describe('Gitlab client', () => {
           name: 'run-child:build'
         },{
           jobs: [{
+            allowFailure: false,
             finishedAt: '2024-04-20T08:25:26.496Z',
             id: 6674648870,
             name: 'test',

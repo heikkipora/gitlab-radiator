@@ -24,6 +24,7 @@ interface GitlabJobResponse {
   id: number
   name: string
   stage: string
+  allow_failure: boolean
   status: JobStatus
   started_at: string | null
   finished_at: string | null
@@ -114,6 +115,7 @@ async function fetchJobs(projectId: number, pipelineId: number, gitlab: PartialG
     .map(job => ({
       id: job.id,
       status: job.status,
+      allowFailure: job.allow_failure,
       stage: job.stage,
       name: job.name,
       startedAt: job.started_at,

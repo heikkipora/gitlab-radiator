@@ -46,7 +46,9 @@ export function Jobs({jobs, maxNonFailedJobsVisible}: {jobs: Job[], maxNonFailed
 }
 
 function JobElement({job}: {job: Job}) {
-  return <li className={job.status}>
+  const className = job.status === 'failed' && job.allowFailure ? 'failed-allowed' : job.status;
+
+  return <li className={className}>
     <a href={job.url} target="_blank" rel="noopener noreferrer">{job.name}</a>
     {!job.url && job.name}
   </li>
