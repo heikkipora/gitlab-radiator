@@ -52,6 +52,7 @@ export interface Job {
   name: string
   startedAt: string | null
   status: JobStatus
+  allowFailure: boolean
   url: string
 }
 
