@@ -6,25 +6,25 @@ Purpose for an AI coding agent
 - Be conservative: prefer minimal, focused changes that keep the current runtime behavior and configuration semantics.
 
 Big picture
-- The server (`src/app.js`) loads a YAML config (`~/.gitlab-radiator.yml` or `GITLAB_RADIATOR_CONFIG`) and repeatedly calls `update(config)` from `src/gitlab/index.js` to produce a `globalState` object.
+- The server (`src/app.ts`) loads a YAML config (`~/.gitlab-radiator.yml` or `GITLAB_RADIATOR_CONFIG`) and repeatedly calls `update(config)` from `src/gitlab/index.ts` to produce a `globalState` object.
 - The server emits `state` via Socket.IO to clients. The client entry is `src/client/index.tsx` which listens for the `state` event and renders via React components such as `groupedProjects.tsx`.
-- GitLab API interactions are implemented under `src/gitlab` (`client.js`, `projects.js`, `pipelines.js`, `runners.js`). `client.js` uses axios with a cached client per GitLab URL and passes `ca` into the https.Agent when configured.
+- GitLab API interactions are implemented under `src/gitlab` (`client.ts`, `projects.ts`, `pipelines.ts`, `runners.ts`). `client.ts` uses axios with a cached client per GitLab URL and passes `ca` into the https.Agent when configured.
 
 Key files (examples)
-- Server start / main loop: `src/app.js` (socket gating, `runUpdate()`, error handling)
-- Config loading & normalization: `src/config.js` (YAML file loading, env overrides, interval/port normalization)
-- GitLab API client: `src/gitlab/client.js` (lazy client cache, `gitlabRequest()`)
-- GitLab update orchestration: `src/gitlab/index.js` (fetch projects + pipelines, filtering)
+- Server start / main loop: `src/app.ts` (socket gating, `runUpdate()`, error handling)
+- Config loading & normalization: `src/config.ts` (YAML file loading, env overrides, interval/port normalization)
+- GitLab API client: `src/gitlab/client.ts` (lazy client cache, `gitlabRequest()`)
+- GitLab update orchestration: `src/gitlab/index.ts` (fetch projects + pipelines, filtering)
 - Frontend entry and Socket.IO usage: `src/client/index.tsx` (listens to `state` and applies `argumentsFromDocumentUrl()`)
-- CLI / installable binary: `bin/gitlab-radiator.js` (installed via npm `bin` in `package.json`)
+- CLI / installable binary: `bin/gitlab-radiator.ts` (installed via npm `bin` in `package.json`)
 
 Build / run / test commands (exact)
 - Use `nvm use` always first to select correct Node.js version as per `.nvmrc`.
-- Start server in dev/prod: `npm start` (runs `node src/app.js`).
+- Start server in dev/prod: `npm start` (runs `node src/app.ts`).
 - Build distribution: `npm run build` (invokes `./build-npm` wrapper in the repo root).
 - Lint and auto-fix: `npm run eslint`.
 - Typecheck: `npm run typecheck`.
-- Run tests: `npm test` (Mocha, timeout 20s). Tests live under `test/*.js`.
+- Run tests: `npm test` Tests live under `test/*.ts`.
 - When talking to an on-prem GitLab with self-signed certs, either set `gitlabs[].caFile` in config or run: `NODE_TLS_REJECT_UNAUTHORIZED=0 gitlab-radiator`.
 
 Project conventions and patterns
@@ -33,7 +33,7 @@ Project conventions and patterns
 - Config-first: almost all behavior is driven by `~/.gitlab-radiator.yml`. `src/config.ts` maps YAML values to normalized runtime values (note: `interval` is converted to milliseconds).
 - Socket contract is stable: server emits `state` (object with `projects`, `now`, `error`, `zoom`, `columns`, `projectsOrder`, `horizontal`, `groupSuccessfulProjects`); the client expects that shape. Changing the contract requires coordinated server+client changes.
 - GitLab clients are cached by URL in `src/gitlab/client.ts`; create clients via `lazyClient(gitlab)` to reuse keep-alive connections.
-- CA handling: `config.gitlabs[].caFile` is read in `src/config.ts` and passed as `ca` to axios `https.Agent` in `client.js`.
+- CA handling: `config.gitlabs[].caFile` is read in `src/config.ts` and passed as `ca` to axios `https.Agent` in `client.ts`.
 
 Safe edit guidance for agents
 - Small, isolated changes preferred. When changing data shapes emitted as `state`, update `src/client/*` in the same PR to keep runtime compatibility.
