@@ -6,7 +6,7 @@
   },
   "type": "module",
   "description": "The missing GitLab build radiator view",
-  "version": "5.5.0",
+  "version": "5.5.1",
   "license": "MIT",
   "bin": {
     "gitlab-radiator": "bin/gitlab-radiator.js"
