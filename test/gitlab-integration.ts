@@ -1,4 +1,5 @@
-import {expect} from 'chai'
+import {describe, it} from 'node:test'
+import assert from 'node:assert/strict'
 import {fetchLatestPipelines} from '../src/gitlab/pipelines.ts'
 import {fetchProjects} from '../src/gitlab/projects.ts'
 import {update} from '../src/gitlab/index.ts'
@@ -19,7 +20,7 @@ describe('Gitlab client', () => {
   it('Should find five projects with no filtering ', async () => {
     const config = {...gitlab}
     const projects = await fetchProjects(config)
-    expect(projects).to.deep.equal([
+    assert.deepStrictEqual(projects, [
       {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 39541352, name: 'gitlab-radiator-test/project-with-child-pipeline', nameWithoutNamespace: 'project-with-child-pipeline', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline'},
       {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5385889, name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},
       {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 5304923, name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/empty-test'},
@@ -31,7 +32,7 @@ describe('Gitlab client', () => {
   it('Should find one project with inclusive filtering', async () => {
     const config = {...gitlab, projects: {include: '.*project-1'}}
     const projects = await fetchProjects(config)
-    expect(projects).to.deep.equal([
+    assert.deepStrictEqual(projects, [
       {archived: false, default_branch: 'master', id: 5290865, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/integration-test-project-1', nameWithoutNamespace: 'integration-test-project-1', topics: ['display-1'], url: 'https://gitlab.com/gitlab-radiator-test/integration-test-project-1'}
     ])
   })
@@ -39,7 +40,7 @@ describe('Gitlab client', () => {
   it('Should find four projects with exclusive filtering', async () => {
     const config = {...gitlab, projects: {exclude: '.*project-1'}}
     const projects = await fetchProjects(config)
-    expect(projects).to.deep.equal([
+    assert.deepStrictEqual(projects, [
       {archived: false, default_branch: 'master', group: 'gitlab-radiator-test', id: 39541352, name: 'gitlab-radiator-test/project-with-child-pipeline', nameWithoutNamespace: 'project-with-child-pipeline', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/project-with-child-pipeline'},
       {archived: false, default_branch: 'master', id: 5385889, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/ci-skip-test-project', nameWithoutNamespace: 'ci-skip-test-project', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/ci-skip-test-project'},
       {archived: false, default_branch: 'master', id: 5304923, group: 'gitlab-radiator-test', name: 'gitlab-radiator-test/empty-test', nameWithoutNamespace: 'empty-test', topics: [], url: 'https://gitlab.com/gitlab-radiator-test/empty-test'},
@@ -50,7 +51,7 @@ describe('Gitlab client', () => {
   it('Should find latest non-skipped pipeline for project', async () => {
     const config = {...gitlab}
     const pipelines = await fetchLatestPipelines(5385889, config, false)
-    expect(pipelines).to.deep.equal(
+    assert.deepStrictEqual(pipelines,
       [{
         commit: {
           author: 'Heikki Pora',
@@ -78,7 +79,7 @@ describe('Gitlab client', () => {
   it('Should find latest pipelines for project (feature branch + master) with stages and retried jobs merged to one entry', async () => {
     const config = {...gitlab}
     const pipelines = await fetchLatestPipelines(5290928, config, false)
-    expect(pipelines).to.deep.equal(
+    assert.deepStrictEqual(pipelines,
       [{
         id: 234613306,
         status: 'success',
@@ -163,7 +164,7 @@ describe('Gitlab client', () => {
   it('Should find two projects with two pipelines for the first and one for the second (and exclude projects without pipelines)', async () => {
     const gitlabs = [{...gitlab, projects: {exclude: '.*-with-child-pipeline'}}]
     const projects = await update(gitlabs, false)
-    expect(projects).to.deep.equal(
+    assert.deepStrictEqual(projects,
       [
         {
           archived: false,
@@ -418,7 +419,7 @@ describe('Gitlab client', () => {
   it('Should include triggered child pipeline for project', async () => {
     const config = {...gitlab}
     const pipelines = await fetchLatestPipelines(39541352, config, false)
-    expect(pipelines).to.deep.equal(
+    assert.deepStrictEqual(pipelines,
       [{
         commit: {
           author: 'Heikki Pora',
