@@ -88,6 +88,9 @@
     "webpack-hot-middleware": "2.26.1",
     "webpack-merge": "6.0.1"
   },
+  "overrides": {
+    "serialize-javascript": "7.0.3"
+  },
   "browserslist": [
     "last 5 years",
     "Firefox > 43"
