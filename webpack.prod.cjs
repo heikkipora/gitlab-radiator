@@ -10,7 +10,8 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/,
-        use: 'ts-loader'
+        use: 'ts-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.(ttf|html)$/i,
