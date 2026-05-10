@@ -1,3 +1,4 @@
+/// <reference types="webpack-env" />
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 

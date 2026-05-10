@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    "rootDir": "../",
+    "ignoreDeprecations": "6.0",
     "target": "es5",
-    "lib": ["ES2024.Object", "dom"],
+    "lib": ["ES2019", "ES2024.Object", "dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -10,7 +12,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "isolatedModules": true,
     "resolveJsonModule": true,
     "jsx": "react",
