@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "rootDir": "../",
+    "rootDir": "../../",
     "ignoreDeprecations": "6.0",
     "target": "es5",
     "lib": ["ES2019", "ES2024.Object", "dom"],

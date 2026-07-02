@@ -17,6 +17,7 @@
     "eslint": "eslint src bin test",
     "fix-eslint": "eslint --fix src bin test",
     "test": "node --test --test-timeout 20000 test/*.ts",
+    "test:browser": "es-check es5 build/public/client.js && node --test --test-timeout 60000 test/browser/smoke.ts",
     "typecheck": "tsc"
   },
   "engines": {
@@ -65,12 +66,14 @@
     "@types/webpack-hot-middleware": "2.25.12",
     "core-js": "3.49.0",
     "css-loader": "7.1.4",
+    "es-check": "9.6.4",
     "eslint": "9.39.2",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
     "globals": "17.7.0",
     "less-loader": "13.0.0",
     "normalize.css": "8.0.1",
+    "playwright": "1.61.1",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "socket.io-client": "4.8.3",
