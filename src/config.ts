@@ -1,6 +1,6 @@
 import fs from 'fs'
 import os from 'os'
-import yaml from 'js-yaml'
+import {load} from 'js-yaml'
 import {z} from 'zod'
 
 function expandTilde(path: string) {
@@ -93,5 +93,5 @@ export type Config = z.infer<typeof ConfigSchema>
 
 const configFile = expandTilde(process.env.GITLAB_RADIATOR_CONFIG || '~/.gitlab-radiator.yml')
 const yamlContent = fs.readFileSync(configFile, 'utf8')
-const rawConfig = yaml.load(yamlContent)
+const rawConfig = load(yamlContent)
 export const config = ConfigSchema.parse(rawConfig)
