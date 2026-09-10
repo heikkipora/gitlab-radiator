@@ -14,7 +14,7 @@ interval: 5
 port: ${PORT}
 gitlabs:
   - url: https://gitlab.com
-    access-token: glpat-kC8nLT6EZqYfbcv6WHqg
+    access-token: glpat-uN1ahBTaNlj2M4uuwdKMSmM6MQpvOjEKdToxNjc4Yg8.01.1714zmg31
     projects:
       include: ".*integration-test-project-1"
 `
