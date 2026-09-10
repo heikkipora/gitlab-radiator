@@ -1,4 +1,4 @@
-import authenticate from 'basic-auth'
+import {parse} from 'basic-auth'
 import type {NextFunction, Request, Response} from 'express'
 
 export function basicAuth(auth: {username: string; password: string } | undefined) {
@@ -9,8 +9,8 @@ export function basicAuth(auth: {username: string; password: string } | undefine
 
   console.log('HTTP basic auth enabled')
   return (req: Request, res: Response, next: NextFunction) => {
-    const {name, pass} = authenticate(req) || ({} as {name?: string; pass?: string})
-    if (auth.username === name && auth.password === pass) {
+    const credentials = parse(req.headers.authorization ?? '')
+    if (credentials && auth.username === credentials.name && auth.password === credentials.pass) {
       next()
     } else {
       res.setHeader('WWW-Authenticate', 'Basic realm="gitlab-radiator"')

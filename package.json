@@ -55,7 +55,6 @@
     "zod": "4.6.2"
   },
   "devDependencies": {
-    "@types/basic-auth": "1.1.8",
     "@types/compression": "1.8.1",
     "@types/express": "5.0.6",
     "@types/js-yaml": "4.0.9",
