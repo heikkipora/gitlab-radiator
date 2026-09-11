@@ -44,7 +44,7 @@
   "dependencies": {
     "axios": "1.20.0",
     "basic-auth": "3.0.0",
-    "compression": "1.8.1",
+    "compression": "1.8.2",
     "esm": "3.2.25",
     "express": "5.2.1",
     "js-yaml": "5.4.1",
@@ -55,6 +55,7 @@
     "zod": "4.6.2"
   },
   "devDependencies": {
+    "@eslint/compat": "2.1.1",
     "@types/compression": "1.8.1",
     "@types/express": "5.0.6",
     "@types/js-yaml": "4.0.9",
@@ -63,10 +64,11 @@
     "@types/react-dom": "19.3.0",
     "@types/webpack-env": "1.18.8",
     "@types/webpack-hot-middleware": "2.25.12",
+    "@typescript/native": "npm:typescript@7.0.2",
     "core-js": "3.50.0",
     "css-loader": "7.1.5",
     "es-check": "9.7.1",
-    "eslint": "9.39.2",
+    "eslint": "10.10.0",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
     "globals": "17.12.0",
@@ -78,7 +80,6 @@
     "socket.io-client": "4.8.3",
     "style-loader": "4.0.0",
     "ts-loader": "9.6.2",
-    "@typescript/native": "npm:typescript@7.0.2",
     "typescript": "npm:@typescript/typescript6@6.0.2",
     "typescript-eslint": "8.70.0",
     "webpack": "5.110.3",
@@ -88,7 +89,10 @@
     "webpack-merge": "6.0.1"
   },
   "overrides": {
-    "serialize-javascript": "7.0.3"
+    "serialize-javascript": "7.0.3",
+    "eslint-plugin-react": {
+      "eslint": "$eslint"
+    }
   },
   "browserslist": [
     "last 5 years",
