@@ -52,7 +52,7 @@
     "moment": "2.31.0",
     "regenerator-runtime": "0.14.1",
     "socket.io": "4.8.3",
-    "zod": "4.6.2"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@eslint/compat": "2.1.1",
